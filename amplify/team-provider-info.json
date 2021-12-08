@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-graduationroi-staging-42315-authRole",
+      "UnauthRoleArn": "arn:aws:iam::172885992056:role/amplify-graduationroi-staging-42315-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::172885992056:role/amplify-graduationroi-staging-42315-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-graduationroi-staging-42315-deployment",
+      "UnauthRoleName": "amplify-graduationroi-staging-42315-unauthRole",
+      "StackName": "amplify-graduationroi-staging-42315",
+      "StackId": "arn:aws:cloudformation:us-east-1:172885992056:stack/amplify-graduationroi-staging-42315/906afe50-57de-11ec-a549-0aa0ec55ee6d",
+      "AmplifyAppId": "dzds3crzz69vi"
+    },
+    "categories": {
+      "auth": {
+        "GraduationROI": {}
+      }
+    }
+  }
+}
