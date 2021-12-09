@@ -63,6 +63,7 @@ const QueryButton = (props: IQueryButton) => {
             defaultValue={currentFilter.states}
             placeholder="comma seperated states"
             onChange={handleDataEntry("states")}
+            disabled
           />
           <TextField
             defaultValue={currentFilter.programs}
