@@ -1,5 +1,11 @@
-import { Button, Dialog, DialogActions, TextField } from "@mui/material";
-import React, { ChangeEvent } from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  TextField,
+} from "@mui/material";
+import React, { ChangeEvent, KeyboardEvent } from "react";
 
 interface IFilter {
   states?: string[];
@@ -9,17 +15,21 @@ interface IFilter {
 
 interface IQueryButton {
   onChange: (filter: IFilter) => void;
+  defaultFilter: IFilter;
 }
 
 const QueryButton = (props: IQueryButton) => {
   const [open, setOpen] = React.useState(false);
-  const [currentFilter, setCurrentFilter] = React.useState<IFilter>({
-    states: ["CALIFORNIA"],
-    programs: ["Chem"],
-    institutions: ['Berk']
-  });
-  const handleToggleDialog = () => {
-    setOpen(!open);
+  const [currentFilter, setCurrentFilter] = React.useState<IFilter>(
+    props.defaultFilter
+  );
+  const handleOpenDialog = () => {
+    console.log('open dialog');
+    setOpen(true);
+  };
+  const handleCloseDialog = () => {
+    console.log('close dialog');
+    setOpen(false);
   };
   const handleDataEntry =
     (field: keyof IFilter) =>
@@ -34,31 +44,41 @@ const QueryButton = (props: IQueryButton) => {
 
   const handleSubmitSearch = () => {
     props.onChange(currentFilter);
-    handleToggleDialog();
+    handleCloseDialog();
   };
 
   return (
     <>
-      <Button variant="contained" onClick={handleToggleDialog}>
+      <Button variant="contained" onClick={handleOpenDialog}>
         Query
       </Button>
-      <Dialog open={open} onClose={handleToggleDialog}>
-        <TextField
-          defaultValue={currentFilter.states}
-          placeholder="comma seperated states"
-          onChange={handleDataEntry("states")}
-        />
-        <TextField
-          defaultValue={currentFilter.programs}
-          placeholder="comma seperated programs"
-          onChange={handleDataEntry("programs")}
-        />
-        <TextField
-          defaultValue={currentFilter.institutions}
-          placeholder="comma seperated institutions"
-          onChange={handleDataEntry("institutions")}
-        />
+      <Dialog
+        open={open}
+        onClose={handleCloseDialog}
+        fullWidth={true}
+        maxWidth="md"
+      >
+        <DialogContent style={{ display: "flex", flexDirection: "column" }}>
+          <TextField
+            defaultValue={currentFilter.states}
+            placeholder="comma seperated states"
+            onChange={handleDataEntry("states")}
+          />
+          <TextField
+            defaultValue={currentFilter.programs}
+            placeholder="comma seperated programs"
+            onChange={handleDataEntry("programs")}
+          />
+          <TextField
+            defaultValue={currentFilter.institutions}
+            placeholder="comma seperated institutions"
+            onChange={handleDataEntry("institutions")}
+          />
+        </DialogContent>
         <DialogActions>
+          <Button color="secondary" onClick={handleCloseDialog}>
+            Close
+          </Button>
           <Button onClick={handleSubmitSearch}>Search</Button>
         </DialogActions>
       </Dialog>

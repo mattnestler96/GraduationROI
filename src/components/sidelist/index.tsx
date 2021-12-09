@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import { ROI } from "../../models";
 import { Box, Button, List, ListItemButton, ListItemIcon } from "@mui/material";
 import stateMapper from "../../utils/stateMapper";
+import randomColors from "../../utils/randomColors";
 
 interface ISideList {
   items: ROI[];
@@ -33,35 +34,41 @@ const SideList = (props: ISideList) => {
   return (
     <>
       <List>
-        {props.items.slice(0, limit).map((v) => (
-          <ListItemButton key={v.id} onClick={handleItemClick(v)}>
-            <ListItemIcon>
-              <Box
-                border={
-                  selectedProgramIds.includes(v.id) ? "2px solid blue" : "none"
-                }
-                borderRadius="50%"
-                height={30}
-                width={30}
-                textAlign="center"
-              >
-                <Typography color="inherit">
-                  {selectedProgramIds.includes(v.id) ? "Y" : "N"}
-                </Typography>
+        {props.items.slice(0, limit).map((v) => {
+          const selectedIndex = selectedProgramIds.findIndex(p => p === v.id);
+          const selected = selectedIndex > -1;
+          return (
+            <ListItemButton key={v.id} onClick={handleItemClick(v)}>
+              <ListItemIcon>
+                <Box
+                  border={
+                    selected
+                      ? `5px solid ${randomColors[selectedIndex]}`
+                      : "none"
+                  }
+                  borderRadius="50%"
+                  height={30}
+                  width={30}
+                  textAlign="center"
+                >
+                  <Typography color="inherit">
+                    {selected ? "X" : ""}
+                  </Typography>
+                </Box>
+              </ListItemIcon>
+              <Box width="100%">
+                <Typography color="primary">{v.programName}</Typography>
+                <Typography variant="caption">{v.programCategory}</Typography>
+                <Box display="flex" justifyContent="space-between" width="100%">
+                  <Typography variant="caption">{v.institutionName}</Typography>
+                  <Typography variant="caption">
+                    {stateMapper(v.state)}
+                  </Typography>
+                </Box>
               </Box>
-            </ListItemIcon>
-            <Box width="100%">
-              <Typography color="primary">{v.programName}</Typography>
-              <Typography variant="caption">{v.programCategory}</Typography>
-              <Box display="flex" justifyContent="space-between" width="100%">
-                <Typography variant="caption">{v.institutionName}</Typography>
-                <Typography variant="caption">
-                  {stateMapper(v.state)}
-                </Typography>
-              </Box>
-            </Box>
-          </ListItemButton>
-        ))}
+            </ListItemButton>
+          );
+        })}
       </List>
       <Button onClick={handleLoadMore}>Load More</Button>
     </>

@@ -6,7 +6,9 @@ import configFile from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import React, { useMemo } from "react";
 import SideList from "./components/sidelist";
-import ROIGraph from "./components/roiGraph";
+import ROIOverTimeGraph from "./components/roiOverTimeLine";
+import ROILifeTimeBar from "./components/roiLifeTimeBar";
+import GraduationRatePie from "./components/graduationRate";
 import QueryButton from "./components/queryButton";
 import {
   Button,
@@ -28,13 +30,6 @@ const uniqueId = (v) =>
 
 const DRAWER_WIDTH = 350;
 
-// export const loadData = async (x) => {
-//   for (let i = 0; i < x.length; i++) {
-//     await DataStore.save(
-//       new ROI(convertData(x[i]))
-//     );
-//   }
-//}
 const chainCall = (test, param, values) => (c) => {
   if (!values || values.length === 0) {
     return;
@@ -51,17 +46,21 @@ const App = ({ signOut }) => {
   const [list, setList] = React.useState([]);
   const [filterString, setFilterString] = React.useState("");
   const [selectedPrograms, setSelectedPrograms] = React.useState([]);
+  const [queryFilter, setQueryFilter] = React.useState({
+    states: ["CALIFORNIA"],
+    programs: ["Chem"],
+    institutions: ['Berk']
+  })
   const delayedFilterString = useDeferred(filterString, 300);
 
   const fetchData = async (filter) => {
-    console.log("fetch", filter);
-    const response = await DataStore.query(ROI, c =>
-        c
-          .or(chainCall("eq", "state", filter.states))
-          .or(chainCall("contains", "programName", filter.programs))
-          .or(chainCall("contains", "institutionName", filter.institutions))
+    setQueryFilter(filter);
+    const response = await DataStore.query(ROI, (c) =>
+      c
+        .or(chainCall("eq", "state", filter.states))
+        .or(chainCall("contains", "programName", filter.programs))
+        .or(chainCall("contains", "institutionName", filter.institutions))
     );
-    console.log(response);
     const dedupe = {};
     response.forEach(async (v) => {
       if (dedupe[uniqueId(v)]) {
@@ -88,6 +87,10 @@ const App = ({ signOut }) => {
   const handleSelectedProgramChange = (changedValues) => {
     setSelectedPrograms(changedValues);
   };
+
+  React.useEffect(() => {
+    fetchData(queryFilter);
+  }, [])
 
   return (
     <>
@@ -121,17 +124,22 @@ const App = ({ signOut }) => {
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
-          <QueryButton onChange={fetchData} />
+          <QueryButton onChange={fetchData} defaultFilter={queryFilter}/>
           <Button variant="primary" onClick={signOut}>
             Sign out
           </Button>
         </Toolbar>
       </AppBar>
-      <Box display="flex" height="100vh">
+      <Box display="flex">
         <Box minWidth={DRAWER_WIDTH} height="100%" />
         <Box maxWidth="1200px" width="100%" margin="auto" padding="20px">
+          <Toolbar />
           <Paper>
-            <ROIGraph items={selectedPrograms} />
+            <ROILifeTimeBar items={selectedPrograms} />
+            <ROIOverTimeGraph items={selectedPrograms} />
+            <Box display="flex" height={500}>
+              <GraduationRatePie items={selectedPrograms} />
+            </Box>
           </Paper>
         </Box>
       </Box>

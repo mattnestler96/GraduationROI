@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { ROI } from "../../models";
+import randomColors from "../../utils/randomColors";
 
 ChartJS.register(
   CategoryScale,
@@ -59,7 +60,7 @@ interface IROIGraph {
 const ROIGraph = (props: IROIGraph) => {
   const data = {
     labels,
-    datasets: props.items.map((v) => ({
+    datasets: props.items.map((v, k) => ({
       label: v.programName,
       data: [
         v.estimatedEarnings23,
@@ -77,6 +78,7 @@ const ROIGraph = (props: IROIGraph) => {
         v.estimatedEarnings59,
         v.estimatedEarnings62,
       ],
+      backgroundColor: randomColors[k],
     })),
   };
   return <Line options={options} data={data} />;
