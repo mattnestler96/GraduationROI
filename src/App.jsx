@@ -10,6 +10,7 @@ import ROIOverTimeGraph from "./components/roiOverTimeLine";
 import ROILifeTimeBar from "./components/roiLifeTimeBar";
 import GraduationRatePie from "./components/graduationRate";
 import QueryButton from "./components/queryButton";
+import UserInfoButton from "./components/userInfoButton";
 import {
   Button,
   Box,
@@ -42,15 +43,16 @@ const chainCall = (test, param, values) => (c) => {
   return c[param](test, currValue);
 };
 
-const App = ({ signOut }) => {
+const App = (props) => {
+  const {signOut} = props;
   const [list, setList] = React.useState([]);
   const [filterString, setFilterString] = React.useState("");
   const [selectedPrograms, setSelectedPrograms] = React.useState([]);
   const [queryFilter, setQueryFilter] = React.useState({
     states: ["CALIFORNIA"],
     programs: ["Chem"],
-    institutions: ['Berk']
-  })
+    institutions: ["Berk"],
+  });
   const delayedFilterString = useDeferred(filterString, 300);
 
   const fetchData = async (filter) => {
@@ -90,7 +92,8 @@ const App = ({ signOut }) => {
 
   React.useEffect(() => {
     fetchData(queryFilter);
-  }, [])
+  }, []);
+
 
   return (
     <>
@@ -124,7 +127,8 @@ const App = ({ signOut }) => {
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
-          <QueryButton onChange={fetchData} defaultFilter={queryFilter}/>
+          <QueryButton onChange={fetchData} defaultFilter={queryFilter} />
+          <UserInfoButton username={props.user.attributes.email} />
           <Button variant="primary" onClick={signOut}>
             Sign out
           </Button>
