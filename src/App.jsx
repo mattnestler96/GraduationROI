@@ -50,8 +50,8 @@ const App = (props) => {
   const [selectedPrograms, setSelectedPrograms] = React.useState([]);
   const [queryFilter, setQueryFilter] = React.useState({
     states: ["CALIFORNIA"],
-    programs: ["Chem"],
-    institutions: ["Berk"],
+    programs: [],
+    institutions: [],
   });
   const delayedFilterString = useDeferred(filterString, 300);
 

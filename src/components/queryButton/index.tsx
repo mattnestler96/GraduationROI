@@ -24,11 +24,9 @@ const QueryButton = (props: IQueryButton) => {
     props.defaultFilter
   );
   const handleOpenDialog = () => {
-    console.log('open dialog');
     setOpen(true);
   };
   const handleCloseDialog = () => {
-    console.log('close dialog');
     setOpen(false);
   };
   const handleDataEntry =
