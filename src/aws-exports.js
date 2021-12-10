@@ -11,11 +11,26 @@ const awsmobile = {
     "aws_cognito_region": "us-east-1",
     "aws_user_pools_id": "us-east-1_RX4oSlzuo",
     "aws_user_pools_web_client_id": "7sihsiancojh07f68p5a59f6pu",
-    "oauth": {},
+    "oauth": {
+        "domain": "dpasgc1aubcg-staging.auth.us-east-1.amazoncognito.com",
+        "scope": [
+            "phone",
+            "email",
+            "openid",
+            "profile",
+            "aws.cognito.signin.user.admin"
+        ],
+        "redirectSignIn": "https://graduationroi.com",
+        "redirectSignOut": "https://graduationroi.com",
+        "responseType": "code"
+    },
+    "federationTarget": "COGNITO_USER_POOLS",
     "aws_cognito_username_attributes": [
         "EMAIL"
     ],
-    "aws_cognito_social_providers": [],
+    "aws_cognito_social_providers": [
+        "FACEBOOK"
+    ],
     "aws_cognito_signup_attributes": [
         "EMAIL"
     ],

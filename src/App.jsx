@@ -211,7 +211,7 @@ const AppWrappedAuth = () => {
         </Box>
       )}
 
-      <Authenticator signUpAttributes={["email"]}>{innerWrap}</Authenticator>
+      <Authenticator socialProviders={['facebook']} signUpAttributes={["email"]}>{innerWrap}</Authenticator>
     </DynamicWrapper>
   );
 };
