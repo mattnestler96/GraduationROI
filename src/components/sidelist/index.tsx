@@ -4,6 +4,7 @@ import { ROI } from "../../models";
 import { Box, Button, List, ListItemButton, ListItemIcon } from "@mui/material";
 import stateMapper from "../../utils/stateMapper";
 import randomColors from "../../utils/randomColors";
+import GoogleAds from "../googleAd";
 
 interface ISideList {
   items: ROI[];
@@ -35,7 +36,7 @@ const SideList = (props: ISideList) => {
     <>
       <List>
         {props.items.slice(0, limit).map((v) => {
-          const selectedIndex = selectedProgramIds.findIndex(p => p === v.id);
+          const selectedIndex = selectedProgramIds.findIndex((p) => p === v.id);
           const selected = selectedIndex > -1;
           return (
             <ListItemButton key={v.id} onClick={handleItemClick(v)}>
@@ -51,9 +52,7 @@ const SideList = (props: ISideList) => {
                   width={30}
                   textAlign="center"
                 >
-                  <Typography color="inherit">
-                    {selected ? "X" : ""}
-                  </Typography>
+                  <Typography color="inherit">{selected ? "X" : ""}</Typography>
                 </Box>
               </ListItemIcon>
               <Box width="100%">
@@ -70,6 +69,7 @@ const SideList = (props: ISideList) => {
           );
         })}
       </List>
+      <GoogleAds slot="1040489084" />
       <Button onClick={handleLoadMore}>Load More</Button>
     </>
   );

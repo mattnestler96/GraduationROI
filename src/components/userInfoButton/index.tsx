@@ -124,8 +124,13 @@ const UserInfoButton = (props: IUserInfoButton) => {
 
   return (
     <>
-      <Button variant="contained" onClick={handleOpenDialog}>
-        User
+      <Button
+        variant="contained"
+        onClick={handleOpenDialog}
+        style={{ margin: "0px 5px" }}
+        color="secondary"
+      >
+        User Info
       </Button>
       <Dialog
         open={open}
@@ -136,12 +141,12 @@ const UserInfoButton = (props: IUserInfoButton) => {
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
           <TextField
             defaultValue={currentUserInfo?.email || props.username}
-            placeholder="email"
+            label="Email"
             onChange={handleDataEntry("email")}
           />
           <TextField
             defaultValue={currentUserInfo?.location}
-            placeholder="zipcode"
+            label="Zipcode"
             onChange={handleDataEntry("location")}
           />
           <Box marginTop="5px">

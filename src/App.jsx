@@ -21,6 +21,7 @@ import {
   Drawer,
 } from "@mui/material";
 import { useDeferred } from "./utils/useDeferred";
+import GoogleAds from "./components/googleAd";
 
 export const convertData = (d) =>
   Object.fromEntries(
@@ -44,7 +45,7 @@ const chainCall = (test, param, values) => (c) => {
 };
 
 const App = (props) => {
-  const {signOut} = props;
+  const { signOut } = props;
   const [list, setList] = React.useState([]);
   const [filterString, setFilterString] = React.useState("");
   const [selectedPrograms, setSelectedPrograms] = React.useState([]);
@@ -94,7 +95,6 @@ const App = (props) => {
     fetchData(queryFilter);
   }, []);
 
-
   return (
     <>
       <Drawer
@@ -112,9 +112,8 @@ const App = (props) => {
       >
         <Toolbar />
         <TextField
-          style={{ margin: 5 }}
           onChange={handleSearch}
-          placeholder="Search list..."
+          label="Search list..."
         />
         <SideList
           items={filteredList}
@@ -138,6 +137,10 @@ const App = (props) => {
         <Box minWidth={DRAWER_WIDTH} height="100%" />
         <Box maxWidth="1200px" width="100%" margin="auto" padding="20px">
           <Toolbar />
+          <GoogleAds
+            slot="2530321269"
+            style={{ display: "inline-block", height: "90px", width: "728px" }}
+          />
           <Paper>
             <ROILifeTimeBar items={selectedPrograms} />
             <ROIOverTimeGraph items={selectedPrograms} />
@@ -156,11 +159,7 @@ const AppWrappedAuth = () => {
 
   return (
     <>
-      <Authenticator
-        signUpAttributes={["email", "birthdate", "name", "gender", "locale"]}
-      >
-        {App}
-      </Authenticator>
+      <Authenticator signUpAttributes={["email"]}>{App}</Authenticator>
     </>
   );
 };

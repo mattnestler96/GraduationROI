@@ -47,8 +47,13 @@ const QueryButton = (props: IQueryButton) => {
 
   return (
     <>
-      <Button variant="contained" onClick={handleOpenDialog}>
-        Query
+      <Button
+        variant="contained"
+        onClick={handleOpenDialog}
+        style={{ margin: "0px 5px" }}
+        color="secondary"
+      >
+        Set Query
       </Button>
       <Dialog
         open={open}
@@ -59,18 +64,18 @@ const QueryButton = (props: IQueryButton) => {
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
           <TextField
             defaultValue={currentFilter.states}
-            placeholder="comma seperated states"
+            label="comma seperated states"
             onChange={handleDataEntry("states")}
             disabled
           />
           <TextField
             defaultValue={currentFilter.programs}
-            placeholder="comma seperated programs"
+            label="comma seperated programs"
             onChange={handleDataEntry("programs")}
           />
           <TextField
             defaultValue={currentFilter.institutions}
-            placeholder="comma seperated institutions"
+            label="comma seperated institutions"
             onChange={handleDataEntry("institutions")}
           />
         </DialogContent>
