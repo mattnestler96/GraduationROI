@@ -5,18 +5,17 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+} from "chart.js";
+import Title from "../tableHeader";
+import { Bar } from "react-chartjs-2";
 import randomColors from "../../utils/randomColors";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
   Legend
 );
@@ -25,16 +24,12 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Bar Chart',
+      position: "top" as const,
     },
   },
 };
 
-const labels = ['Lifetime ROI'];
+const labels = ["Lifetime ROI"];
 
 interface IROIGraph {
   items: ROI[];
@@ -45,13 +40,16 @@ const ROIGraph = (props: IROIGraph) => {
     labels,
     datasets: props.items.map((v, k) => ({
       label: v.programName,
-      data: [
-        v.lifetimeReturnOnInvestmentROI,
-      ],
+      data: [v.lifetimeReturnOnInvestmentROI],
       backgroundColor: randomColors[k],
     })),
   };
-  return <Bar options={options} data={data} />;
+  return (
+    <>
+      <Title title="Lifetime Return on Investment" />
+      <Bar options={options} data={data} />
+    </>
+  );
 };
 
 export default ROIGraph;

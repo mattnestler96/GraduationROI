@@ -38,6 +38,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "modalityPreferences": {
+                    "name": "modalityPreferences",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -611,5 +618,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "8ee402e9caec3d6dfdc02164b1236da3"
+    "version": "7d6cdbdac4f8e178d08dc91a2b36415e"
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
+import Close from "@mui/icons-material/Close";
 import { ROI } from "../../models";
 import { Box, Button, List, ListItemButton, ListItemIcon } from "@mui/material";
 import stateMapper from "../../utils/stateMapper";
@@ -50,9 +51,11 @@ const SideList = (props: ISideList) => {
                   borderRadius="50%"
                   height={30}
                   width={30}
-                  textAlign="center"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
                 >
-                  <Typography color="inherit">{selected ? "X" : ""}</Typography>
+                  {selected ? <Close style={{ margin: "auto" }} /> : null}
                 </Box>
               </ListItemIcon>
               <Box width="100%">

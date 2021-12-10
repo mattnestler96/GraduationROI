@@ -1,11 +1,12 @@
 import React from "react";
 import { ROI } from "../../models";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import randomColors from "../../utils/randomColors";
 import Color from "color";
+import Title from "../tableHeader";
 
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const labels = [
   "Share of students who graduate in 4 years",
@@ -22,12 +23,6 @@ interface IROIGraph {
 }
 export const options = {
   responsive: true,
-  plugins: {
-    title: {
-      display: true,
-      text: "Graduation Rate",
-    },
-  },
 };
 
 const ROIGraph = (props: IROIGraph) => {
@@ -54,7 +49,12 @@ const ROIGraph = (props: IROIGraph) => {
       borderColor: ["#000", "#000", "#000", "#000", "#000", "#000"],
     })),
   };
-  return <Pie data={data} style={{ maxHeight: '100%' }}/>;
+  return (
+    <>
+      <Title title="Graduation Rates" />
+      <Pie data={data} style={{ maxHeight: "100%" }} />
+    </>
+  );
 };
 
 export default ROIGraph;

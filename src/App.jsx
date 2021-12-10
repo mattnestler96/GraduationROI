@@ -112,6 +112,7 @@ const App = (props) => {
       >
         <Toolbar />
         <TextField
+          style={{ margin: 10 }}
           onChange={handleSearch}
           label="Search list..."
         />
@@ -141,10 +142,10 @@ const App = (props) => {
             slot="2530321269"
             style={{ display: "inline-block", height: "90px", width: "728px" }}
           />
-          <Paper>
+          <Paper style={{ padding: 15 }}>
             <ROILifeTimeBar items={selectedPrograms} />
             <ROIOverTimeGraph items={selectedPrograms} />
-            <Box display="flex" height={500}>
+            <Box height={500}>
               <GraduationRatePie items={selectedPrograms} />
             </Box>
           </Paper>

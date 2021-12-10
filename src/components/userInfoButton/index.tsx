@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   InputLabel,
   TextField,
 } from "@mui/material";
@@ -50,6 +51,14 @@ const UserInfoButton = (props: IUserInfoButton) => {
         : JSON.parse(currentUserInfo?.timePreferences || "{}"),
     [currentUserInfo?.timePreferences]
   );
+  const modalityPref = React.useMemo(
+    () =>
+      currentUserInfo?.modalityPreferences &&
+      typeof currentUserInfo?.modalityPreferences === "object"
+        ? currentUserInfo?.modalityPreferences
+        : JSON.parse(currentUserInfo?.modalityPreferences || "{}"),
+    [currentUserInfo?.modalityPreferences]
+  );
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -79,6 +88,17 @@ const UserInfoButton = (props: IUserInfoButton) => {
         timePreferences: JSON.stringify(copyTimePreferences),
       });
     };
+  const handleModalityChange =
+    (modality: string) => (e: ChangeEvent<HTMLInputElement>) => {
+      const copyModalityPreferences = {
+        ...modalityPref,
+        [modality]: e.target.checked,
+      };
+      setCurrentUserInfo({
+        ...currentUserInfo,
+        modalityPreferences: JSON.stringify(copyModalityPreferences),
+      });
+    };
 
   const handleDataEntry =
     (field: keyof WorkingUserInfo) =>
@@ -100,6 +120,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
           item.location = currentUserInfo.location;
           item.dayPreferences = dayPref;
           item.timePreferences = timePref;
+          item.modalityPreferences = modalityPref;
         })
       );
     }
@@ -138,6 +159,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
         fullWidth={true}
         maxWidth="md"
       >
+        <DialogTitle>A little about yourself</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
           <TextField
             defaultValue={currentUserInfo?.email || props.username}
@@ -211,6 +233,21 @@ const UserInfoButton = (props: IUserInfoButton) => {
                 label="Night"
                 onChange={handleTimeChange("Night")}
                 checked={!!timePref.Night}
+              />
+            </Box>
+          </Box>
+          <Box marginTop="5px">
+            <InputLabel>How would you like to take your class?</InputLabel>
+            <Box display="flex" alignItems="center">
+              <CheckLabel
+                label="Online"
+                onChange={handleModalityChange("Online")}
+                checked={!!modalityPref.Online}
+              />
+              <CheckLabel
+                label="In Person"
+                onChange={handleModalityChange("Inperson")}
+                checked={!!modalityPref.Inperson}
               />
             </Box>
           </Box>

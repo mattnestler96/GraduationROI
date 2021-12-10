@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "GraduationROI",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-8e5084ef-6a4a-477d-925c-64fefa56996a/amplify/backend/api/GraduationROI/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-6aa2c539-1594-425d-99a1-4910bf82f5bf/amplify/backend/api/GraduationROI/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",

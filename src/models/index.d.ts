@@ -18,6 +18,7 @@ export declare class UserInfo {
   readonly dayPreferences?: string;
   readonly timePreferences?: string;
   readonly location?: string;
+  readonly modalityPreferences?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<UserInfo, UserInfoMetaData>);
