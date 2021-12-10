@@ -29,7 +29,7 @@ export const options = {
   },
 };
 
-const labels = ["Lifetime ROI"];
+const labels = ["Lifetime ROI", "Four Year Cost of Attendance"];
 
 interface IROIGraph {
   items: ROI[];
@@ -40,7 +40,7 @@ const ROIGraph = (props: IROIGraph) => {
     labels,
     datasets: props.items.map((v, k) => ({
       label: v.programName,
-      data: [v.lifetimeReturnOnInvestmentROI],
+      data: [v.lifetimeReturnOnInvestmentROI, v.fourYearEducationRelatedSpending],
       backgroundColor: randomColors[k],
     })),
   };
