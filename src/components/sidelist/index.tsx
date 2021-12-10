@@ -73,7 +73,9 @@ const SideList = (props: ISideList) => {
         })}
       </List>
       <GoogleAds slot="1040489084" />
-      <Button onClick={handleLoadMore}>Load More</Button>
+      <Button onClick={handleLoadMore} style={{ marginBottom: 30 }}>
+        Load More
+      </Button>
     </>
   );
 };

@@ -131,7 +131,6 @@ const UserInfoButton = (props: IUserInfoButton) => {
     const response = await DataStore.query(UserInfo, (c) =>
       c.email("eq" as never, props.username as never)
     );
-    console.log(response[0]);
     if (!response[0]) {
       handleOpenDialog();
     }

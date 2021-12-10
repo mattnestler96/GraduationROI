@@ -19,6 +19,7 @@ import {
   Paper,
   Toolbar,
   Drawer,
+  Typography,
 } from "@mui/material";
 import { useDeferred } from "./utils/useDeferred";
 import GoogleAds from "./components/googleAd";
@@ -45,7 +46,7 @@ const chainCall = (test, param, values) => (c) => {
 };
 
 const App = (props) => {
-  const { signOut } = props;
+  const { signOut, user } = props;
   const [list, setList] = React.useState([]);
   const [filterString, setFilterString] = React.useState("");
   const [selectedPrograms, setSelectedPrograms] = React.useState([]);
@@ -123,15 +124,34 @@ const App = (props) => {
         />
       </Drawer>
       <AppBar
+        color="transparent"
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Toolbar>
-          <QueryButton onChange={fetchData} defaultFilter={queryFilter} />
-          <UserInfoButton username={props.user.attributes.email} />
-          <Button variant="primary" onClick={signOut}>
-            Sign out
-          </Button>
+        <Toolbar
+          style={{ backgroundColor: "#fff", justifyContent: "space-between" }}
+        >
+          <Box>
+            <QueryButton onChange={fetchData} defaultFilter={queryFilter} />
+            <UserInfoButton username={user.attributes.email} />
+          </Box>
+          <Box>
+            <Button
+              style={{ marginRight: 10 }}
+              variant="outlined"
+              onClick={() =>
+                window.open(
+                  "https://freopp.org/how-we-calculated-the-return-on-investment-of-a-college-degree-e93bce69f9c7",
+                  "_blank"
+                )
+              }
+            >
+              Learn More
+            </Button>
+            <Button variant="outlined" onClick={signOut}>
+              Sign out
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box display="flex">
@@ -157,11 +177,46 @@ const App = (props) => {
 
 const AppWrappedAuth = () => {
   Amplify.configure(configFile);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  const innerWrap = (props) => {
+    setLoggedIn(!!props.user);
+    const s = () => {
+      setLoggedIn(false);
+      props.signOut();
+    };
+    return <App {...props} signOut={s} />;
+  };
+
+  const DynamicWrapper = (props) =>
+    !loggedIn ? (
+      <Box {...props} />
+    ) : (
+      <React.Fragment children={props.children} />
+    );
 
   return (
-    <>
-      <Authenticator signUpAttributes={["email"]}>{App}</Authenticator>
-    </>
+    <DynamicWrapper
+      style={{
+        display: "flex",
+        marginTop: 30,
+        justifyContent: "space-around",
+        alignItems: "center",
+      }}
+    >
+      {loggedIn ? null : (
+        <Box>
+          <Typography variant="h1" color="primary">
+            GraduationROI
+          </Typography>
+          <Typography color="primary" variant="h4">
+            Be well informed on your future
+          </Typography>
+        </Box>
+      )}
+
+      <Authenticator signUpAttributes={["email"]}>{innerWrap}</Authenticator>
+    </DynamicWrapper>
   );
 };
 
