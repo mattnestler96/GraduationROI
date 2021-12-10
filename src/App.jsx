@@ -181,11 +181,7 @@ const AppWrappedAuth = () => {
 
   const innerWrap = (props) => {
     setLoggedIn(!!props.user);
-    const s = () => {
-      setLoggedIn(false);
-      props.signOut();
-    };
-    return <App {...props} signOut={s} />;
+    return <App {...props} />;
   };
 
   const DynamicWrapper = (props) =>
