@@ -60,6 +60,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
     [currentUserInfo?.modalityPreferences]
   );
   const handleOpenDialog = () => {
+    fetchUser();
     setOpen(true);
   };
   const handleCloseDialog = () => {
@@ -131,16 +132,9 @@ const UserInfoButton = (props: IUserInfoButton) => {
     const response = await DataStore.query(UserInfo, (c) =>
       c.email("eq" as never, props.username as never)
     );
-    if (!response[0]) {
-      handleOpenDialog();
-    }
     setOriginalUserInfo(response[0]);
     setCurrentUserInfo({ email: props.username, ...response[0] });
   };
-
-  React.useEffect(() => {
-    fetchUser();
-  }, [props.username]);
 
   return (
     <>

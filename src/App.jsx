@@ -180,6 +180,7 @@ const AppWrappedAuth = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const innerWrap = (props) => {
+    console.log(props);
     setLoggedIn(!!props.user);
     return <App {...props} />;
   };
@@ -211,7 +212,7 @@ const AppWrappedAuth = () => {
         </Box>
       )}
 
-      <Authenticator socialProviders={['facebook']} signUpAttributes={["email"]}>{innerWrap}</Authenticator>
+      <Authenticator signUpAttributes={["email"]}>{innerWrap}</Authenticator>
     </DynamicWrapper>
   );
 };

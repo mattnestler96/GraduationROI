@@ -54,7 +54,7 @@ const QueryButton = (props: IQueryButton) => {
         style={{ margin: "0px 5px" }}
         color="secondary"
       >
-        Limit Results
+        Start Search
       </Button>
       <Dialog
         open={open}
