@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { ChangeEvent, KeyboardEvent } from "react";
+import MultiSelect from "../multiSelect";
 
 interface IFilter {
   states?: string[];
@@ -33,13 +34,19 @@ const QueryButton = (props: IQueryButton) => {
   const handleDataEntry =
     (field: keyof IFilter) =>
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const newFilter = { ...currentFilter };
-      newFilter[field] = e.target.value
-        .split(",")
-        .map((v) => v.trim())
-        .filter((v) => v !== "");
-      setCurrentFilter(newFilter);
+      handleArrayDataEntry(field)(
+        e.target.value
+          .split(",")
+          .map((v) => v.trim())
+          .filter((v) => v !== "")
+      );
     };
+
+  const handleArrayDataEntry = (field: keyof IFilter) => (value: string[]) => {
+    const newFilter = { ...currentFilter };
+    newFilter[field] = value;
+    setCurrentFilter(newFilter);
+  };
 
   const handleSubmitSearch = () => {
     props.onChange(currentFilter);
@@ -52,7 +59,7 @@ const QueryButton = (props: IQueryButton) => {
         variant="contained"
         onClick={handleOpenDialog}
         style={{ margin: "0px 5px" }}
-        color="secondary"
+        color="primary"
       >
         Start Search
       </Button>
@@ -64,11 +71,11 @@ const QueryButton = (props: IQueryButton) => {
       >
         <DialogTitle>Search for Programs</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
-          <TextField
-            defaultValue={currentFilter.states}
-            label="comma seperated states"
-            onChange={handleDataEntry("states")}
-            disabled
+          <MultiSelect
+            onChange={handleArrayDataEntry("states")}
+            value={currentFilter.states || []}
+            options={["CALIFORNIA", "ARKANSAS"]}
+            label="States"
           />
           <TextField
             defaultValue={currentFilter.programs}

@@ -30,6 +30,14 @@ export const convertData = (d) =>
   );
 const uniqueId = (v) =>
   `${v.programName}_${v.institutionName}_${v.state}_${v.programCIPCode}`;
+const QUERY_FILTER_KEY = "graduationROI.filterQuery";
+const defaultQueryFilter = JSON.parse(
+  localStorage.getItem(QUERY_FILTER_KEY)
+) || {
+  states: ["CALIFORNIA"],
+  programs: [],
+  institutions: [],
+};
 
 const DRAWER_WIDTH = 350;
 
@@ -50,15 +58,12 @@ const App = (props) => {
   const [list, setList] = React.useState([]);
   const [filterString, setFilterString] = React.useState("");
   const [selectedPrograms, setSelectedPrograms] = React.useState([]);
-  const [queryFilter, setQueryFilter] = React.useState({
-    states: ["CALIFORNIA"],
-    programs: [],
-    institutions: [],
-  });
+  const [queryFilter, setQueryFilter] = React.useState(defaultQueryFilter);
   const delayedFilterString = useDeferred(filterString, 300);
 
   const fetchData = async (filter) => {
     setQueryFilter(filter);
+    localStorage.setItem(QUERY_FILTER_KEY, JSON.stringify(filter));
     const response = await DataStore.query(ROI, (c) =>
       c
         .or(chainCall("eq", "state", filter.states))
