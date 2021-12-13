@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { ChangeEvent, KeyboardEvent } from "react";
+import { isInSampleUserMode } from "../../utils/userInfo";
 import MultiSelect from "../multiSelect";
 
 interface IFilter {
@@ -57,6 +58,7 @@ const QueryButton = (props: IQueryButton) => {
     <>
       <Button
         variant="contained"
+        disabled={isInSampleUserMode()}
         onClick={handleOpenDialog}
         style={{ margin: "0px 5px" }}
         color="primary"

@@ -1,14 +1,14 @@
 import { ROI } from "./models";
 import { originalColumnToType } from "./data/types";
-import { Authenticator } from "@aws-amplify/ui-react";
-import Amplify, { DataStore } from "aws-amplify";
-import configFile from "./aws-exports";
+import { sampleData } from "./data/sample";
+import { DataStore } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import React, { useMemo } from "react";
 import SideList from "./components/sidelist";
 import ROIOverTimeGraph from "./components/roiOverTimeLine";
 import ROILifeTimeBar from "./components/roiLifeTimeBar";
 import GraduationRatePie from "./components/graduationRate";
+import ROICostSizeBubble from "./components/roiCostSizeBubble";
 import QueryButton from "./components/queryButton";
 import UserInfoButton from "./components/userInfoButton";
 import {
@@ -19,10 +19,10 @@ import {
   Paper,
   Toolbar,
   Drawer,
-  Typography,
 } from "@mui/material";
 import { useDeferred } from "./utils/useDeferred";
 import GoogleAds from "./components/googleAd";
+import { isInSampleUserMode, getUserName } from "./utils/userInfo";
 
 export const convertData = (d) =>
   Object.fromEntries(
@@ -98,7 +98,13 @@ const App = (props) => {
   };
 
   React.useEffect(() => {
-    fetchData(queryFilter);
+    if (!isInSampleUserMode()) {
+      fetchData(queryFilter);
+    } else {
+      setList(
+        sampleData.map(convertData).map((v) => ({ ...v, id: uniqueId(v) }))
+      );
+    }
   }, []);
 
   return (
@@ -170,9 +176,10 @@ const App = (props) => {
           <Paper style={{ padding: 15 }}>
             <ROILifeTimeBar items={selectedPrograms} />
             <ROIOverTimeGraph items={selectedPrograms} />
-            <Box height={500}>
+            <Box height={500} marginBottom={"80px"}>
               <GraduationRatePie items={selectedPrograms} />
             </Box>
+            {/* <ROICostSizeBubble items={selectedPrograms} /> */}
           </Paper>
         </Box>
       </Box>
@@ -180,46 +187,4 @@ const App = (props) => {
   );
 };
 
-const AppWrappedAuth = () => {
-  Amplify.configure(configFile);
-  const [loggedIn, setLoggedIn] = React.useState(false);
-
-  const innerWrap = (props) => {
-    console.log(props);
-    setLoggedIn(!!props.user);
-    return <App {...props} />;
-  };
-
-  const DynamicWrapper = (props) =>
-    !loggedIn ? (
-      <Box {...props} />
-    ) : (
-      <React.Fragment children={props.children} />
-    );
-
-  return (
-    <DynamicWrapper
-      style={{
-        display: "flex",
-        marginTop: 30,
-        justifyContent: "space-around",
-        alignItems: "center",
-      }}
-    >
-      {loggedIn ? null : (
-        <Box>
-          <Typography variant="h1" color="primary">
-            GraduationROI
-          </Typography>
-          <Typography color="primary" variant="h4">
-            Be well informed on your future
-          </Typography>
-        </Box>
-      )}
-
-      <Authenticator signUpAttributes={["email"]}>{innerWrap}</Authenticator>
-    </DynamicWrapper>
-  );
-};
-
-export default AppWrappedAuth;
+export default App;

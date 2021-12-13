@@ -13,6 +13,7 @@ import {
 import { DataStore } from "aws-amplify";
 import React, { ChangeEvent } from "react";
 import { UserInfo } from "../../models";
+import { isInSampleUserMode } from "../../utils/userInfo";
 
 interface ICheckLabel extends CheckboxProps {
   label: string;
@@ -141,6 +142,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
       <Button
         variant="contained"
         onClick={handleOpenDialog}
+        disabled={isInSampleUserMode()}
         style={{ margin: "0px 5px" }}
         color="secondary"
       >
