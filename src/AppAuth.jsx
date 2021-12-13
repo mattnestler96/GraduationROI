@@ -23,7 +23,7 @@ const AuthenticatorWithGuestMode = (props) => {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
         <Authenticator {...props} />
-        <Button onClick={() => setUseGuest(true)}>Continue with Sample</Button>
+        {!props.loggedIn && <Button onClick={() => setUseGuest(true)}>Continue with Sample</Button>}
       </Box>
     );
   }
@@ -66,7 +66,7 @@ const AppWrappedAuth = () => {
         </Box>
       )}
 
-      <AuthenticatorWithGuestMode signUpAttributes={["email"]}>
+      <AuthenticatorWithGuestMode signUpAttributes={["email"]} loggedIn={loggedIn}>
         {innerWrap}
       </AuthenticatorWithGuestMode>
     </DynamicWrapper>

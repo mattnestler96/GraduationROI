@@ -67,7 +67,8 @@ const App = (props) => {
     const response = await DataStore.query(ROI, (c) =>
       c
         .or(chainCall("eq", "state", filter.states))
-        .or(chainCall("contains", "programName", filter.programs))
+        .or(chainCall("eq", "programCategory", filter.programCategory))
+        .or(chainCall("eq", "programName", filter.programs))
         .or(chainCall("contains", "institutionName", filter.institutions))
     );
     const dedupe = {};

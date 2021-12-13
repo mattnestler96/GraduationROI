@@ -6,14 +6,17 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import React, { ChangeEvent, KeyboardEvent } from "react";
+import React, { ChangeEvent } from "react";
 import { isInSampleUserMode } from "../../utils/userInfo";
+import programTypes from './programTypes';
+import programs from './programs';
 import MultiSelect from "../multiSelect";
 
 interface IFilter {
   states?: string[];
   programs?: string[];
   institutions?: string[];
+  programCategory?: string[]
 }
 
 interface IQueryButton {
@@ -79,10 +82,17 @@ const QueryButton = (props: IQueryButton) => {
             options={["CALIFORNIA", "ARKANSAS"]}
             label="States"
           />
-          <TextField
-            defaultValue={currentFilter.programs}
-            label="Comma-separated programs (case sensitive)"
-            onChange={handleDataEntry("programs")}
+          <MultiSelect
+            onChange={handleArrayDataEntry("programCategory")}
+            value={currentFilter.programCategory || []}
+            options={programTypes}
+            label="Program Type"
+          />
+          <MultiSelect
+            onChange={handleArrayDataEntry("programs")}
+            value={currentFilter.programs || []}
+            options={programs}
+            label="Programs"
           />
           <TextField
             defaultValue={currentFilter.institutions}
