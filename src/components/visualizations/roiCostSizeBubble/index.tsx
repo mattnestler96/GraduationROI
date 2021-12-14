@@ -1,17 +1,11 @@
 import React from "react";
 import { ROI } from "../../../models";
-import {
-  Chart as ChartJS,
-  LinearScale,
-  PointElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, LinearScale, PointElement, Legend } from "chart.js";
 import Title from "../../tableHeader";
 import { Bubble } from "react-chartjs-2";
 import randomColors from "../../../utils/randomColors";
 
-ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
+ChartJS.register(LinearScale, PointElement, Legend);
 
 const labels = ["Lifetime ROI", "Four Year Cost of Attendance"];
 
@@ -40,6 +34,7 @@ const ROIGraph = (props: IROIGraph) => {
         {
           y: v.lifetimeReturnOnInvestmentROI,
           x: v.fourYearEducationRelatedSpending,
+          z: v.collegeScorecardCohortCount,
           r: normalizeSize(
             v.collegeScorecardCohortCount || 1,
             maxCohort,
@@ -53,11 +48,37 @@ const ROIGraph = (props: IROIGraph) => {
   return (
     <>
       <Title
-        title="Lifetime Return on Investment vs Cost vs Relative Cohort Size"
+        title="Compare Student Population"
         info="The vertical axis shows the lifetime ROI. The horizontal axis shows the total cost of attendance. The bubble size gives a comparison of the size of the cohort. When picking a degree, it is important to balance these three. Low cost and High return only means so much if only a select few successfully make it through the program."
       />
       <Bubble
         data={data}
+        options={{
+          plugins: {
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: ({ dataset }) => {
+                  return `${(dataset.data[0] as any).z} Students`;
+                },
+              },
+            },
+          },
+          scales: {
+            y: {
+              title: {
+                display: true,
+                text: "Lifetime Return",
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Cost of Attendance",
+              },
+            },
+          },
+        }}
       />
     </>
   );
