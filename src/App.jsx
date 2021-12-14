@@ -22,7 +22,8 @@ import {
 } from "@mui/material";
 import { useDeferred } from "./utils/useDeferred";
 import GoogleAds from "./components/googleAd";
-import { isInSampleUserMode, getUserName } from "./utils/userInfo";
+import { isInSampleUserMode } from "./utils/userInfo";
+import SelectedProgramsHeader from "./components/selectedProgramsHeader";
 
 export const convertData = (d) =>
   Object.fromEntries(
@@ -39,7 +40,7 @@ const defaultQueryFilter = JSON.parse(
   institutions: [],
 };
 
-const DRAWER_WIDTH = 350;
+export const DRAWER_WIDTH = 350;
 
 const chainCall = (test, param, values) => (c) => {
   if (!values || values.length === 0) {
@@ -168,11 +169,19 @@ const App = (props) => {
       </AppBar>
       <Box display="flex">
         <Box minWidth={DRAWER_WIDTH} height="100%" />
-        <Box maxWidth="1200px" width="100%" margin="auto" padding="20px">
+        <Box
+          maxWidth={`calc(100vw - ${DRAWER_WIDTH}px - 40px)`}
+          width="100%"
+          padding="20px"
+        >
           <Toolbar />
           <GoogleAds
             slot="2530321269"
             style={{ display: "inline-block", height: "90px", width: "728px" }}
+          />
+          <SelectedProgramsHeader
+            selectedPrograms={selectedPrograms}
+            onChange={handleSelectedProgramChange}
           />
           <Paper style={{ padding: 15 }}>
             <ROILifeTimeBar items={selectedPrograms} />

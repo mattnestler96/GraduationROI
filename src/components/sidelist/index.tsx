@@ -1,12 +1,11 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import Close from "@mui/icons-material/Close";
 import { ROI } from "../../models";
-import { Box, Button, List, ListItemButton, ListItemIcon } from "@mui/material";
-import stateMapper from "../../utils/stateMapper";
+import { Box, Button, List, ListItemButton } from "@mui/material";
 import randomColors from "../../utils/randomColors";
 import GoogleAds from "../googleAd";
 import ArrowUp from "@mui/icons-material/ArrowCircleUp";
+import ProgramListItem from "../programListItem";
 
 const EmptyState = () => {
   return (
@@ -68,33 +67,10 @@ const SideList = (props: ISideList) => {
           const selected = selectedIndex > -1;
           return (
             <ListItemButton key={v.id} onClick={handleItemClick(v)}>
-              <ListItemIcon>
-                <Box
-                  border={
-                    selected
-                      ? `5px solid ${randomColors[selectedIndex]}`
-                      : "none"
-                  }
-                  borderRadius="50%"
-                  height={30}
-                  width={30}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  {selected ? <Close style={{ margin: "auto" }} /> : null}
-                </Box>
-              </ListItemIcon>
-              <Box width="100%">
-                <Typography color="primary">{v.programName}</Typography>
-                <Typography variant="caption">{v.programCategory}</Typography>
-                <Box display="flex" justifyContent="space-between" width="100%">
-                  <Typography variant="caption">{v.institutionName}</Typography>
-                  <Typography variant="caption">
-                    {stateMapper(v.state)}
-                  </Typography>
-                </Box>
-              </Box>
+              <ProgramListItem
+                color={selected ? randomColors[selectedIndex] : undefined}
+                program={v}
+              />
             </ListItemButton>
           );
         })}
