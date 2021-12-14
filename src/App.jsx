@@ -189,7 +189,7 @@ const App = (props) => {
             <Box height={500} marginBottom={"80px"}>
               <GraduationRatePie items={selectedPrograms} />
             </Box>
-            {/* <ROICostSizeBubble items={selectedPrograms} /> */}
+            <ROICostSizeBubble items={selectedPrograms} />
           </Paper>
         </Box>
       </Box>

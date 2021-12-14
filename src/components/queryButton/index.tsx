@@ -8,15 +8,15 @@ import {
 } from "@mui/material";
 import React, { ChangeEvent } from "react";
 import { isInSampleUserMode } from "../../utils/userInfo";
-import programTypes from './programTypes';
-import programs from './programs';
+import programTypes from "./programTypes";
+import programs from "./programs";
 import MultiSelect from "../multiSelect";
 
 interface IFilter {
   states?: string[];
   programs?: string[];
   institutions?: string[];
-  programCategory?: string[]
+  programCategory?: string[];
 }
 
 interface IQueryButton {
@@ -81,18 +81,21 @@ const QueryButton = (props: IQueryButton) => {
             value={currentFilter.states || []}
             options={["ARKANSAS", "CALIFORNIA", "KANSAS", "MISSOURI"]}
             label="States"
+            onClear={() => handleArrayDataEntry("states")([])}
           />
           <MultiSelect
             onChange={handleArrayDataEntry("programCategory")}
             value={currentFilter.programCategory || []}
             options={programTypes}
             label="Program Type"
+            onClear={() => handleArrayDataEntry("programCategory")([])}
           />
           <MultiSelect
             onChange={handleArrayDataEntry("programs")}
             value={currentFilter.programs || []}
             options={programs}
             label="Programs"
+            onClear={() => handleArrayDataEntry("programs")([])}
           />
           <TextField
             defaultValue={currentFilter.institutions}
