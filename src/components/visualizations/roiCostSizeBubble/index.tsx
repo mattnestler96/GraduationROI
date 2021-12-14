@@ -1,20 +1,26 @@
 import React from "react";
 import { ROI } from "../../../models";
-import { Chart as ChartJS, LinearScale, PointElement, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  LinearScale,
+  PointElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import Title from "../../tableHeader";
 import { Bubble } from "react-chartjs-2";
 import randomColors from "../../../utils/randomColors";
 
-ChartJS.register(LinearScale, PointElement, Legend);
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 const labels = ["Lifetime ROI", "Four Year Cost of Attendance"];
 
-const MIN_BUBBLE_SIZE = 20;
-const RANGE_OF_BUBBLE_SIZE = 30;
+const MIN_BUBBLE_SIZE = 10;
+const MAX_BUBBLE_SIZE = 50;
 const normalizeSize = (r: number, max: number, min: number): number => {
   const range = max - min;
   return Math.floor(
-    ((r - min) / range) * RANGE_OF_BUBBLE_SIZE + MIN_BUBBLE_SIZE
+    ((r - min) / range) * (MAX_BUBBLE_SIZE - MIN_BUBBLE_SIZE) + MIN_BUBBLE_SIZE
   );
 };
 
