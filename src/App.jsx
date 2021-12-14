@@ -29,7 +29,7 @@ export const convertData = (d) =>
   Object.fromEntries(
     Object.entries(d).map(([k, v]) => [originalColumnToType[k], v || undefined])
   );
-const uniqueId = (v) =>
+export const uniqueId = (v) =>
   `${v.programName}_${v.institutionName}_${v.state}_${v.programCIPCode}`;
 const QUERY_FILTER_KEY = "graduationROI.filterQuery";
 const defaultQueryFilter = JSON.parse(

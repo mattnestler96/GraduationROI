@@ -124,7 +124,7 @@ const ROIGraph = (props: IROIGraph) => {
   return (
     <>
       <Title
-        title="Expected Income"
+        title="Expected Income by Age"
         info="Projected income of a graduate. Counterfactual: The amount that the same student would have earned over the course of her life had she not gone to college."
       />
       <Line options={options} data={data} />

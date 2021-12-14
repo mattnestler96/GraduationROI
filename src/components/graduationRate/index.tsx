@@ -9,12 +9,12 @@ import Title from "../tableHeader";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const labels = [
-  "Share of students who graduate in 4 years",
-  "Share of students who graduate in 5 years",
-  "Share of students who graduate in 6 years",
-  "Share of students who transfer out within 6 years",
-  "Share of students still enrolled after 6 years",
-  "Share of students who are no longer enrolled",
+  "Percent of students who graduate in 4 years",
+  "Percent of students who graduate in 5 years",
+  "Percent of students who graduate in 6 years",
+  "Percent of students who transfer out within 6 years",
+  "Percent of students still enrolled after 6 years",
+  "Percent of students who are no longer enrolled",
 ];
 
 interface IROIGraph {
@@ -31,12 +31,12 @@ const ROIGraph = (props: IROIGraph) => {
     datasets: props.items.map((v, k) => ({
       label: v.programName,
       data: [
-        v.shareOfStudentWhoGraduateIn4Years,
-        v.shareOfStudentWhoGraduateIn5Years,
-        v.shareOfStudentWhoGraduateIn6Years,
-        v.shareOfStudentWhoTransferOutIn6Years,
-        v.shareOfStudentWhoRemainIn6Years,
-        v.shareOfStudentWhoNoLongerEnrolledIn6Years,
+        (v.shareOfStudentWhoGraduateIn4Years || 0) * 100,
+        (v.shareOfStudentWhoGraduateIn5Years || 0) * 100,
+        (v.shareOfStudentWhoGraduateIn6Years || 0) * 100,
+        (v.shareOfStudentWhoTransferOutIn6Years || 0) * 100,
+        (v.shareOfStudentWhoRemainIn6Years || 0) * 100,
+        (v.shareOfStudentWhoNoLongerEnrolledIn6Years || 0) * 100,
       ],
       backgroundColor: [
         Color(randomColors[k]).string(),

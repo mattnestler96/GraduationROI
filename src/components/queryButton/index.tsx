@@ -79,7 +79,7 @@ const QueryButton = (props: IQueryButton) => {
           <MultiSelect
             onChange={handleArrayDataEntry("states")}
             value={currentFilter.states || []}
-            options={["CALIFORNIA", "ARKANSAS"]}
+            options={["ARKANSAS", "CALIFORNIA", "KANSAS", "MISSOURI"]}
             label="States"
           />
           <MultiSelect
