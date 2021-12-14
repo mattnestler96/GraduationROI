@@ -1,10 +1,10 @@
 import React from "react";
-import { ROI } from "../../models";
+import { ROI } from "../../../models";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import randomColors from "../../utils/randomColors";
+import randomColors from "../../../utils/randomColors";
 import Color from "color";
-import Title from "../tableHeader";
+import Title from "../../tableHeader";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

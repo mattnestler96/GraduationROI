@@ -1,5 +1,5 @@
 import React from "react";
-import { ROI } from "../../models";
+import { ROI } from "../../../models";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,9 +8,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import Title from "../tableHeader";
+import Title from "../../tableHeader";
 import { Bar } from "react-chartjs-2";
-import randomColors from "../../utils/randomColors";
+import randomColors from "../../../utils/randomColors";
 
 ChartJS.register(
   CategoryScale,

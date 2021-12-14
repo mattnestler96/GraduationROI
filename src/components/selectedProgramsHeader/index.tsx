@@ -1,5 +1,6 @@
 import { Typography, Paper, Box, ListItemButton } from "@mui/material";
 import { ROI } from "../../models";
+import { uniqueId } from "../../utils/dataHelpers";
 import randomColors from "../../utils/randomColors";
 import ProgramListItem from "../programListItem";
 
@@ -38,6 +39,7 @@ const SelectedProgramsHeader = (props: ISelectedProgramsHeader) => {
             props.selectedPrograms.map((p, k) => {
               return (
                 <ListItemButton
+                  key={`${uniqueId(p)}_selectedHeader`}
                   onClick={handleItemClick(p)}
                   style={{
                     minWidth: "317px",

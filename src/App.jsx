@@ -5,10 +5,10 @@ import { DataStore } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import React, { useMemo } from "react";
 import SideList from "./components/sidelist";
-import ROIOverTimeGraph from "./components/roiOverTimeLine";
-import ROILifeTimeBar from "./components/roiLifeTimeBar";
-import GraduationRatePie from "./components/graduationRate";
-import ROICostSizeBubble from "./components/roiCostSizeBubble";
+import ROIOverTimeGraph from "./components/visualizations/roiOverTimeLine";
+import ROILifeTimeBar from "./components/visualizations/roiLifeTimeBar";
+import GraduationRatePie from "./components/visualizations/graduationRate";
+import ROICostSizeBubble from "./components/visualizations/roiCostSizeBubble";
 import QueryButton from "./components/queryButton";
 import UserInfoButton from "./components/userInfoButton";
 import {
@@ -23,14 +23,13 @@ import {
 import { useDeferred } from "./utils/useDeferred";
 import GoogleAds from "./components/googleAd";
 import { isInSampleUserMode } from "./utils/userInfo";
+import { uniqueId } from "./utils/dataHelpers";
 import SelectedProgramsHeader from "./components/selectedProgramsHeader";
 
 export const convertData = (d) =>
   Object.fromEntries(
     Object.entries(d).map(([k, v]) => [originalColumnToType[k], v || undefined])
   );
-export const uniqueId = (v) =>
-  `${v.programName}_${v.institutionName}_${v.state}_${v.programCIPCode}`;
 const QUERY_FILTER_KEY = "graduationROI.filterQuery";
 const defaultQueryFilter = JSON.parse(
   localStorage.getItem(QUERY_FILTER_KEY)

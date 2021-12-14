@@ -5,6 +5,9 @@ type UserInfo @model @auth(rules: [{allow: public}]) {
   timePreferences: AWSJSON
   location: String
   modalityPreferences: AWSJSON
+  userType: String
+  viewHistory: AWSJSON
+  searchHistory: AWSJSON
 }
 
 type ROI @model @auth(rules: [{allow: public}]) {

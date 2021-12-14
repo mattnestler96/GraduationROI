@@ -45,6 +45,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "userType": {
+                    "name": "userType",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "viewHistory": {
+                    "name": "viewHistory",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "searchHistory": {
+                    "name": "searchHistory",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -618,5 +639,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "7d6cdbdac4f8e178d08dc91a2b36415e"
+    "version": "5e970f4fcd9877e62c96e5da5e01fd5f"
 };

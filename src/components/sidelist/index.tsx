@@ -6,6 +6,7 @@ import randomColors from "../../utils/randomColors";
 import GoogleAds from "../googleAd";
 import ArrowUp from "@mui/icons-material/ArrowCircleUp";
 import ProgramListItem from "../programListItem";
+import { handleAddViewHistory } from "../../utils/userSearchTracking";
 
 const EmptyState = () => {
   return (
@@ -50,11 +51,20 @@ const SideList = (props: ISideList) => {
     [props.selectedPrograms]
   );
 
+  const handleRemoveItemFromView = (v: ROI) => {
+    props.onChange(props.selectedPrograms.filter((p) => p.id !== v.id));
+  };
+
+  const handleAddItemFromView = (v: ROI) => {
+    handleAddViewHistory(v);
+    props.onChange([...props.selectedPrograms, v]);
+  };
+
   const handleItemClick = (v: ROI) => () => {
     if (selectedProgramIds.includes(v.id)) {
-      props.onChange(props.selectedPrograms.filter((p) => p.id !== v.id));
+      handleRemoveItemFromView(v);
     } else {
-      props.onChange([...props.selectedPrograms, v]);
+      handleAddItemFromView(v);
     }
   };
 

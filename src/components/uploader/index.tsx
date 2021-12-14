@@ -15,7 +15,7 @@ import csv from "csvtojson";
 import { ROI } from "../../models";
 import { getUserName } from "../../utils/userInfo";
 import { originalColumnToType } from "../../data/types";
-import { uniqueId } from "../../App";
+import { uniqueId } from "../../utils/dataHelpers";
 
 const convertData = (d: ROI) =>
   Object.fromEntries(

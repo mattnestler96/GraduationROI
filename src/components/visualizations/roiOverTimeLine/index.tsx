@@ -9,9 +9,9 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { ROI } from "../../models";
-import randomColors from "../../utils/randomColors";
-import Title from "../tableHeader";
+import { ROI } from "../../../models";
+import randomColors from "../../../utils/randomColors";
+import Title from "../../tableHeader";
 
 ChartJS.register(
   CategoryScale,

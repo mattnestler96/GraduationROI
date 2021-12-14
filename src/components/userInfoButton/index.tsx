@@ -13,7 +13,7 @@ import {
 import { DataStore } from "aws-amplify";
 import React, { ChangeEvent } from "react";
 import { UserInfo } from "../../models";
-import { isInSampleUserMode } from "../../utils/userInfo";
+import { getUserName, isInSampleUserMode } from "../../utils/userInfo";
 
 interface ICheckLabel extends CheckboxProps {
   label: string;
@@ -131,10 +131,10 @@ const UserInfoButton = (props: IUserInfoButton) => {
 
   const fetchUser = async () => {
     const response = await DataStore.query(UserInfo, (c) =>
-      c.email("eq" as never, props.username as never)
+      c.email("eq" as never, getUserName() as never)
     );
     setOriginalUserInfo(response[0]);
-    setCurrentUserInfo({ email: props.username, ...response[0] });
+    setCurrentUserInfo({ email: getUserName(), ...response[0] });
   };
 
   return (
