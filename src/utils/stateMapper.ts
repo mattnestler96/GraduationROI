@@ -3,7 +3,13 @@ const stateMap: Record<string, string> = {
   MARYLAND: "MD",
   KANSAS: "KS",
   MISSOURI: "MO",
+  NEVADA: "NV",
+  NEBRASKA: "NE",
   COLORADO: "CO",
+  ARIZONA: "AZ",
+  ALASKA: "AK",
+  IOWA: "IA",
+  ALABAMA: "AL",
 };
 
 const stateMapper = (state?: string): string => {
