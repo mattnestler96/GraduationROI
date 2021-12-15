@@ -20,7 +20,6 @@ const SelectedProgramsHeader = (props: ISelectedProgramsHeader) => {
           minHeight="105px"
           display="flex"
           alignItems="center"
-          maxWidth="100%"
           overflow="scroll"
         >
           {props.selectedPrograms.length === 0 ? (

@@ -21,7 +21,6 @@ import {
   Drawer,
 } from "@mui/material";
 import { useDeferred } from "./utils/useDeferred";
-import GoogleAds from "./components/googleAd";
 import { isInSampleUserMode } from "./utils/userInfo";
 import { uniqueId } from "./utils/dataHelpers";
 import SelectedProgramsHeader from "./components/selectedProgramsHeader";
@@ -170,7 +169,7 @@ const App = (props) => {
           </Box>
         </Toolbar>
       </AppBar>
-      <Box display="flex">
+      <Box display="flex" width="100vw">
         <Box minWidth={DRAWER_WIDTH} height="100%" />
         <Box
           maxWidth={`calc(100vw - ${DRAWER_WIDTH}px - 40px)`}
@@ -178,10 +177,6 @@ const App = (props) => {
           padding="20px"
         >
           <Toolbar />
-          <GoogleAds
-            slot="2530321269"
-            style={{ display: "inline-block", height: "90px", width: "728px" }}
-          />
           <SelectedProgramsHeader
             selectedPrograms={selectedPrograms}
             onChange={handleSelectedProgramChange}

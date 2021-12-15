@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import { ROI } from "../../models";
 import { Box, Button, List, ListItemButton } from "@mui/material";
 import randomColors from "../../utils/randomColors";
-import GoogleAds from "../googleAd";
 import ArrowUp from "@mui/icons-material/ArrowCircleUp";
 import ProgramListItem from "../programListItem";
 import { handleAddViewHistory } from "../../utils/userSearchTracking";
@@ -85,7 +84,6 @@ const SideList = (props: ISideList) => {
           );
         })}
       </List>
-      <GoogleAds slot="1040489084" />
       <Button onClick={handleLoadMore} style={{ marginBottom: 30 }}>
         Load More
       </Button>
