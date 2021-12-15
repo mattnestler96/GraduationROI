@@ -5,12 +5,14 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { ChangeEvent } from "react";
 import { isInSampleUserMode } from "../../utils/userInfo";
 import programTypes from "./programTypes";
 import programs from "./programs";
 import MultiSelect from "../multiSelect";
+import { ITEM_LIMIT } from "../../App";
 
 interface IFilter {
   states?: string[];
@@ -76,6 +78,9 @@ const QueryButton = (props: IQueryButton) => {
       >
         <DialogTitle>Search for Programs</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
+          <Typography variant="caption" color="GrayText" style={{ margin: 15 }}>
+            {`Programs are limited to ${ITEM_LIMIT} at one time. Try narrowing your search if programs seem missing from the list.`}
+          </Typography>
           <MultiSelect
             onChange={handleArrayDataEntry("states")}
             value={currentFilter.states || []}

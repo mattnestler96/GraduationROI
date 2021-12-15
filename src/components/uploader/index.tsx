@@ -66,7 +66,6 @@ const Uploader = () => {
     setLoading(true);
     for (let i = 0; i < items.length; i++) {
       try {
-        console.log(items[i]);
         await DataStore.save(new ROI(items[i]));
         loaded[i] = "true";
         setLoaded(loaded);

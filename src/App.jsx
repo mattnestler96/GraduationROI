@@ -43,6 +43,7 @@ const defaultQueryFilter = JSON.parse(
 };
 
 export const DRAWER_WIDTH = 350;
+export const ITEM_LIMIT = 1000;
 
 const chainCall = (test, param, values) => (c) => {
   if (!values || values.length === 0) {
@@ -67,12 +68,15 @@ const App = (props) => {
   const fetchData = async (filter) => {
     setQueryFilter(filter);
     localStorage.setItem(QUERY_FILTER_KEY, JSON.stringify(filter));
-    const response = await DataStore.query(ROI, (c) =>
-      c
-        .or(chainCall("eq", "state", filter.states))
-        .or(chainCall("eq", "programCategory", filter.programCategory))
-        .or(chainCall("eq", "programName", filter.programs))
-        .or(chainCall("contains", "institutionName", filter.institutions))
+    const response = await DataStore.query(
+      ROI,
+      (c) =>
+        c
+          .or(chainCall("eq", "state", filter.states))
+          .or(chainCall("eq", "programCategory", filter.programCategory))
+          .or(chainCall("eq", "programName", filter.programs))
+          .or(chainCall("contains", "institutionName", filter.institutions)),
+      { limit: ITEM_LIMIT }
     );
     const dedupe = {};
     response.forEach(async (v) => {
@@ -80,7 +84,7 @@ const App = (props) => {
         console.log(`delete ${uniqueId(v)}`, v.id);
         await DataStore.delete(ROI, v.id);
       }
-      dedupe[uniqueId] = v.id;
+      dedupe[uniqueId(v)] = v.id;
     });
     setList(response);
   };
