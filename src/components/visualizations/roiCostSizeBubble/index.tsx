@@ -54,7 +54,7 @@ const ROIGraph = (props: IROIGraph) => {
   return (
     <>
       <Title
-        title="Compare Student Population"
+        title="Students Completing Degrees"
         info="The vertical axis shows the lifetime ROI. The horizontal axis shows the total cost of attendance. The bubble size gives a comparison of the size of the cohort. When picking a degree, it is important to balance these three. Low cost and High return only means so much if only a select few successfully make it through the program."
       />
       <Bubble

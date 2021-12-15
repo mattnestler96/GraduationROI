@@ -20,8 +20,8 @@ const awsmobile = {
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "https://graduationroi.com",
-        "redirectSignOut": "https://graduationroi.com",
+        "redirectSignIn": "https://graduationroi.com/",
+        "redirectSignOut": "https://graduationroi.com/",
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_POOLS",

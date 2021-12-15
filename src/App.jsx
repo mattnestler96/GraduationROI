@@ -26,6 +26,10 @@ import { isInSampleUserMode } from "./utils/userInfo";
 import { uniqueId } from "./utils/dataHelpers";
 import SelectedProgramsHeader from "./components/selectedProgramsHeader";
 
+const TableWrapper = (props) => (
+  <Paper {...props} style={{ marginBottom: 5, padding: 15, ...props.style }} />
+);
+
 export const convertData = (d) =>
   Object.fromEntries(
     Object.entries(d).map(([k, v]) => [originalColumnToType[k], v || undefined])
@@ -182,14 +186,20 @@ const App = (props) => {
             selectedPrograms={selectedPrograms}
             onChange={handleSelectedProgramChange}
           />
-          <Paper style={{ padding: 15 }}>
+          <TableWrapper>
             <ROILifeTimeBar items={selectedPrograms} />
+          </TableWrapper>
+          <TableWrapper>
             <ROIOverTimeGraph items={selectedPrograms} />
+          </TableWrapper>
+          <TableWrapper>
             <Box height={500} marginBottom={"80px"}>
               <GraduationRatePie items={selectedPrograms} />
             </Box>
+          </TableWrapper>
+          <TableWrapper>
             <ROICostSizeBubble items={selectedPrograms} />
-          </Paper>
+          </TableWrapper>
         </Box>
       </Box>
     </>
