@@ -4,12 +4,13 @@ import { uniqueId } from "./dataHelpers";
 import { getUserName, isInSampleUserMode } from "./userInfo";
 
 const handleFetchUserInfo = async (): Promise<UserInfo[]> => {
-  const response = await DataStore.query(UserInfo, (c) =>
+  return await DataStore.query(UserInfo, (c) =>
     c.email("eq" as never, getUserName() as never)
   );
-  return response;
 };
-export const handleAddViewHistory = async (program: ROI): Promise<void> => {
+export const handleAddViewHistoryBulk = async (
+  programs: ROI[]
+): Promise<void> => {
   if (!isInSampleUserMode()) {
     const users = await handleFetchUserInfo();
     if (users && users.length === 1) {
@@ -18,14 +19,21 @@ export const handleAddViewHistory = async (program: ROI): Promise<void> => {
         typeof existingUser.viewHistory !== "object"
           ? JSON.parse(existingUser.viewHistory || "{}")
           : existingUser.viewHistory;
-      const previousCount =
-        (previousViewHistory[uniqueId(program)]?.count || 0) + 1;
       const newViewHistory = {
         ...previousViewHistory,
-        [uniqueId(program)]: {
-          count: previousCount,
-          lastViewed: new Date().toDateString(),
-        },
+        ...Object.fromEntries(
+          programs.map((p) => {
+            const previousCount =
+              (previousViewHistory[uniqueId(p)]?.count || 0) + 1;
+            return [
+              uniqueId(p),
+              {
+                count: previousCount,
+                lastViewed: new Date().toDateString(),
+              },
+            ];
+          })
+        ),
       };
       await DataStore.save(
         UserInfo.copyOf(existingUser, (item) => {
@@ -34,4 +42,7 @@ export const handleAddViewHistory = async (program: ROI): Promise<void> => {
       );
     }
   }
+};
+export const handleAddViewHistory = async (program: ROI): Promise<void> => {
+  return handleAddViewHistoryBulk([program]);
 };

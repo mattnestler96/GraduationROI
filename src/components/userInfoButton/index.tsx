@@ -7,7 +7,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import { DataStore } from "aws-amplify";
@@ -104,7 +109,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
 
   const handleDataEntry =
     (field: keyof WorkingUserInfo) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
       const copyCurrentUserInfo = { ...currentUserInfo };
       copyCurrentUserInfo[field] = e.target.value;
       setCurrentUserInfo(copyCurrentUserInfo);
@@ -123,6 +128,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
           item.dayPreferences = dayPref;
           item.timePreferences = timePref;
           item.modalityPreferences = modalityPref;
+          item.userType = currentUserInfo.userType;
         })
       );
     }
@@ -161,11 +167,29 @@ const UserInfoButton = (props: IUserInfoButton) => {
             label="Email"
             onChange={handleDataEntry("email")}
           />
-          <TextField
-            defaultValue={currentUserInfo?.location}
-            label="Zipcode"
-            onChange={handleDataEntry("location")}
-          />
+          <Box marginTop="5px">
+            <TextField
+              defaultValue={currentUserInfo?.location}
+              label="Zipcode"
+              onChange={handleDataEntry("location")}
+            />
+          </Box>
+          <Box marginTop="5px">
+            <FormControl sx={{ m: 1, width: 300 }}>
+              <InputLabel >{'Who are you?'}</InputLabel>
+              <Select
+                value={currentUserInfo?.userType}
+                onChange={handleDataEntry('userType')}
+                input={<OutlinedInput label={'Who are you?'} />}
+              >
+                {["Parent", "Student", "Counselor", "Admin", "Other"].map((name) => (
+                  <MenuItem key={name} value={name}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
           <Box marginTop="5px">
             <InputLabel>What days of the week would you take class?</InputLabel>
             <Box display="flex" alignItems="center">

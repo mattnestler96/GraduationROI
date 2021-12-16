@@ -71,18 +71,22 @@ const SideList = (props: ISideList) => {
     <>
       <List>
         {props.items.length === 0 ? <EmptyState /> : null}
-        {props.items.slice(0, limit).map((v) => {
-          const selectedIndex = selectedProgramIds.findIndex((p) => p === v.id);
-          const selected = selectedIndex > -1;
-          return (
-            <ListItemButton key={v.id} onClick={handleItemClick(v)}>
-              <ProgramListItem
-                color={selected ? randomColors[selectedIndex] : undefined}
-                program={v}
-              />
-            </ListItemButton>
-          );
-        })}
+        {props.items
+          .slice(0, limit)
+          .map((v) => {
+            const selectedIndex = selectedProgramIds.findIndex(
+              (p) => p === v.id
+            );
+            const selected = selectedIndex > -1;
+            return (
+              <ListItemButton key={v.id} onClick={handleItemClick(v)}>
+                <ProgramListItem
+                  color={selected ? randomColors[selectedIndex] : undefined}
+                  program={v}
+                />
+              </ListItemButton>
+            );
+          })}
       </List>
       <Button onClick={handleLoadMore} style={{ marginBottom: 30 }}>
         Load More

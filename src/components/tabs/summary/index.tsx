@@ -1,9 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { ROI } from "../../../models";
+import { handleAddViewHistoryBulk } from "../../../utils/userSearchTracking";
 import MultiSelect from "../../multiSelect";
 import SummaryCell from "../../summaryCell";
 
+const ANALYSIS_KEY = "graduationROI.analysisKey";
 const analysisTypeOptions: Record<string, keyof ROI> = {
   "Program Name": "programName",
   "Program Type": "programCategory",
@@ -19,7 +21,9 @@ interface IVisualizationTab {
 }
 
 const SummaryTab = (props: IVisualizationTab) => {
-  const [analysisType, setAnalysisType] = useState("Program Name");
+  const [analysisType, setAnalysisType] = useState(
+    localStorage.getItem(ANALYSIS_KEY) || "Program Name"
+  );
   const { programs, selectedPrograms } = props;
   const handleItemClick = (v: ROI) => {
     if (selectedPrograms.includes(v)) {
@@ -29,6 +33,7 @@ const SummaryTab = (props: IVisualizationTab) => {
     }
   };
   const handleClickAll = (v: ROI[]) => {
+    handleAddViewHistoryBulk(v);
     props.onChange(
       Object.values(
         Object.fromEntries([...v, ...selectedPrograms].map((p) => [p.id, p]))
@@ -40,6 +45,7 @@ const SummaryTab = (props: IVisualizationTab) => {
     if (v.length > 1) {
       newType = v.find((t) => t !== analysisType) ?? analysisType;
     }
+    localStorage.setItem(ANALYSIS_KEY, newType);
     setAnalysisType(newType);
   };
   const uniquePrograms: Record<string, ROI[]> = Object.fromEntries(

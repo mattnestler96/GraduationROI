@@ -103,6 +103,10 @@ const App = (props) => {
   const handleSelectedProgramChange = (changedValues) => {
     setSelectedPrograms(changedValues);
   };
+  const handleSort = () => {
+    const selectedIds = selectedPrograms.map((v) => v.id);
+    setList([...list.sort((a) => (selectedIds.includes(a.id) ? -1 : 1))]);
+  };
 
   React.useEffect(() => {
     if (!isInSampleUserMode()) {
@@ -135,6 +139,10 @@ const App = (props) => {
           onChange={handleSearch}
           label="Search list..."
         />
+        <Box>
+          <Button onClick={handleSort}>Sort</Button>
+          <Button onClick={() => handleSelectedProgramChange([])}>Clear</Button>
+        </Box>
         <SideList
           items={filteredList}
           onChange={handleSelectedProgramChange}

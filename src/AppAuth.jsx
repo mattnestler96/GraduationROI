@@ -61,7 +61,7 @@ const AppWrappedAuth = () => {
             GraduationROI
           </Typography>
           <Typography color="primary" variant="h4">
-            Be well informed on your future
+            Be well informed of your future
           </Typography>
         </Box>
       )}
