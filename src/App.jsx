@@ -3,25 +3,43 @@ import { originalColumnToType } from "./data/types";
 import { sampleData } from "./data/sample";
 import { DataStore } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
-import React, { useMemo } from "react";
-import SideList from "./components/sidelist";
+import React from "react";
 import QueryButton from "./components/queryButton";
 import UserInfoButton from "./components/userInfoButton";
-import {
-  Button,
-  Box,
-  TextField,
-  AppBar,
-  Toolbar,
-  Drawer,
-  Tabs,
-  Tab,
-} from "@mui/material";
-import { useDeferred } from "./utils/useDeferred";
+import { Hidden, AppBar, Toolbar, Tabs, Tab, Box } from "@mui/material";
 import { isInSampleUserMode } from "./utils/userInfo";
 import { uniqueId } from "./utils/dataHelpers";
 import VisualizationTab from "./components/tabs/visualizations";
 import SummaryTab from "./components/tabs/summary";
+import LearnMoreButton from "./components/learnmore";
+import LogoutButton from "./components/logout";
+import SidelistDrawer from "./components/sidelist/drawer";
+
+const MainWrapper = ({ children }) => {
+  return (
+    <>
+      <Hidden smDown>
+        <Box minWidth={DRAWER_WIDTH} height="100%" />
+        <Box
+          maxWidth={`calc(100vw - ${DRAWER_WIDTH}px - 40px)`}
+          width="100%"
+          padding="20px"
+        >
+          {children}
+        </Box>
+      </Hidden>
+      <Hidden smUp>
+        <Box
+          maxWidth="calc(100vw - 40px)"
+          width="100%"
+          padding="20px"
+        >
+          {children}
+        </Box>
+      </Hidden>
+    </>
+  );
+};
 
 export const convertData = (d) =>
   Object.fromEntries(
@@ -54,11 +72,9 @@ const chainCall = (test, param, values) => (c) => {
 const App = (props) => {
   const { signOut, user } = props;
   const [list, setList] = React.useState([]);
-  const [filterString, setFilterString] = React.useState("");
   const [selectedPrograms, setSelectedPrograms] = React.useState([]);
   const [queryFilter, setQueryFilter] = React.useState(defaultQueryFilter);
   const [tabValue, setTabValue] = React.useState(1);
-  const delayedFilterString = useDeferred(filterString, 300);
 
   const fetchData = async (filter) => {
     setQueryFilter(filter);
@@ -84,28 +100,12 @@ const App = (props) => {
     setList(response);
   };
 
-  const handleSearch = (e) => {
-    setFilterString(e.target.value);
-  };
-
   const handleTabChange = (e, v) => {
     setTabValue(v);
   };
 
-  const filteredList = useMemo(
-    () =>
-      list.filter((v) =>
-        uniqueId(v).toUpperCase().includes(delayedFilterString.toUpperCase())
-      ),
-    [delayedFilterString, list]
-  );
-
   const handleSelectedProgramChange = (changedValues) => {
     setSelectedPrograms(changedValues);
-  };
-  const handleSort = () => {
-    const selectedIds = selectedPrograms.map((v) => v.id);
-    setList([...list.sort((a) => (selectedIds.includes(a.id) ? -1 : 1))]);
   };
 
   React.useEffect(() => {
@@ -120,35 +120,11 @@ const App = (props) => {
 
   return (
     <>
-      <Drawer
-        anchor="left"
-        open={true}
-        variant="permanent"
-        sx={{
-          width: DRAWER_WIDTH,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: DRAWER_WIDTH,
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        <Toolbar />
-        <TextField
-          style={{ margin: 10 }}
-          onChange={handleSearch}
-          label="Search list..."
-        />
-        <Box>
-          <Button onClick={handleSort}>Sort</Button>
-          <Button onClick={() => handleSelectedProgramChange([])}>Clear</Button>
-        </Box>
-        <SideList
-          items={filteredList}
-          onChange={handleSelectedProgramChange}
-          selectedPrograms={selectedPrograms}
-        />
-      </Drawer>
+      <SidelistDrawer
+        programs={list}
+        selectedPrograms={selectedPrograms}
+        onSelectedChange={handleSelectedProgramChange}
+      />
       <AppBar
         color="transparent"
         position="fixed"
@@ -162,31 +138,13 @@ const App = (props) => {
             <UserInfoButton username={user.attributes.email} />
           </Box>
           <Box>
-            <Button
-              style={{ marginRight: 10 }}
-              variant="outlined"
-              onClick={() =>
-                window.open(
-                  "https://freopp.org/how-we-calculated-the-return-on-investment-of-a-college-degree-e93bce69f9c7",
-                  "_blank"
-                )
-              }
-            >
-              Learn More
-            </Button>
-            <Button variant="outlined" onClick={signOut}>
-              Sign out
-            </Button>
+            <LearnMoreButton />
+            <LogoutButton signOut={signOut} />
           </Box>
         </Toolbar>
       </AppBar>
       <Box display="flex" width="100vw">
-        <Box minWidth={DRAWER_WIDTH} height="100%" />
-        <Box
-          maxWidth={`calc(100vw - ${DRAWER_WIDTH}px - 40px)`}
-          width="100%"
-          padding="20px"
-        >
+        <MainWrapper>
           <Toolbar />
           <Tabs value={tabValue} onChange={handleTabChange}>
             <Tab label="Summary" />
@@ -205,7 +163,7 @@ const App = (props) => {
               onChange={handleSelectedProgramChange}
             />
           ) : null}
-        </Box>
+        </MainWrapper>
       </Box>
     </>
   );

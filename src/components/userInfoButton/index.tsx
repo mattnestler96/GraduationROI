@@ -8,6 +8,8 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  Hidden,
+  IconButton,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -15,6 +17,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
+import User from '@mui/icons-material/Person';
 import { DataStore } from "aws-amplify";
 import React, { ChangeEvent } from "react";
 import { UserInfo } from "../../models";
@@ -109,7 +112,11 @@ const UserInfoButton = (props: IUserInfoButton) => {
 
   const handleDataEntry =
     (field: keyof WorkingUserInfo) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
+    (
+      e:
+        | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        | SelectChangeEvent<string>
+    ) => {
       const copyCurrentUserInfo = { ...currentUserInfo };
       copyCurrentUserInfo[field] = e.target.value;
       setCurrentUserInfo(copyCurrentUserInfo);
@@ -145,15 +152,26 @@ const UserInfoButton = (props: IUserInfoButton) => {
 
   return (
     <>
-      <Button
-        variant="contained"
-        onClick={handleOpenDialog}
-        disabled={isInSampleUserMode()}
-        style={{ margin: "0px 5px" }}
-        color="secondary"
-      >
-        User Info
-      </Button>
+      <Hidden smDown>
+        <Button
+          variant="contained"
+          onClick={handleOpenDialog}
+          disabled={isInSampleUserMode()}
+          style={{ margin: "0px 5px" }}
+          color="secondary"
+        >
+          User Info
+        </Button>
+      </Hidden>
+      <Hidden smUp>
+        <IconButton
+          onClick={handleOpenDialog}
+          disabled={isInSampleUserMode()}
+          color="secondary"
+          >
+          <User />
+        </IconButton>
+      </Hidden>
       <Dialog
         open={open}
         onClose={handleCloseDialog}
@@ -176,17 +194,19 @@ const UserInfoButton = (props: IUserInfoButton) => {
           </Box>
           <Box marginTop="5px">
             <FormControl sx={{ m: 1, width: 300 }}>
-              <InputLabel >{'Who are you?'}</InputLabel>
+              <InputLabel>{"Who are you?"}</InputLabel>
               <Select
                 value={currentUserInfo?.userType}
-                onChange={handleDataEntry('userType')}
-                input={<OutlinedInput label={'Who are you?'} />}
+                onChange={handleDataEntry("userType")}
+                input={<OutlinedInput label={"Who are you?"} />}
               >
-                {["Parent", "Student", "Counselor", "Admin", "Other"].map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
+                {["Parent", "Student", "Counselor", "Admin", "Other"].map(
+                  (name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  )
+                )}
               </Select>
             </FormControl>
           </Box>

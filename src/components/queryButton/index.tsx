@@ -4,9 +4,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Hidden,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
+import Search from '@mui/icons-material/SearchOutlined';
 import React, { ChangeEvent } from "react";
 import { isInSampleUserMode } from "../../utils/userInfo";
 import programTypes from "./programTypes";
@@ -21,7 +24,7 @@ interface IFilter {
   programCategory?: string[];
 }
 
-interface IQueryButton {
+export interface IQueryButton {
   onChange: (filter: IFilter) => void;
   defaultFilter: IFilter;
 }
@@ -61,15 +64,26 @@ const QueryButton = (props: IQueryButton) => {
 
   return (
     <>
-      <Button
-        variant="contained"
-        disabled={isInSampleUserMode()}
-        onClick={handleOpenDialog}
-        style={{ margin: "0px 5px" }}
-        color="primary"
-      >
-        Start Search
-      </Button>
+      <Hidden smDown>
+        <Button
+          variant="contained"
+          disabled={isInSampleUserMode()}
+          onClick={handleOpenDialog}
+          style={{ margin: "0px 5px" }}
+          color="primary"
+        >
+          Start Search
+        </Button>
+      </Hidden>
+      <Hidden smUp>
+        <IconButton
+          disabled={isInSampleUserMode()}
+          onClick={handleOpenDialog}
+          color="primary"
+        >
+          <Search/>
+        </IconButton>
+      </Hidden>
       <Dialog
         open={open}
         onClose={handleCloseDialog}

@@ -56,7 +56,7 @@ const SummaryTab = (props: IVisualizationTab) => {
   });
   return (
     <>
-      <Box display="flex" alignItems="center">
+      <Box display="flex" alignItems="center" flexWrap="wrap">
         <Typography variant="h5">
           Showing summary of programs broken by:
         </Typography>

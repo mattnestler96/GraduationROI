@@ -7,7 +7,7 @@ import randomColors from "../../utils/randomColors";
 import ListItemWithBorder from "../programListItem/listItemWithBorder";
 
 const TableWrapper = (props: DefaultComponentProps<PaperTypeMap>) => (
-  <Paper {...props} style={{ marginBottom: 5, padding: 15, ...props.style }} />
+  <Paper {...props} style={{ marginBottom: 5, padding: 15, overflowX: 'scroll', ...props.style }} />
 );
 
 interface ISummaryCell {
