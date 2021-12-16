@@ -8,6 +8,7 @@ const stateMap: Record<string, string> = {
   COLORADO: "CO",
   ARIZONA: "AZ",
   ALASKA: "AK",
+  ARKANSAS: "AR",
   IOWA: "IA",
   ALABAMA: "AL",
 };

@@ -5,10 +5,6 @@ import { DataStore } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import React, { useMemo } from "react";
 import SideList from "./components/sidelist";
-import ROIOverTimeGraph from "./components/visualizations/roiOverTimeLine";
-import ROILifeTimeBar from "./components/visualizations/roiLifeTimeBar";
-import GraduationRatePie from "./components/visualizations/graduationRate";
-import ROICostSizeBubble from "./components/visualizations/roiCostSizeBubble";
 import QueryButton from "./components/queryButton";
 import UserInfoButton from "./components/userInfoButton";
 import {
@@ -16,18 +12,16 @@ import {
   Box,
   TextField,
   AppBar,
-  Paper,
   Toolbar,
   Drawer,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import { useDeferred } from "./utils/useDeferred";
 import { isInSampleUserMode } from "./utils/userInfo";
 import { uniqueId } from "./utils/dataHelpers";
-import SelectedProgramsHeader from "./components/selectedProgramsHeader";
-
-const TableWrapper = (props) => (
-  <Paper {...props} style={{ marginBottom: 5, padding: 15, ...props.style }} />
-);
+import VisualizationTab from "./components/tabs/visualizations";
+import SummaryTab from "./components/tabs/summary";
 
 export const convertData = (d) =>
   Object.fromEntries(
@@ -63,6 +57,7 @@ const App = (props) => {
   const [filterString, setFilterString] = React.useState("");
   const [selectedPrograms, setSelectedPrograms] = React.useState([]);
   const [queryFilter, setQueryFilter] = React.useState(defaultQueryFilter);
+  const [tabValue, setTabValue] = React.useState(1);
   const delayedFilterString = useDeferred(filterString, 300);
 
   const fetchData = async (filter) => {
@@ -89,8 +84,12 @@ const App = (props) => {
     setList(response);
   };
 
-  const handleSearch = (e, v) => {
+  const handleSearch = (e) => {
     setFilterString(e.target.value);
+  };
+
+  const handleTabChange = (e, v) => {
+    setTabValue(v);
   };
 
   const filteredList = useMemo(
@@ -181,24 +180,23 @@ const App = (props) => {
           padding="20px"
         >
           <Toolbar />
-          <SelectedProgramsHeader
-            selectedPrograms={selectedPrograms}
-            onChange={handleSelectedProgramChange}
-          />
-          <TableWrapper>
-            <ROILifeTimeBar items={selectedPrograms} />
-          </TableWrapper>
-          <TableWrapper>
-            <ROIOverTimeGraph items={selectedPrograms} />
-          </TableWrapper>
-          <TableWrapper>
-            <Box height={500} marginBottom={"80px"}>
-              <GraduationRatePie items={selectedPrograms} />
-            </Box>
-          </TableWrapper>
-          <TableWrapper>
-            <ROICostSizeBubble items={selectedPrograms} />
-          </TableWrapper>
+          <Tabs value={tabValue} onChange={handleTabChange}>
+            <Tab label="Summary" />
+            <Tab label="Analysis" />
+          </Tabs>
+          {tabValue === 0 ? (
+            <SummaryTab
+              programs={list}
+              selectedPrograms={selectedPrograms}
+              onChange={handleSelectedProgramChange}
+            />
+          ) : null}
+          {tabValue === 1 ? (
+            <VisualizationTab
+              selectedPrograms={selectedPrograms}
+              onChange={handleSelectedProgramChange}
+            />
+          ) : null}
         </Box>
       </Box>
     </>

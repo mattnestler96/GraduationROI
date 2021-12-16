@@ -19,7 +19,6 @@ const labels = [
 
 interface IROIGraph {
   items: ROI[];
-  color: string;
 }
 export const options = {
   responsive: true,

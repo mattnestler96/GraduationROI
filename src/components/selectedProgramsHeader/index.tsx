@@ -1,8 +1,8 @@
-import { Typography, Paper, Box, ListItemButton } from "@mui/material";
+import { Typography, Paper, Box } from "@mui/material";
 import { ROI } from "../../models";
 import { uniqueId } from "../../utils/dataHelpers";
 import randomColors from "../../utils/randomColors";
-import ProgramListItem from "../programListItem";
+import ListItemWithBorder from "../programListItem/listItemWithBorder";
 
 interface ISelectedProgramsHeader {
   selectedPrograms: ROI[];
@@ -10,7 +10,7 @@ interface ISelectedProgramsHeader {
 }
 
 const SelectedProgramsHeader = (props: ISelectedProgramsHeader) => {
-  const handleItemClick = (v: ROI) => () => {
+  const handleItemClick = (v: ROI) => {
     props.onChange(props.selectedPrograms.filter((p) => p.id !== v.id));
   };
   return (
@@ -35,31 +35,14 @@ const SelectedProgramsHeader = (props: ISelectedProgramsHeader) => {
               </Typography>
             </Box>
           ) : (
-            props.selectedPrograms.map((p, k) => {
-              return (
-                <ListItemButton
-                  key={`${uniqueId(p)}_selectedHeader`}
-                  onClick={handleItemClick(p)}
-                  style={{
-                    minWidth: "317px",
-                    width: "317px",
-                    maxWidth: "317px",
-                    border: "1px solid #bbb",
-                    borderRadius: "10px",
-                    margin: "5px",
-                  }}
-                >
-                  <Box
-                    width="100%"
-                    height="100px"
-                    display="flex"
-                    alignItems="center"
-                  >
-                    <ProgramListItem color={randomColors[k]} program={p} />
-                  </Box>
-                </ListItemButton>
-              );
-            })
+            props.selectedPrograms.map((p, k) => (
+              <ListItemWithBorder
+                key={`${uniqueId(p)}_selectedHeader`}
+                onClick={handleItemClick}
+                color={randomColors[k]}
+                program={p}
+              />
+            ))
           )}
         </Box>
       </Paper>
