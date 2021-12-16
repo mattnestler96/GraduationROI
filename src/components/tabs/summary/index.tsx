@@ -28,6 +28,13 @@ const SummaryTab = (props: IVisualizationTab) => {
       props.onChange([...selectedPrograms, v]);
     }
   };
+  const handleClickAll = (v: ROI[]) => {
+    props.onChange(
+      Object.values(
+        Object.fromEntries([...v, ...selectedPrograms].map((p) => [p.id, p]))
+      )
+    );
+  };
   const handleTypeChange = (v: string[]) => {
     let newType = v[0] ?? analysisType;
     if (v.length > 1) {
@@ -61,6 +68,7 @@ const SummaryTab = (props: IVisualizationTab) => {
             programs={filteredPrograms}
             selectedPrograms={selectedPrograms}
             onClick={handleItemClick}
+            onClickAll={handleClickAll}
           />
         ))}
     </>
