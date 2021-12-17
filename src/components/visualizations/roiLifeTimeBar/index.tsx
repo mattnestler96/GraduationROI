@@ -12,7 +12,6 @@ import { Bar } from "react-chartjs-2";
 import randomColors from "../../../utils/randomColors";
 import { Box } from "@mui/material";
 import { Programs } from "../../../contexts/programs";
-import { ROI } from "../../../models";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
