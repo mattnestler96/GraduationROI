@@ -53,14 +53,15 @@ const AppWrappedAuth = () => {
         marginTop: 30,
         justifyContent: "space-around",
         alignItems: "center",
+        flexWrap: 'wrap'
       }}
     >
       {loggedIn ? null : (
-        <Box>
-          <Typography variant="h1" color="primary">
+        <Box marginBottom="50px">
+          <Typography variant="h3" color="primary">
             GraduationROI
           </Typography>
-          <Typography color="primary" variant="h4">
+          <Typography color="primary" variant="h6">
             Be well informed of your future
           </Typography>
         </Box>
