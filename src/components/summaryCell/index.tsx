@@ -102,7 +102,7 @@ const SummaryCell = ({
       </Box>
       <Box display="flex" flexDirection="row">
         <Box textAlign="center">
-          <Typography variant="caption">{`Rest ROI ($${stats.maxROI.lifetimeReturnOnInvestmentROI})`}</Typography>
+          <Typography variant="caption">{`Best ROI ($${stats.maxROI.lifetimeReturnOnInvestmentROI})`}</Typography>
           <ListItemWithBorder
             program={stats.maxROI}
             onClick={onClick}

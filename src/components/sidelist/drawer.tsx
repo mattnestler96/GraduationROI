@@ -90,7 +90,9 @@ const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
               </Typography>
             </Box>
           </Box>
-          {children}
+          <Box width="100%" overflow="scroll">
+            {children}
+          </Box>
         </SwipeableDrawer>
       </Hidden>
     </>
@@ -136,7 +138,7 @@ const SidelistDrawer = (props: ISidelistDrawer) => {
     <ResponsiveDrawer>
       <>
         <TextField
-          style={{ margin: 10 }}
+          style={{ margin: "10px", width: "calc(100% - 20px)" }}
           onChange={handleSearch}
           label="Enter a program or institution..."
         />
