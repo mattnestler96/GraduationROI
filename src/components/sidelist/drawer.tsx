@@ -86,7 +86,7 @@ const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
             <Puller />
             <Box height="56px" paddingTop="20px" textAlign="center">
               <Typography variant="caption" color="GrayText">
-                Programs
+                Select Programs
               </Typography>
             </Box>
           </Box>
@@ -138,7 +138,7 @@ const SidelistDrawer = (props: ISidelistDrawer) => {
         <TextField
           style={{ margin: 10 }}
           onChange={handleSearch}
-          label="Search list..."
+          label="Enter a program or institution..."
         />
         <Box>
           <Button onClick={handleSort}>Sort</Button>

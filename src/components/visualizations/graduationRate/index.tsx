@@ -5,6 +5,7 @@ import { Pie } from "react-chartjs-2";
 import randomColors from "../../../utils/randomColors";
 import Color from "color";
 import Title from "../../tableHeader";
+import { Box } from "@mui/material";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -49,10 +50,10 @@ const ROIGraph = (props: IROIGraph) => {
     })),
   };
   return (
-    <>
+    <Box minHeight="400px">
       <Title title="Graduation Rates" />
       <Pie data={data} style={{ maxHeight: "100%" }} />
-    </>
+    </Box>
   );
 };
 

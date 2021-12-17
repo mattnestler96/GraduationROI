@@ -17,7 +17,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import User from '@mui/icons-material/Person';
+import User from "@mui/icons-material/Person";
 import { DataStore } from "aws-amplify";
 import React, { ChangeEvent } from "react";
 import { UserInfo } from "../../models";
@@ -159,6 +159,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
           disabled={isInSampleUserMode()}
           style={{ margin: "0px 5px" }}
           color="secondary"
+          startIcon={<User />}
         >
           User Info
         </Button>
@@ -168,7 +169,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
           onClick={handleOpenDialog}
           disabled={isInSampleUserMode()}
           color="secondary"
-          >
+        >
           <User />
         </IconButton>
       </Hidden>

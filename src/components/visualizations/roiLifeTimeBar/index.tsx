@@ -11,6 +11,7 @@ import {
 import Title from "../../tableHeader";
 import { Bar } from "react-chartjs-2";
 import randomColors from "../../../utils/randomColors";
+import { Box } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -22,6 +23,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: "top" as const,
@@ -45,10 +47,10 @@ const ROIGraph = (props: IROIGraph) => {
     })),
   };
   return (
-    <>
+    <Box height="400px" paddingBottom="30px">
       <Title title="Lifetime Return on Investment" />
       <Bar options={options} data={data} />
-    </>
+    </Box>
   );
 };
 

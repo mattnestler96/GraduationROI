@@ -31,7 +31,7 @@ const SelectedProgramsHeader = (props: ISelectedProgramsHeader) => {
               margin="auto"
             >
               <Typography color="GrayText" variant="caption">
-                Nothing selected, start selecting items on the left to see data.
+                Nothing selected, start by selecting programs.
               </Typography>
             </Box>
           ) : (

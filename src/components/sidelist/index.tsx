@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import { ROI } from "../../models";
 import { Box, Button, List, ListItemButton } from "@mui/material";
 import randomColors from "../../utils/randomColors";
-import ArrowUp from "@mui/icons-material/ArrowCircleUp";
+import Search from "@mui/icons-material/SearchOutlined";
 import ProgramListItem from "../programListItem";
 import { handleAddViewHistory } from "../../utils/userSearchTracking";
 
@@ -16,7 +16,7 @@ const EmptyState = () => {
       flexDirection="row"
       alignItems="center"
     >
-      <ArrowUp fontSize="large" color="action" />
+      <Search fontSize="large" color="action" />
       <Box marginLeft="12px">
         <Box>
           <Typography color="textSecondary" variant="caption">

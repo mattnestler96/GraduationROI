@@ -71,8 +71,9 @@ const QueryButton = (props: IQueryButton) => {
           onClick={handleOpenDialog}
           style={{ margin: "0px 5px" }}
           color="primary"
+          startIcon={<Search/>}
         >
-          Start Search
+          Search
         </Button>
       </Hidden>
       <Hidden smUp>

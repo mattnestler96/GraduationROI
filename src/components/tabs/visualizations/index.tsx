@@ -1,4 +1,4 @@
-import { Paper, Box, PaperTypeMap } from "@mui/material";
+import { Paper, PaperTypeMap } from "@mui/material";
 import SelectedProgramsHeader from "../../selectedProgramsHeader";
 import ROIOverTimeGraph from "../../visualizations/roiOverTimeLine";
 import ROILifeTimeBar from "../../visualizations/roiLifeTimeBar";
@@ -31,9 +31,7 @@ const VisualizationTab = (props: IVisualizationTab) => {
         <ROIOverTimeGraph items={selectedPrograms} />
       </TableWrapper>
       <TableWrapper>
-        <Box height={500} marginBottom={"80px"}>
-          <GraduationRatePie items={selectedPrograms} />
-        </Box>
+        <GraduationRatePie items={selectedPrograms} />
       </TableWrapper>
       <TableWrapper>
         <ROICostSizeBubble items={selectedPrograms} />

@@ -12,6 +12,7 @@ import { Line } from "react-chartjs-2";
 import { ROI } from "../../../models";
 import randomColors from "../../../utils/randomColors";
 import Title from "../../tableHeader";
+import { Box } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -24,6 +25,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: "top" as const,
@@ -122,13 +124,13 @@ const ROIGraph = (props: IROIGraph) => {
     ],
   };
   return (
-    <>
+    <Box height="400px" paddingBottom="30px">
       <Title
         title="Expected Income by Age"
         info="Projected income of a graduate. Counterfactual: The amount that the same student would have earned over the course of her life had she not gone to college."
       />
       <Line options={options} data={data} />
-    </>
+    </Box>
   );
 };
 

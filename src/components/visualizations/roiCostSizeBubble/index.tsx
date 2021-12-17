@@ -10,6 +10,7 @@ import {
 import Title from "../../tableHeader";
 import { Bubble } from "react-chartjs-2";
 import randomColors from "../../../utils/randomColors";
+import { Box } from "@mui/material";
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
@@ -52,7 +53,7 @@ const ROIGraph = (props: IROIGraph) => {
     })),
   };
   return (
-    <>
+    <Box height="400px" paddingBottom="30px">
       <Title
         title="Students Completing Degrees"
         info="The vertical axis shows the lifetime ROI. The horizontal axis shows the total cost of attendance. The bubble size gives a comparison of the size of the cohort. When picking a degree, it is important to balance these three. Low cost and High return only means so much if only a select few successfully make it through the program."
@@ -60,6 +61,8 @@ const ROIGraph = (props: IROIGraph) => {
       <Bubble
         data={data}
         options={{
+          responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             tooltip: {
               enabled: true,
@@ -86,7 +89,7 @@ const ROIGraph = (props: IROIGraph) => {
           },
         }}
       />
-    </>
+    </Box>
   );
 };
 
