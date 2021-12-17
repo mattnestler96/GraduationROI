@@ -9,13 +9,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Search from '@mui/icons-material/SearchOutlined';
-import React, { ChangeEvent } from "react";
+import Search from "@mui/icons-material/SearchOutlined";
+import React, { ChangeEvent, useContext } from "react";
 import { isInSampleUserMode } from "../../utils/userInfo";
 import programTypes from "./programTypes";
 import programs from "./programs";
 import MultiSelect from "../multiSelect";
-import { ITEM_LIMIT } from "../../App";
+import { ITEM_LIMIT } from "../../utils/dataHelpers";
+import { Programs } from "../../contexts/programs";
 
 interface IFilter {
   states?: string[];
@@ -24,16 +25,14 @@ interface IFilter {
   programCategory?: string[];
 }
 
-export interface IQueryButton {
-  onChange: (filter: IFilter) => void;
-  defaultFilter: IFilter;
-}
-
-const QueryButton = (props: IQueryButton) => {
+const QueryButton = () => {
+  const {
+    queryFilter,
+    handleFetchPrograms,
+  } = useContext(Programs);
   const [open, setOpen] = React.useState(false);
-  const [currentFilter, setCurrentFilter] = React.useState<IFilter>(
-    props.defaultFilter
-  );
+  const [currentFilter, setCurrentFilter] =
+    React.useState<IFilter>(queryFilter);
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -58,7 +57,7 @@ const QueryButton = (props: IQueryButton) => {
   };
 
   const handleSubmitSearch = () => {
-    props.onChange(currentFilter);
+    handleFetchPrograms(currentFilter);
     handleCloseDialog();
   };
 
@@ -71,7 +70,7 @@ const QueryButton = (props: IQueryButton) => {
           onClick={handleOpenDialog}
           style={{ margin: "0px 5px" }}
           color="primary"
-          startIcon={<Search/>}
+          startIcon={<Search />}
         >
           Search
         </Button>
@@ -82,7 +81,7 @@ const QueryButton = (props: IQueryButton) => {
           onClick={handleOpenDialog}
           color="primary"
         >
-          <Search/>
+          <Search />
         </IconButton>
       </Hidden>
       <Dialog

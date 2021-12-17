@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +13,7 @@ import { ROI } from "../../../models";
 import randomColors from "../../../utils/randomColors";
 import Title from "../../tableHeader";
 import { Box } from "@mui/material";
+import { Programs } from "../../../contexts/programs";
 
 ChartJS.register(
   CategoryScale,
@@ -22,16 +23,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-  },
-};
 
 const labels = [
   "23",
@@ -49,10 +40,6 @@ const labels = [
   "59",
   "62",
 ];
-
-interface IROIGraph {
-  items: ROI[];
-}
 
 type subROI =
   | "estimatedCounterfactualEarnings19"
@@ -76,8 +63,9 @@ const reduceItems = (items: ROI[]) => (field: subROI) => {
   return items.reduce((acc, v) => acc + (v?.[field] || 0), 0) / items.length;
 };
 
-const ROIGraph = (props: IROIGraph) => {
-  const r = reduceItems(props.items);
+const ROIGraph = () => {
+  const { selectedPrograms } = useContext(Programs);
+  const r = reduceItems(selectedPrograms);
   const counterFactualData = {
     label: "Counterfactual",
     data: [
@@ -101,7 +89,7 @@ const ROIGraph = (props: IROIGraph) => {
     labels,
     datasets: [
       counterFactualData,
-      ...props.items.map((v, k) => ({
+      ...selectedPrograms.map((v, k) => ({
         label: v.programName,
         data: [
           v.estimatedEarnings23,
@@ -120,16 +108,38 @@ const ROIGraph = (props: IROIGraph) => {
           v.estimatedEarnings62,
         ],
         backgroundColor: randomColors[k],
+        roi: v,
       })),
     ],
   };
+
   return (
     <Box height="400px" paddingBottom="30px">
       <Title
         title="Expected Income by Age"
         info="Projected income of a graduate. Counterfactual: The amount that the same student would have earned over the course of her life had she not gone to college."
       />
-      <Line options={options} data={data} />
+      <Line
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "top" as const,
+            },
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                afterLabel: ({ dataset }) => {
+                  const { roi } = dataset as any;
+                  return `${roi.institutionName}`;
+                },
+              },
+            },
+          },
+        }}
+        data={data}
+      />
     </Box>
   );
 };

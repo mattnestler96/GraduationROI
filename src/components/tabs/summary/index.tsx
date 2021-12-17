@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Programs } from "../../../contexts/programs";
 import { ROI } from "../../../models";
 import { handleAddViewHistoryBulk } from "../../../utils/userSearchTracking";
 import MultiSelect from "../../multiSelect";
@@ -14,27 +15,21 @@ const analysisTypeOptions: Record<string, keyof ROI> = {
   "Institution Name": "institutionName",
 };
 
-interface IVisualizationTab {
-  programs: ROI[];
-  selectedPrograms: ROI[];
-  onChange: (v: ROI[]) => void;
-}
-
-const SummaryTab = (props: IVisualizationTab) => {
+const SummaryTab = () => {
   const [analysisType, setAnalysisType] = useState(
     localStorage.getItem(ANALYSIS_KEY) || "Program Name"
   );
-  const { programs, selectedPrograms } = props;
+  const { programs, selectedPrograms, handleSelectedProgramChange } = useContext(Programs);
   const handleItemClick = (v: ROI) => {
     if (selectedPrograms.includes(v)) {
-      props.onChange(selectedPrograms.filter((p) => p.id !== v.id));
+      handleSelectedProgramChange(selectedPrograms.filter((p) => p.id !== v.id));
     } else {
-      props.onChange([...selectedPrograms, v]);
+      handleSelectedProgramChange([...selectedPrograms, v]);
     }
   };
   const handleClickAll = (v: ROI[]) => {
     handleAddViewHistoryBulk(v);
-    props.onChange(
+    handleSelectedProgramChange(
       Object.values(
         Object.fromEntries([...v, ...selectedPrograms].map((p) => [p.id, p]))
       )
@@ -70,6 +65,7 @@ const SummaryTab = (props: IVisualizationTab) => {
         .sort((a, b) => (a[0] > b[0] ? 1 : -1))
         .map(([name, filteredPrograms]) => (
           <SummaryCell
+            key={`${name}_${analysisType}`}
             label={name}
             programs={filteredPrograms}
             selectedPrograms={selectedPrograms}

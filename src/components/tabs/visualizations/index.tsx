@@ -5,36 +5,26 @@ import ROILifeTimeBar from "../../visualizations/roiLifeTimeBar";
 import GraduationRatePie from "../../visualizations/graduationRate";
 import ROICostSizeBubble from "../../visualizations/roiCostSizeBubble";
 import { DefaultComponentProps } from "@mui/material/OverridableComponent";
-import { ROI } from "../../../models";
 
 const TableWrapper = (props: DefaultComponentProps<PaperTypeMap>) => (
   <Paper {...props} style={{ marginBottom: 5, padding: 15, ...props.style }} />
 );
 
-interface IVisualizationTab {
-    selectedPrograms: ROI[];
-    onChange: (v: ROI[]) => void;
-}
-
-const VisualizationTab = (props: IVisualizationTab) => {
-  const { selectedPrograms, onChange } = props;
+const VisualizationTab = () => {
   return (
     <>
-      <SelectedProgramsHeader
-        selectedPrograms={selectedPrograms}
-        onChange={onChange}
-      />
+      <SelectedProgramsHeader />
       <TableWrapper>
-        <ROILifeTimeBar items={selectedPrograms} />
+        <ROILifeTimeBar />
       </TableWrapper>
       <TableWrapper>
-        <ROIOverTimeGraph items={selectedPrograms} />
+        <ROIOverTimeGraph />
       </TableWrapper>
       <TableWrapper>
-        <GraduationRatePie items={selectedPrograms} />
+        <GraduationRatePie />
       </TableWrapper>
       <TableWrapper>
-        <ROICostSizeBubble items={selectedPrograms} />
+        <ROICostSizeBubble />
       </TableWrapper>
     </>
   );

@@ -6,6 +6,7 @@ import React from "react";
 import { Button, Box, Typography } from "@mui/material";
 import { setUserName, SAMPLE_USER, isInSampleUserMode } from "./utils/userInfo";
 import App from "./App";
+import {ProgramProvider} from './contexts/programs'
 
 const AuthenticatorWithGuestMode = (props) => {
   const [useGuest, setUseGuest] = React.useState(isInSampleUserMode());
@@ -36,7 +37,7 @@ const AppWrappedAuth = () => {
   const innerWrap = (props) => {
     setLoggedIn(!!props.user);
     setUserName(props.user.attributes.email);
-    return <App {...props} />;
+    return <ProgramProvider><App {...props} /></ProgramProvider>;
   };
 
   const DynamicWrapper = (props) =>

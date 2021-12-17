@@ -16,6 +16,7 @@ export const handleAddViewHistoryBulk = async (
     if (users && users.length === 1) {
       const existingUser = users[0];
       const previousViewHistory =
+        !existingUser.viewHistory ||
         typeof existingUser.viewHistory !== "object"
           ? JSON.parse(existingUser.viewHistory || "{}")
           : existingUser.viewHistory;

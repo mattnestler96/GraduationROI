@@ -8,7 +8,7 @@ import {
   Typography,
   SwipeableDrawer,
 } from "@mui/material";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useContext } from "react";
 import SideList from ".";
 import { DRAWER_WIDTH } from "../../App";
 import { ROI } from "../../models";
@@ -17,6 +17,7 @@ import { useDeferred } from "../../utils/useDeferred";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import { Global } from "@emotion/react";
+import { Programs } from "../../contexts/programs";
 
 const Puller = styled(Box)(({ theme }) => ({
   width: 30,
@@ -99,20 +100,15 @@ const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
   );
 };
 
-interface ISidelistDrawer {
-  programs: ROI[];
-  selectedPrograms: ROI[];
-  onSelectedChange: (v: ROI[]) => void;
-}
-
-const SidelistDrawer = (props: ISidelistDrawer) => {
+const SidelistDrawer = () => {
+  const {programs, selectedPrograms, handleSelectedProgramChange} = useContext(Programs);
   const [filterString, setFilterString] = React.useState("");
   const [sortType, setSortType] = React.useState("");
   const delayedFilterString = useDeferred(filterString, 300);
-  const selectedIds = props.selectedPrograms.map((v) => v.id);
+  const selectedIds = selectedPrograms.map((v) => v.id);
   const filteredList = React.useMemo(
     () =>
-      props.programs
+      programs
         .sort((a) => {
           if (sortType === "selected") {
             return selectedIds.includes(a.id) ? -1 : 1;
@@ -122,7 +118,7 @@ const SidelistDrawer = (props: ISidelistDrawer) => {
         .filter((v) =>
           uniqueId(v).toUpperCase().includes(delayedFilterString.toUpperCase())
         ),
-    [delayedFilterString, props.programs, sortType]
+    [delayedFilterString, programs, sortType]
   );
 
   const handleSort = () => {
@@ -144,12 +140,10 @@ const SidelistDrawer = (props: ISidelistDrawer) => {
         />
         <Box>
           <Button onClick={handleSort}>Sort</Button>
-          <Button onClick={() => props.onSelectedChange([])}>Clear</Button>
+          <Button onClick={() => handleSelectedProgramChange([])}>Clear</Button>
         </Box>
         <SideList
-          items={filteredList}
-          onChange={props.onSelectedChange}
-          selectedPrograms={props.selectedPrograms}
+          filteredPrograms={filteredList}
         />
       </>
     </ResponsiveDrawer>

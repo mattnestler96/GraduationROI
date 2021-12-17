@@ -1,17 +1,15 @@
 import { Typography, Paper, Box } from "@mui/material";
+import { useContext } from "react";
+import { Programs } from "../../contexts/programs";
 import { ROI } from "../../models";
 import { uniqueId } from "../../utils/dataHelpers";
 import randomColors from "../../utils/randomColors";
 import ListItemWithBorder from "../programListItem/listItemWithBorder";
 
-interface ISelectedProgramsHeader {
-  selectedPrograms: ROI[];
-  onChange: (v: ROI[]) => void;
-}
-
-const SelectedProgramsHeader = (props: ISelectedProgramsHeader) => {
+const SelectedProgramsHeader = () => {
+  const {selectedPrograms, handleSelectedProgramChange} = useContext(Programs);
   const handleItemClick = (v: ROI) => {
-    props.onChange(props.selectedPrograms.filter((p) => p.id !== v.id));
+    handleSelectedProgramChange(selectedPrograms.filter((p) => p.id !== v.id));
   };
   return (
     <Box marginTop="10px" marginBottom="10px">
@@ -22,7 +20,7 @@ const SelectedProgramsHeader = (props: ISelectedProgramsHeader) => {
           alignItems="center"
           overflow="scroll"
         >
-          {props.selectedPrograms.length === 0 ? (
+          {selectedPrograms.length === 0 ? (
             <Box
               display="flex"
               height="100%"
@@ -35,7 +33,7 @@ const SelectedProgramsHeader = (props: ISelectedProgramsHeader) => {
               </Typography>
             </Box>
           ) : (
-            props.selectedPrograms.map((p, k) => (
+            selectedPrograms.map((p, k) => (
               <ListItemWithBorder
                 key={`${uniqueId(p)}_selectedHeader`}
                 onClick={handleItemClick}

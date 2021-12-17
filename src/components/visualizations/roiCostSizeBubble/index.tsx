@@ -1,5 +1,4 @@
-import React from "react";
-import { ROI } from "../../../models";
+import React, { useContext } from "react";
 import {
   Chart as ChartJS,
   LinearScale,
@@ -11,6 +10,7 @@ import Title from "../../tableHeader";
 import { Bubble } from "react-chartjs-2";
 import randomColors from "../../../utils/randomColors";
 import { Box } from "@mui/material";
+import { Programs } from "../../../contexts/programs";
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
@@ -25,17 +25,14 @@ const normalizeSize = (r: number, max: number, min: number): number => {
   );
 };
 
-interface IROIGraph {
-  items: ROI[];
-}
-
-const ROIGraph = (props: IROIGraph) => {
-  const cohort = props.items.map((v) => v.collegeScorecardCohortCount || 1);
+const ROIGraph = () => {
+  const {selectedPrograms} = useContext(Programs)
+  const cohort = selectedPrograms.map((v) => v.collegeScorecardCohortCount || 1);
   const maxCohort = Math.max(...cohort) + 1;
   const minCohort = Math.min(...cohort);
   const data = {
     labels,
-    datasets: props.items.map((v, k) => ({
+    datasets: selectedPrograms.map((v, k) => ({
       label: v.programName,
       data: [
         {
@@ -50,6 +47,7 @@ const ROIGraph = (props: IROIGraph) => {
         },
       ],
       backgroundColor: randomColors[k],
+      roi: v,
     })),
   };
   return (
@@ -69,6 +67,10 @@ const ROIGraph = (props: IROIGraph) => {
               callbacks: {
                 label: ({ dataset }) => {
                   return `${(dataset.data[0] as any).z} Students`;
+                },
+                afterLabel: ({ dataset }) => {
+                  const { roi } = dataset as any;
+                  return `${roi.institutionName}`;
                 },
               },
             },

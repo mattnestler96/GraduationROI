@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Typography from "@mui/material/Typography";
 import { ROI } from "../../models";
 import { Box, Button, List, ListItemButton } from "@mui/material";
@@ -6,6 +6,7 @@ import randomColors from "../../utils/randomColors";
 import Search from "@mui/icons-material/SearchOutlined";
 import ProgramListItem from "../programListItem";
 import { handleAddViewHistory } from "../../utils/userSearchTracking";
+import { Programs } from "../../contexts/programs";
 
 const EmptyState = () => {
   return (
@@ -33,12 +34,12 @@ const EmptyState = () => {
   );
 };
 interface ISideList {
-  items: ROI[];
-  selectedPrograms: ROI[];
-  onChange: (v: ROI[]) => void;
+  filteredPrograms: ROI[];
 }
 
 const SideList = (props: ISideList) => {
+  const { selectedPrograms, handleSelectedProgramChange } =
+    useContext(Programs);
   const [limit, setLimit] = React.useState(10);
 
   const handleLoadMore = () => {
@@ -46,17 +47,17 @@ const SideList = (props: ISideList) => {
   };
 
   const selectedProgramIds = React.useMemo(
-    () => props.selectedPrograms?.map((v) => v.id) || [],
-    [props.selectedPrograms]
+    () => selectedPrograms?.map((v) => v.id) || [],
+    [selectedPrograms]
   );
 
   const handleRemoveItemFromView = (v: ROI) => {
-    props.onChange(props.selectedPrograms.filter((p) => p.id !== v.id));
+    handleSelectedProgramChange(selectedPrograms.filter((p) => p.id !== v.id));
   };
 
   const handleAddItemFromView = (v: ROI) => {
     handleAddViewHistory(v);
-    props.onChange([...props.selectedPrograms, v]);
+    handleSelectedProgramChange([...selectedPrograms, v]);
   };
 
   const handleItemClick = (v: ROI) => () => {
@@ -70,23 +71,19 @@ const SideList = (props: ISideList) => {
   return (
     <>
       <List>
-        {props.items.length === 0 ? <EmptyState /> : null}
-        {props.items
-          .slice(0, limit)
-          .map((v) => {
-            const selectedIndex = selectedProgramIds.findIndex(
-              (p) => p === v.id
-            );
-            const selected = selectedIndex > -1;
-            return (
-              <ListItemButton key={v.id} onClick={handleItemClick(v)}>
-                <ProgramListItem
-                  color={selected ? randomColors[selectedIndex] : undefined}
-                  program={v}
-                />
-              </ListItemButton>
-            );
-          })}
+        {props.filteredPrograms.length === 0 ? <EmptyState /> : null}
+        {props.filteredPrograms.slice(0, limit).map((v) => {
+          const selectedIndex = selectedProgramIds.findIndex((p) => p === v.id);
+          const selected = selectedIndex > -1;
+          return (
+            <ListItemButton key={v.id} onClick={handleItemClick(v)}>
+              <ProgramListItem
+                color={selected ? randomColors[selectedIndex] : undefined}
+                program={v}
+              />
+            </ListItemButton>
+          );
+        })}
       </List>
       <Button onClick={handleLoadMore} style={{ marginBottom: 30 }}>
         Load More

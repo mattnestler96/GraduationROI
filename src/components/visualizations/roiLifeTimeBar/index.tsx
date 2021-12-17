@@ -1,5 +1,4 @@
-import React from "react";
-import { ROI } from "../../../models";
+import React, { useContext } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,44 +11,51 @@ import Title from "../../tableHeader";
 import { Bar } from "react-chartjs-2";
 import randomColors from "../../../utils/randomColors";
 import { Box } from "@mui/material";
+import { Programs } from "../../../contexts/programs";
+import { ROI } from "../../../models";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend
-);
-
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-  },
-};
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const labels = ["Lifetime ROI", "Four Year Cost of Attendance"];
 
-interface IROIGraph {
-  items: ROI[];
-}
-
-const ROIGraph = (props: IROIGraph) => {
+const ROIGraph = () => {
+  const { selectedPrograms } = useContext(Programs);
   const data = {
     labels,
-    datasets: props.items.map((v, k) => ({
+    datasets: selectedPrograms.map((v, k) => ({
       label: v.programName,
-      data: [v.lifetimeReturnOnInvestmentROI, v.fourYearEducationRelatedSpending],
+      data: [
+        v.lifetimeReturnOnInvestmentROI,
+        v.fourYearEducationRelatedSpending,
+      ],
       backgroundColor: randomColors[k],
+      roi: v,
     })),
   };
   return (
     <Box height="400px" paddingBottom="30px">
       <Title title="Lifetime Return on Investment" />
-      <Bar options={options} data={data} />
+      <Bar
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "top" as const,
+            },
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                afterLabel: ({ dataset }) => {
+                  const { roi } = dataset as any;
+                  return `${roi.institutionName}`;
+                },
+              },
+            },
+          },
+        }}
+        data={data}
+      />
     </Box>
   );
 };
