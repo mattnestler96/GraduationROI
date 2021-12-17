@@ -22,6 +22,7 @@ import { DataStore } from "aws-amplify";
 import React, { ChangeEvent } from "react";
 import { UserInfo } from "../../models";
 import { getUserName, isInSampleUserMode } from "../../utils/userInfo";
+import { convertAWSJSON } from "../../utils/dataHelpers";
 
 interface ICheckLabel extends CheckboxProps {
   label: string;
@@ -47,25 +48,15 @@ const UserInfoButton = (props: IUserInfoButton) => {
     React.useState<WorkingUserInfo>();
   const [originalUserInfo, setOriginalUserInfo] = React.useState<UserInfo>();
   const dayPref = React.useMemo(
-    () =>
-      typeof currentUserInfo?.dayPreferences === "object"
-        ? currentUserInfo?.dayPreferences
-        : JSON.parse(currentUserInfo?.dayPreferences || "{}"),
+    () => convertAWSJSON(currentUserInfo?.dayPreferences) as any,
     [currentUserInfo?.dayPreferences]
   );
   const timePref = React.useMemo(
-    () =>
-      typeof currentUserInfo?.timePreferences === "object"
-        ? currentUserInfo?.timePreferences
-        : JSON.parse(currentUserInfo?.timePreferences || "{}"),
+    () => convertAWSJSON(currentUserInfo?.timePreferences) as any,
     [currentUserInfo?.timePreferences]
   );
   const modalityPref = React.useMemo(
-    () =>
-      currentUserInfo?.modalityPreferences &&
-      typeof currentUserInfo?.modalityPreferences === "object"
-        ? currentUserInfo?.modalityPreferences
-        : JSON.parse(currentUserInfo?.modalityPreferences || "{}"),
+    () => convertAWSJSON(currentUserInfo?.modalityPreferences) as any,
     [currentUserInfo?.modalityPreferences]
   );
   const handleOpenDialog = () => {
@@ -197,7 +188,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
             <FormControl sx={{ m: 1, width: 300 }}>
               <InputLabel>{"Who are you?"}</InputLabel>
               <Select
-                value={currentUserInfo?.userType}
+                value={currentUserInfo?.userType || "Other"}
                 onChange={handleDataEntry("userType")}
                 input={<OutlinedInput label={"Who are you?"} />}
               >

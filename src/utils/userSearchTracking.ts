@@ -1,7 +1,12 @@
 import { DataStore } from "aws-amplify";
 import { ROI, UserInfo } from "../models";
-import { uniqueId } from "./dataHelpers";
+import { convertAWSJSON, uniqueId } from "./dataHelpers";
 import { getUserName, isInSampleUserMode } from "./userInfo";
+
+export interface IUserProgramRecord {
+  count: number;
+  lastViewed: string;
+}
 
 const handleFetchUserInfo = async (): Promise<UserInfo[]> => {
   return await DataStore.query(UserInfo, (c) =>
@@ -15,11 +20,7 @@ export const handleAddViewHistoryBulk = async (
     const users = await handleFetchUserInfo();
     if (users && users.length === 1) {
       const existingUser = users[0];
-      const previousViewHistory =
-        !existingUser.viewHistory ||
-        typeof existingUser.viewHistory !== "object"
-          ? JSON.parse(existingUser.viewHistory || "{}")
-          : existingUser.viewHistory;
+      const previousViewHistory = convertAWSJSON(existingUser.viewHistory) as any;
       const newViewHistory = {
         ...previousViewHistory,
         ...Object.fromEntries(
@@ -31,7 +32,7 @@ export const handleAddViewHistoryBulk = async (
               {
                 count: previousCount,
                 lastViewed: new Date().toDateString(),
-              },
+              } as IUserProgramRecord,
             ];
           })
         ),

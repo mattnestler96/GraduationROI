@@ -17,3 +17,7 @@ export const convertData = (
       v || undefined,
     ])
   );
+
+export const convertAWSJSON = (x: any): unknown => {
+  return !x || typeof x !== "object" ? JSON.parse(x || "{}") : x;
+};

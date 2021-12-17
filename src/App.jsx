@@ -5,6 +5,7 @@ import UserInfoButton from "./components/userInfoButton";
 import { Hidden, AppBar, Toolbar, Tabs, Tab, Box } from "@mui/material";
 import VisualizationTab from "./components/tabs/visualizations";
 import SummaryTab from "./components/tabs/summary";
+import UserAnalysisTab from "./components/tabs/useranalysis";
 import LearnMoreButton from "./components/learnmore";
 import LogoutButton from "./components/logout";
 import SidelistDrawer from "./components/sidelist/drawer";
@@ -35,6 +36,9 @@ export const DRAWER_WIDTH = 350;
 
 const App = (props) => {
   const { signOut, user } = props;
+  const groups =
+    user?.signInUserSession?.idToken?.payload?.["cognito:groups"] || [];
+  const isAdmin = groups.includes("Admins");
   const [tabValue, setTabValue] = React.useState(1);
 
   const handleTabChange = (e, v) => {
@@ -68,9 +72,11 @@ const App = (props) => {
           <Tabs value={tabValue} onChange={handleTabChange}>
             <Tab label="Summary" />
             <Tab label="Analysis" />
+            {isAdmin ? <Tab label="User Analysis" /> : null}
           </Tabs>
           {tabValue === 0 ? <SummaryTab /> : null}
           {tabValue === 1 ? <VisualizationTab /> : null}
+          {isAdmin && tabValue === 2 ? <UserAnalysisTab /> : null}
         </MainWrapper>
       </Box>
     </>
