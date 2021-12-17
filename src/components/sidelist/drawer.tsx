@@ -8,10 +8,10 @@ import {
   Typography,
   SwipeableDrawer,
 } from "@mui/material";
+import UpArrow from "@mui/icons-material/KeyboardArrowUpRounded";
 import React, { ChangeEvent, useContext } from "react";
 import SideList from ".";
 import { DRAWER_WIDTH } from "../../App";
-import { ROI } from "../../models";
 import { uniqueId } from "../../utils/dataHelpers";
 import { useDeferred } from "../../utils/useDeferred";
 import { styled } from "@mui/material/styles";
@@ -19,15 +19,18 @@ import { grey } from "@mui/material/colors";
 import { Global } from "@emotion/react";
 import { Programs } from "../../contexts/programs";
 
-const Puller = styled(Box)(({ theme }) => ({
+const PullerBox = styled(Box)(() => ({
   width: 30,
-  height: 6,
-  backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
-  borderRadius: 3,
+  color: grey[900],
   position: "absolute",
   top: 8,
   left: "calc(50% - 15px)",
 }));
+const Puller = () => (
+  <PullerBox>
+    <UpArrow color="inherit" />
+  </PullerBox>
+);
 
 const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -101,7 +104,8 @@ const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
 };
 
 const SidelistDrawer = () => {
-  const {programs, selectedPrograms, handleSelectedProgramChange} = useContext(Programs);
+  const { programs, selectedPrograms, handleSelectedProgramChange } =
+    useContext(Programs);
   const [filterString, setFilterString] = React.useState("");
   const [sortType, setSortType] = React.useState("");
   const delayedFilterString = useDeferred(filterString, 300);
@@ -142,9 +146,7 @@ const SidelistDrawer = () => {
           <Button onClick={handleSort}>Sort</Button>
           <Button onClick={() => handleSelectedProgramChange([])}>Clear</Button>
         </Box>
-        <SideList
-          filteredPrograms={filteredList}
-        />
+        <SideList filteredPrograms={filteredList} />
       </>
     </ResponsiveDrawer>
   );
