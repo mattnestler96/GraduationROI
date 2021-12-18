@@ -9,7 +9,6 @@ import {
 } from "chart.js";
 import Title from "../../tableHeader";
 import { Bar } from "react-chartjs-2";
-import randomColors from "../../../utils/randomColors";
 import { Box } from "@mui/material";
 import { Programs } from "../../../contexts/programs";
 
@@ -18,7 +17,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 const labels = ["Lifetime ROI", "Four Year Cost of Attendance"];
 
 const ROIGraph = () => {
-  const { selectedPrograms } = useContext(Programs);
+  const { selectedPrograms, selectedColorMap } = useContext(Programs);
   const data = {
     labels,
     datasets: selectedPrograms.map((v, k) => ({
@@ -27,7 +26,7 @@ const ROIGraph = () => {
         v.lifetimeReturnOnInvestmentROI,
         v.fourYearEducationRelatedSpending,
       ],
-      backgroundColor: randomColors[k],
+      backgroundColor: selectedColorMap[v.id],
       roi: v,
     })),
   };

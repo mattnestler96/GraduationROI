@@ -8,7 +8,6 @@ import {
 } from "chart.js";
 import Title from "../../tableHeader";
 import { Bubble } from "react-chartjs-2";
-import randomColors from "../../../utils/randomColors";
 import { Box } from "@mui/material";
 import { Programs } from "../../../contexts/programs";
 
@@ -26,7 +25,7 @@ const normalizeSize = (r: number, max: number, min: number): number => {
 };
 
 const ROIGraph = () => {
-  const {selectedPrograms} = useContext(Programs)
+  const {selectedPrograms, selectedColorMap} = useContext(Programs)
   const cohort = selectedPrograms.map((v) => v.collegeScorecardCohortCount || 1);
   const maxCohort = Math.max(...cohort) + 1;
   const minCohort = Math.min(...cohort);
@@ -46,7 +45,7 @@ const ROIGraph = () => {
           ),
         },
       ],
-      backgroundColor: randomColors[k],
+      backgroundColor: selectedColorMap[v.id],
       roi: v,
     })),
   };

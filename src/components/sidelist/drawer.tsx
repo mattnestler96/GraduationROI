@@ -107,7 +107,7 @@ const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
 };
 
 const SidelistDrawer = () => {
-  const { programs, selectedPrograms, handleSelectedProgramChange } =
+  const { programs, handleSelectedProgramChange, selectedColorMap } =
     useContext(Programs);
   const [filterString, setFilterString] = React.useState("");
   const [sortType, setSortType] = React.useState<
@@ -116,7 +116,6 @@ const SidelistDrawer = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const sortOpen = !!anchorEl;
   const delayedFilterString = useDeferred(filterString, 300);
-  const selectedIds = selectedPrograms.map((v) => v.id);
   const filteredList = React.useMemo(
     () =>
       programs
@@ -125,7 +124,7 @@ const SidelistDrawer = () => {
         )
         .sort((a, b) => {
           if (sortType === "selected") {
-            return selectedIds.includes(a.id) ? -1 : 1;
+            return !!selectedColorMap[a.id] ? -1 : 1;
           }
           if (sortType) {
             const vA = a[sortType];

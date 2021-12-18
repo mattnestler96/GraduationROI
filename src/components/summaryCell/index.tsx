@@ -1,10 +1,10 @@
 import { Paper, PaperTypeMap, Typography, Box, IconButton } from "@mui/material";
 import { DefaultComponentProps } from "@mui/material/OverridableComponent";
 import Add from "@mui/icons-material/AddCircleOutline";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { ROI } from "../../models";
-import randomColors from "../../utils/randomColors";
 import ListItemWithBorder from "../programListItem/listItemWithBorder";
+import { Programs } from "../../contexts/programs";
 
 const TableWrapper = (props: DefaultComponentProps<PaperTypeMap>) => (
   <Paper {...props} style={{ marginBottom: 5, padding: 15, overflowX: 'scroll', ...props.style }} />
@@ -13,7 +13,6 @@ const TableWrapper = (props: DefaultComponentProps<PaperTypeMap>) => (
 interface ISummaryCell {
   label: string;
   programs: ROI[];
-  selectedPrograms: ROI[];
   onClick: (v: ROI) => void;
   onClickAll: (v: ROI[]) => void;
 }
@@ -21,13 +20,10 @@ interface ISummaryCell {
 const SummaryCell = ({
   label,
   programs,
-  selectedPrograms,
   onClick,
   onClickAll,
 }: ISummaryCell) => {
-  const selectedMap = Object.fromEntries(
-    selectedPrograms.map((v, k) => [v.id, k])
-  );
+  const {selectedColorMap} = useContext(Programs);
   const handleClickAll = () => {
     onClickAll(programs);
   }
@@ -106,7 +102,7 @@ const SummaryCell = ({
           <ListItemWithBorder
             program={stats.maxROI}
             onClick={onClick}
-            color={randomColors[selectedMap[stats.maxROI.id]]}
+            color={selectedColorMap[stats.maxROI.id]}
           />
         </Box>
         <Box textAlign="center">
@@ -114,7 +110,7 @@ const SummaryCell = ({
           <ListItemWithBorder
             program={stats.maxStudentPopulation}
             onClick={onClick}
-            color={randomColors[selectedMap[stats.maxStudentPopulation.id]]}
+            color={selectedColorMap[stats.maxStudentPopulation.id]}
           />
         </Box>
       </Box>

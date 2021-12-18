@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import randomColors from "../../../utils/randomColors";
+
 import Color from "color";
 import Title from "../../tableHeader";
 import { Box } from "@mui/material";
@@ -23,10 +23,10 @@ export const options = {
 };
 
 const ROIGraph = () => {
-  const { selectedPrograms } = useContext(Programs);
+  const { selectedPrograms, selectedColorMap } = useContext(Programs);
   const data = {
     labels,
-    datasets: selectedPrograms.map((v, k) => ({
+    datasets: selectedPrograms.map((v) => ({
       label: v.programName,
       data: [
         (v.shareOfStudentWhoGraduateIn4Years || 0) * 100,
@@ -37,12 +37,12 @@ const ROIGraph = () => {
         (v.shareOfStudentWhoNoLongerEnrolledIn6Years || 0) * 100,
       ],
       backgroundColor: [
-        Color(randomColors[k]).string(),
-        Color(randomColors[k]).lighten(0.1).string(),
-        Color(randomColors[k]).lighten(0.2).string(),
-        Color(randomColors[k]).lighten(0.3).string(),
-        Color(randomColors[k]).lighten(0.4).string(),
-        Color(randomColors[k]).lighten(0.5).string(),
+        Color(selectedColorMap[v.id]).string(),
+        Color(selectedColorMap[v.id]).lighten(0.1).string(),
+        Color(selectedColorMap[v.id]).lighten(0.2).string(),
+        Color(selectedColorMap[v.id]).lighten(0.3).string(),
+        Color(selectedColorMap[v.id]).lighten(0.4).string(),
+        Color(selectedColorMap[v.id]).lighten(0.5).string(),
       ],
       borderColor: ["#000", "#000", "#000", "#000", "#000", "#000"],
       roi: v,

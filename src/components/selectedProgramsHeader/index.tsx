@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { Programs } from "../../contexts/programs";
 import { ROI } from "../../models";
 import { uniqueId } from "../../utils/dataHelpers";
-import randomColors from "../../utils/randomColors";
 import ListItemWithBorder from "../programListItem/listItemWithBorder";
 
 const SelectedProgramsHeader = () => {
-  const {selectedPrograms, handleSelectedProgramChange} = useContext(Programs);
+  const { selectedPrograms, selectedColorMap, handleSelectedProgramChange } =
+    useContext(Programs);
   const handleItemClick = (v: ROI) => {
     handleSelectedProgramChange(selectedPrograms.filter((p) => p.id !== v.id));
   };
@@ -37,7 +37,7 @@ const SelectedProgramsHeader = () => {
               <ListItemWithBorder
                 key={`${uniqueId(p)}_selectedHeader`}
                 onClick={handleItemClick}
-                color={randomColors[k]}
+                color={selectedColorMap[p.id]}
                 program={p}
               />
             ))

@@ -19,10 +19,17 @@ const SummaryTab = () => {
   const [analysisType, setAnalysisType] = useState(
     localStorage.getItem(ANALYSIS_KEY) || "Program Name"
   );
-  const { programs, selectedPrograms, handleSelectedProgramChange } = useContext(Programs);
+  const {
+    programs,
+    selectedPrograms,
+    selectedColorMap,
+    handleSelectedProgramChange,
+  } = useContext(Programs);
   const handleItemClick = (v: ROI) => {
-    if (selectedPrograms.includes(v)) {
-      handleSelectedProgramChange(selectedPrograms.filter((p) => p.id !== v.id));
+    if (selectedColorMap[v.id]) {
+      handleSelectedProgramChange(
+        selectedPrograms.filter((p) => p.id !== v.id)
+      );
     } else {
       handleSelectedProgramChange([...selectedPrograms, v]);
     }
@@ -68,7 +75,6 @@ const SummaryTab = () => {
             key={`${name}_${analysisType}`}
             label={name}
             programs={filteredPrograms}
-            selectedPrograms={selectedPrograms}
             onClick={handleItemClick}
             onClickAll={handleClickAll}
           />

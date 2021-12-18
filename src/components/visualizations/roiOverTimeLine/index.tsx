@@ -10,7 +10,6 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { ROI } from "../../../models";
-import randomColors from "../../../utils/randomColors";
 import Title from "../../tableHeader";
 import { Box } from "@mui/material";
 import { Programs } from "../../../contexts/programs";
@@ -64,7 +63,7 @@ const reduceItems = (items: ROI[]) => (field: subROI) => {
 };
 
 const ROIGraph = () => {
-  const { selectedPrograms } = useContext(Programs);
+  const { selectedPrograms, selectedColorMap } = useContext(Programs);
   const r = reduceItems(selectedPrograms);
   const counterFactualData = {
     label: "Counterfactual",
@@ -107,7 +106,7 @@ const ROIGraph = () => {
           v.estimatedEarnings59,
           v.estimatedEarnings62,
         ],
-        backgroundColor: randomColors[k],
+        backgroundColor: selectedColorMap[v.id],
         roi: v,
       })),
     ],
