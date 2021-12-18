@@ -39,14 +39,6 @@ const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <>
-      <Global
-        styles={{
-          ".MuiDrawer-root > .MuiPaper-root": {
-            height: `calc(70% - 56px)`,
-            overflow: "visible",
-          },
-        }}
-      />
       <Hidden smDown>
         <Drawer
           anchor="left"
@@ -66,6 +58,14 @@ const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
         </Drawer>
       </Hidden>
       <Hidden smUp>
+        <Global
+          styles={{
+            ".MuiDrawer-root > .MuiPaper-root": {
+              height: `calc(70% - 56px)`,
+              overflow: "visible",
+            },
+          }}
+        />
         <SwipeableDrawer
           sx={{ height: "50%" }}
           anchor="bottom"
