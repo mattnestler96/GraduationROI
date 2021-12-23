@@ -46,7 +46,7 @@ const Uploader = () => {
 
   const handleConverToJSON = async () => {
     setLoading(true);
-    const i = await csv().fromString(csvString);
+    const i = await csv().fromString(csvString.replace(/\t/g, ','));
     setItems(
       i.map((v) => {
         const s = convertData(v);
@@ -77,10 +77,6 @@ const Uploader = () => {
     }
     setLoading(false);
   };
-
-  if (getUserName() !== "nestler+grad@berkeley.edu") {
-    return null;
-  }
 
   return (
     <>

@@ -9,14 +9,15 @@ import UserAnalysisTab from "./components/tabs/useranalysis";
 import LearnMoreButton from "./components/learnmore";
 import LogoutButton from "./components/logout";
 import SidelistDrawer from "./components/sidelist/drawer";
+import Uploader from "./components/uploader";
 
-const MainWrapper = ({ children }) => {
+const MainWrapper = ({ children, showSidebar }) => {
   return (
     <>
       <Hidden smDown>
-        <Box minWidth={DRAWER_WIDTH} height="100%" />
+        {showSidebar && <Box minWidth={DRAWER_WIDTH} height="100%" />}
         <Box
-          maxWidth={`calc(100vw - ${DRAWER_WIDTH}px - 40px)`}
+          maxWidth={`calc(100vw - ${showSidebar ? DRAWER_WIDTH : 0}px - 40px)`}
           width="100%"
           padding="20px"
         >
@@ -47,7 +48,7 @@ const App = (props) => {
 
   return (
     <>
-      <SidelistDrawer />
+      {tabValue < 2 && <SidelistDrawer />}
       <AppBar
         color="transparent"
         position="fixed"
@@ -67,16 +68,18 @@ const App = (props) => {
         </Toolbar>
       </AppBar>
       <Box display="flex" width="100vw">
-        <MainWrapper>
+        <MainWrapper showSidebar={tabValue < 2}>
           <Toolbar />
           <Tabs value={tabValue} onChange={handleTabChange}>
             <Tab label="Summary" />
             <Tab label="Analysis" />
             {isAdmin ? <Tab label="User Analysis" /> : null}
+            {isAdmin ? <Tab label="Uploader" /> : null}
           </Tabs>
           {tabValue === 0 ? <SummaryTab /> : null}
           {tabValue === 1 ? <VisualizationTab /> : null}
           {isAdmin && tabValue === 2 ? <UserAnalysisTab /> : null}
+          {isAdmin && tabValue === 3 ? <Uploader /> : null}
         </MainWrapper>
       </Box>
     </>

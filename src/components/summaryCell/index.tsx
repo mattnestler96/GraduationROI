@@ -68,12 +68,6 @@ const SummaryCell = ({
     <TableWrapper>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Typography variant="h5">{label}</Typography>
-        <Box display="flex" alignItems="center">
-          <Typography variant="caption">{`Count: ${programs.length}`}</Typography>
-          <IconButton onClick={handleClickAll}>
-            <Add />
-          </IconButton>
-        </Box>
       </Box>
       <Box padding="15px">
         <Typography>AVERAGES:</Typography>
@@ -96,7 +90,7 @@ const SummaryCell = ({
           </Box>
         </Box>
       </Box>
-      <Box display="flex" flexDirection="row">
+      <Box display="flex" flexDirection="row" alignItems="center">
         <Box textAlign="center">
           <Typography variant="caption">{`Best ROI ($${stats.maxROI.lifetimeReturnOnInvestmentROI})`}</Typography>
           <ListItemWithBorder
@@ -112,6 +106,12 @@ const SummaryCell = ({
             onClick={onClick}
             color={selectedColorMap[stats.maxStudentPopulation.id]}
           />
+        </Box>
+        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center" width="200px">
+            <IconButton onClick={handleClickAll}>
+              <Add fontSize="large" />
+            </IconButton>
+            <Typography variant="caption">{`Select all ${programs.length} programs`}</Typography>
         </Box>
       </Box>
     </TableWrapper>

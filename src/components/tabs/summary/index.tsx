@@ -60,7 +60,7 @@ const SummaryTab = () => {
     <>
       <Box display="flex" alignItems="center" flexWrap="wrap">
         <Typography variant="h5">
-          Showing summary of programs broken by:
+          Showing summary of programs broken up by:
         </Typography>
         <MultiSelect
           value={[analysisType]}

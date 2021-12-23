@@ -3,19 +3,19 @@
   "serviceConfiguration": {
     "apiName": "GraduationROI",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-569b30ec-c840-446d-aa58-15b016e6ffa3/amplify/backend/api/GraduationROI/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-b51fa1f9-5718-4d82-aacf-bdda8c7e7a63/amplify/backend/api/GraduationROI/schema.graphql",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "keyDescription": "api key description",
-      "expirationTime": 30
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authGraduationROI"
     },
     "additionalAuthTypes": [
       {
-        "mode": "AWS_IAM"
+        "mode": "API_KEY",
+        "keyDescription": "api key description",
+        "expirationTime": 30
       },
       {
-        "mode": "AMAZON_COGNITO_USER_POOLS",
-        "cognitoUserPoolId": "authGraduationROI"
+        "mode": "AWS_IAM"
       }
     ],
     "conflictResolution": {

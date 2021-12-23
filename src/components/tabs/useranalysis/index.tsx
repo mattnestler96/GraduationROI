@@ -122,7 +122,7 @@ const UserAnalysisTab = () => {
   return (
     <>
       <Box display="flex" alignItems="center" flexWrap="wrap">
-        <Typography variant="h5">Showing user interest broken by:</Typography>
+        <Typography variant="h5">Showing user interest broken up by:</Typography>
         <MultiSelect
           value={[analysisType]}
           options={Object.keys(analysisTypeOptions)}

@@ -72,7 +72,7 @@ const QueryButton = () => {
           color="primary"
           startIcon={<Search />}
         >
-          Search
+          Filter
         </Button>
       </Hidden>
       <Hidden smUp>
@@ -90,10 +90,10 @@ const QueryButton = () => {
         fullWidth={true}
         maxWidth="md"
       >
-        <DialogTitle>Search for Programs</DialogTitle>
+        <DialogTitle>Filter Programs</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
           <Typography variant="caption" color="GrayText" style={{ margin: 15 }}>
-            {`Programs are limited to ${ITEM_LIMIT} at one time. Try narrowing your search if programs seem missing from the list.`}
+            {`Programs are loaded ${ITEM_LIMIT} at one time. Try narrowing your filter if programs seem missing from the list.`}
           </Typography>
           <MultiSelect
             onChange={handleArrayDataEntry("states")}

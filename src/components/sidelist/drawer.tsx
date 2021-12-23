@@ -135,6 +135,7 @@ const SidelistDrawer = () => {
           }
           return 0;
         }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [delayedFilterString, programs, sortType]
   );
 

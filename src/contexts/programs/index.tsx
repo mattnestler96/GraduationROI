@@ -62,6 +62,7 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
         sampleData.map(convertData).map((v) => ({ ...v, id: uniqueId(v) }))
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
