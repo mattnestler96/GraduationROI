@@ -1,19 +1,9 @@
-import { Hidden, Button, IconButton } from "@mui/material";
-import Logout from "@mui/icons-material/Logout";
+import { MenuItem } from "@mui/material";
 
 const LogoutButton = ({ signOut }: { signOut: () => void }) => {
   return (
     <>
-      <Hidden smDown>
-        <Button variant="outlined" onClick={signOut}>
-          Sign out
-        </Button>
-      </Hidden>
-      <Hidden smUp>
-        <IconButton onClick={signOut}>
-          <Logout />
-        </IconButton>
-      </Hidden>
+      <MenuItem onClick={signOut}>Sign Out</MenuItem>
     </>
   );
 };

@@ -41,7 +41,7 @@ const StepIcon =
 
 const QueryButton = () => {
   const { queryFilter, handleFetchPrograms } = useContext(Programs);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [activeStep, setActiveStep] = React.useState(0);
   const [currentFilter, setCurrentFilter] =
     React.useState<IFilter>(queryFilter);
@@ -95,7 +95,7 @@ const QueryButton = () => {
           color="primary"
           startIcon={<Search />}
         >
-          Filter
+          Start Search
         </Button>
       </Hidden>
       <Hidden smUp>

@@ -8,8 +8,6 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Hidden,
-  IconButton,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -17,7 +15,6 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import User from "@mui/icons-material/Person";
 import { DataStore } from "aws-amplify";
 import React, { ChangeEvent } from "react";
 import { UserInfo } from "../../models";
@@ -143,27 +140,12 @@ const UserInfoButton = (props: IUserInfoButton) => {
 
   return (
     <>
-      <Hidden smDown>
-        <Button
-          variant="contained"
-          onClick={handleOpenDialog}
-          disabled={isInSampleUserMode()}
-          style={{ margin: "0px 5px" }}
-          color="secondary"
-          startIcon={<User />}
-        >
-          User Info
-        </Button>
-      </Hidden>
-      <Hidden smUp>
-        <IconButton
-          onClick={handleOpenDialog}
-          disabled={isInSampleUserMode()}
-          color="secondary"
-        >
-          <User />
-        </IconButton>
-      </Hidden>
+      <MenuItem
+        onClick={handleOpenDialog}
+        disabled={isInSampleUserMode()}
+      >
+        User Info
+      </MenuItem>
       <Dialog
         open={open}
         onClose={handleCloseDialog}

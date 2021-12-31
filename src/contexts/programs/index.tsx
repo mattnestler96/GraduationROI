@@ -14,8 +14,10 @@ const initialState = {
     programs: [],
     institutions: [],
   },
+  hasChanges: false,
   handleFetchPrograms: async (f: any) => console.log("initialState", f),
   handleSelectedProgramChange: (f: any) => console.log("initialState", f),
+  handleResetChanges: () => console.log('initialState'),
 };
 
 export const Programs = createContext(initialState);
@@ -25,6 +27,7 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
   const [selectedPrograms, setSelectedPrograms] = React.useState<ROI[]>(
     initialState.selectedPrograms
   );
+  const [hasChanges, setHasChanges] = React.useState(false);
   const selectedColorMap = useMemo(
     () =>
       Object.fromEntries(
@@ -49,8 +52,14 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
   };
 
   const handleSelectedProgramChange = (changedValues: ROI[]) => {
+    if (changedValues.length > selectedPrograms.length) {
+      setHasChanges(true);
+    }
     setSelectedPrograms(changedValues);
   };
+  const handleResetChanges = () => {
+    setHasChanges(false);
+  }
 
   const userName = getUserName();
   useEffect(() => {
@@ -70,6 +79,8 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
         queryFilter,
         handleFetchPrograms,
         handleSelectedProgramChange,
+        handleResetChanges,
+        hasChanges,
       }}
     >
       {children}

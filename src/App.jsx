@@ -1,8 +1,19 @@
 import "@aws-amplify/ui-react/styles.css";
-import React from "react";
+import React, { useContext } from "react";
 import QueryButton from "./components/queryButton";
 import UserInfoButton from "./components/userInfoButton";
-import { Hidden, AppBar, Toolbar, Tabs, Tab, Box } from "@mui/material";
+import {
+  Hidden,
+  AppBar,
+  Toolbar,
+  Tabs,
+  Tab,
+  Box,
+  IconButton,
+  Menu,
+  Typography,
+} from "@mui/material";
+import User from "@mui/icons-material/Person";
 import VisualizationTab from "./components/tabs/visualizations";
 import SummaryTab from "./components/tabs/summary";
 import UserAnalysisTab from "./components/tabs/useranalysis";
@@ -10,6 +21,7 @@ import LearnMoreButton from "./components/learnmore";
 import LogoutButton from "./components/logout";
 import SidelistDrawer from "./components/sidelist/drawer";
 import Uploader from "./components/uploader";
+import { Programs } from "./contexts/programs";
 
 const MainWrapper = ({ children, showSidebar }) => {
   return (
@@ -33,16 +45,42 @@ const MainWrapper = ({ children, showSidebar }) => {
   );
 };
 
+const UserMenu = ({ signOut, username }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <>
+      <IconButton onClick={handleClick}>
+        <User />
+      </IconButton>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        <UserInfoButton username={username} />
+        <LogoutButton signOut={signOut} />
+      </Menu>
+    </>
+  );
+};
+
 export const DRAWER_WIDTH = 350;
 
 const App = (props) => {
+  const { hasChanges, handleResetChanges } = useContext(Programs);
   const { signOut, user } = props;
   const groups =
     user?.signInUserSession?.idToken?.payload?.["cognito:groups"] || [];
   const isAdmin = groups.includes("Admins");
-  const [tabValue, setTabValue] = React.useState(1);
+  const [tabValue, setTabValue] = React.useState(0);
 
   const handleTabChange = (e, v) => {
+    if (v === 1) {
+      handleResetChanges();
+    }
     setTabValue(v);
   };
 
@@ -59,11 +97,10 @@ const App = (props) => {
         >
           <Box>
             <QueryButton />
-            <UserInfoButton username={user.attributes.email} />
           </Box>
           <Box>
             <LearnMoreButton />
-            <LogoutButton signOut={signOut} />
+            <UserMenu signOut={signOut} username={user.attributes.email} />
           </Box>
         </Toolbar>
       </AppBar>
@@ -71,10 +108,41 @@ const App = (props) => {
         <MainWrapper showSidebar={tabValue < 2}>
           <Toolbar />
           <Tabs value={tabValue} onChange={handleTabChange}>
-            <Tab label="Summary" />
-            <Tab label="Analysis" />
-            {isAdmin ? <Tab label="User Analysis" /> : null}
-            {isAdmin ? <Tab label="Uploader" /> : null}
+            <Tab
+              label={
+                <Typography fontSize="small" color="inherit">
+                  {"Summary"}
+                </Typography>
+              }
+            />
+            <Tab
+              label={
+                <Typography
+                  fontSize="small"
+                  color={hasChanges ? "secondary" : "inherit"}
+                >
+                  {"Analysis"}
+                </Typography>
+              }
+            />
+            {isAdmin ? (
+              <Tab
+                label={
+                  <Typography fontSize="small" color="inherit">
+                    {"User Analysis"}
+                  </Typography>
+                }
+              />
+            ) : null}
+            {isAdmin ? (
+              <Tab
+                label={
+                  <Typography fontSize="small" color="inherit">
+                    {"Uploader"}
+                  </Typography>
+                }
+              />
+            ) : null}
           </Tabs>
           {tabValue === 0 ? <SummaryTab /> : null}
           {tabValue === 1 ? <VisualizationTab /> : null}
