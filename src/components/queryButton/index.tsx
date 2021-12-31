@@ -8,17 +8,21 @@ import {
   IconButton,
   Step,
   StepContent,
+  StepIconProps,
   StepLabel,
   Stepper,
   TextField,
   Typography,
 } from "@mui/material";
 import Search from "@mui/icons-material/SearchOutlined";
+import States from "@mui/icons-material/Map";
+import Institutions from "@mui/icons-material/LocationCity";
+import Program from "@mui/icons-material/HistoryEdu";
+import ProgramCategory from "@mui/icons-material/School";
 import React, { ChangeEvent, useContext } from "react";
 import programTypes from "./programTypes";
 import programs from "./programs";
 import MultiSelect from "../multiSelect";
-import { ITEM_LIMIT } from "../../utils/dataHelpers";
 import { Programs } from "../../contexts/programs";
 
 interface IFilter {
@@ -27,6 +31,13 @@ interface IFilter {
   institutions?: string[];
   programCategory?: string[];
 }
+
+const StepIcon =
+  (Icon: React.ReactElement) =>
+  (props: StepIconProps): JSX.Element => {
+    const { completed } = props;
+    return completed ? React.cloneElement(Icon, { color: "primary" }) : Icon;
+  };
 
 const QueryButton = () => {
   const { queryFilter, handleFetchPrograms } = useContext(Programs);
@@ -100,16 +111,18 @@ const QueryButton = () => {
       >
         <DialogTitle>Filter Programs</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
-          <Typography variant="caption" color="GrayText" style={{ margin: 15 }}>
-            {`Programs are loaded ${ITEM_LIMIT} at one time. Try narrowing your filter if programs seem missing from the list.`}
-          </Typography>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
-              <StepLabel onClick={() => setActiveStep(0)}>{`States ${
-                currentFilter.states?.length
-                  ? ` (${currentFilter.states?.length})`
-                  : ""
-              }`}</StepLabel>
+              <StepLabel
+                onClick={() => setActiveStep(0)}
+                StepIconComponent={StepIcon(<States />)}
+              >
+                {`States ${
+                  currentFilter.states?.length
+                    ? ` (${currentFilter.states?.length})`
+                    : ""
+                }`}
+              </StepLabel>
               <StepContent>
                 <Typography>{"Pick at least one state"}</Typography>
                 <MultiSelect
@@ -147,11 +160,16 @@ const QueryButton = () => {
               </StepContent>
             </Step>
             <Step>
-              <StepLabel onClick={() => setActiveStep(1)}>{`Program Category ${
-                currentFilter.programCategory?.length
-                  ? ` (${currentFilter.programCategory?.length})`
-                  : ""
-              }`}</StepLabel>
+              <StepLabel
+                onClick={handleJumpAhead(1)}
+                StepIconComponent={StepIcon(<ProgramCategory />)}
+              >
+                {`Program Category ${
+                  currentFilter.programCategory?.length
+                    ? ` (${currentFilter.programCategory?.length})`
+                    : ""
+                }`}
+              </StepLabel>
               <StepContent>
                 <MultiSelect
                   onChange={handleArrayDataEntry("programCategory")}
@@ -173,11 +191,16 @@ const QueryButton = () => {
               </StepContent>
             </Step>
             <Step>
-              <StepLabel onClick={() => setActiveStep(2)}>{`Program Name ${
-                currentFilter.programs?.length
-                  ? ` (${currentFilter.programs?.length})`
-                  : ""
-              }`}</StepLabel>
+              <StepLabel
+                onClick={handleJumpAhead(2)}
+                StepIconComponent={StepIcon(<Program/>)}
+              >
+                {`Program Name ${
+                  currentFilter.programs?.length
+                    ? ` (${currentFilter.programs?.length})`
+                    : ""
+                }`}
+              </StepLabel>
               <StepContent>
                 <MultiSelect
                   onChange={handleArrayDataEntry("programs")}
@@ -199,11 +222,16 @@ const QueryButton = () => {
               </StepContent>
             </Step>
             <Step>
-              <StepLabel onClick={() => setActiveStep(3)}>{`Institution ${
-                currentFilter.institutions?.length
-                  ? ` (${currentFilter.institutions?.length})`
-                  : ""
-              }`}</StepLabel>
+              <StepLabel
+                onClick={handleJumpAhead(3)}
+                StepIconComponent={StepIcon(<Institutions/>)}
+              >
+                {`Institution ${
+                  currentFilter.institutions?.length
+                    ? ` (${currentFilter.institutions?.length})`
+                    : ""
+                }`}
+              </StepLabel>
               <StepContent>
                 <TextField
                   defaultValue={currentFilter.institutions}
@@ -228,7 +256,12 @@ const QueryButton = () => {
           <Button color="secondary" onClick={handleCloseDialog}>
             Close
           </Button>
-          <Button onClick={handleSubmitSearch}>Finish</Button>
+          <Button
+            disabled={!currentFilter.states?.length}
+            onClick={handleSubmitSearch}
+          >
+            Finish
+          </Button>
         </DialogActions>
       </Dialog>
     </>

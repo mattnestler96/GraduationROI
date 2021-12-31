@@ -1,4 +1,10 @@
-import { Paper, PaperTypeMap, Typography, Box, IconButton } from "@mui/material";
+import {
+  Paper,
+  PaperTypeMap,
+  Typography,
+  Box,
+  IconButton,
+} from "@mui/material";
 import { DefaultComponentProps } from "@mui/material/OverridableComponent";
 import Add from "@mui/icons-material/AddCircleOutline";
 import { useContext, useMemo } from "react";
@@ -7,7 +13,15 @@ import ListItemWithBorder from "../programListItem/listItemWithBorder";
 import { Programs } from "../../contexts/programs";
 
 const TableWrapper = (props: DefaultComponentProps<PaperTypeMap>) => (
-  <Paper {...props} style={{ marginBottom: 5, padding: 15, overflowX: 'scroll', ...props.style }} />
+  <Paper
+    {...props}
+    style={{
+      marginBottom: 5,
+      padding: 15,
+      overflowX: "scroll",
+      ...props.style,
+    }}
+  />
 );
 
 interface ISummaryCell {
@@ -23,10 +37,10 @@ const SummaryCell = ({
   onClick,
   onClickAll,
 }: ISummaryCell) => {
-  const {selectedColorMap} = useContext(Programs);
+  const { selectedColorMap } = useContext(Programs);
   const handleClickAll = () => {
     onClickAll(programs);
-  }
+  };
 
   const stats = useMemo(() => {
     let averageROI = 0;
@@ -107,11 +121,17 @@ const SummaryCell = ({
             color={selectedColorMap[stats.maxStudentPopulation.id]}
           />
         </Box>
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center" width="200px">
-            <IconButton onClick={handleClickAll}>
-              <Add fontSize="large" />
-            </IconButton>
-            <Typography variant="caption">{`Select all ${programs.length} programs`}</Typography>
+        <Box
+          textAlign="center"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          minWidth="200px"
+        >
+          <IconButton onClick={handleClickAll}>
+            <Add fontSize="large" />
+          </IconButton>
+          <Typography variant="caption">{`Select all ${programs.length} programs`}</Typography>
         </Box>
       </Box>
     </TableWrapper>
