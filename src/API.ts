@@ -108,7 +108,7 @@ export type DeleteUserInfoInput = {
 
 export type CreateROIInput = {
   id?: string | null,
-  uniqueId: string,
+  uniqueId?: string | null,
   institutionName?: string | null,
   programName?: string | null,
   unitId?: number | null,
@@ -282,7 +282,7 @@ export type ModelFloatInput = {
 export type ROI = {
   __typename: "ROI",
   id: string,
-  uniqueId: string,
+  uniqueId?: string | null,
   institutionName?: string | null,
   programName?: string | null,
   unitId?: number | null,
@@ -645,7 +645,7 @@ export type CreateROIMutation = {
   createROI?:  {
     __typename: "ROI",
     id: string,
-    uniqueId: string,
+    uniqueId?: string | null,
     institutionName?: string | null,
     programName?: string | null,
     unitId?: number | null,
@@ -731,7 +731,7 @@ export type UpdateROIMutation = {
   updateROI?:  {
     __typename: "ROI",
     id: string,
-    uniqueId: string,
+    uniqueId?: string | null,
     institutionName?: string | null,
     programName?: string | null,
     unitId?: number | null,
@@ -817,7 +817,7 @@ export type DeleteROIMutation = {
   deleteROI?:  {
     __typename: "ROI",
     id: string,
-    uniqueId: string,
+    uniqueId?: string | null,
     institutionName?: string | null,
     programName?: string | null,
     unitId?: number | null,
@@ -992,7 +992,7 @@ export type GetROIQuery = {
   getROI?:  {
     __typename: "ROI",
     id: string,
-    uniqueId: string,
+    uniqueId?: string | null,
     institutionName?: string | null,
     programName?: string | null,
     unitId?: number | null,
@@ -1081,7 +1081,7 @@ export type ListROISQuery = {
     items:  Array< {
       __typename: "ROI",
       id: string,
-      uniqueId: string,
+      uniqueId?: string | null,
       institutionName?: string | null,
       programName?: string | null,
       unitId?: number | null,
@@ -1174,7 +1174,7 @@ export type SyncROISQuery = {
     items:  Array< {
       __typename: "ROI",
       id: string,
-      uniqueId: string,
+      uniqueId?: string | null,
       institutionName?: string | null,
       programName?: string | null,
       unitId?: number | null,
@@ -1333,7 +1333,7 @@ export type OnCreateROISubscription = {
   onCreateROI?:  {
     __typename: "ROI",
     id: string,
-    uniqueId: string,
+    uniqueId?: string | null,
     institutionName?: string | null,
     programName?: string | null,
     unitId?: number | null,
@@ -1414,7 +1414,7 @@ export type OnUpdateROISubscription = {
   onUpdateROI?:  {
     __typename: "ROI",
     id: string,
-    uniqueId: string,
+    uniqueId?: string | null,
     institutionName?: string | null,
     programName?: string | null,
     unitId?: number | null,
@@ -1495,7 +1495,7 @@ export type OnDeleteROISubscription = {
   onDeleteROI?:  {
     __typename: "ROI",
     id: string,
-    uniqueId: string,
+    uniqueId?: string | null,
     institutionName?: string | null,
     programName?: string | null,
     unitId?: number | null,
