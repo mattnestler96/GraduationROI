@@ -13,7 +13,6 @@ import { DataStore } from "aws-amplify";
 import React from "react";
 import csv from "csvtojson";
 import { ROI } from "../../models";
-import { getUserName } from "../../utils/userInfo";
 import { originalColumnToType } from "../../data/types";
 import { uniqueId } from "../../utils/dataHelpers";
 
@@ -54,6 +53,7 @@ const Uploader = () => {
         return {
           ...s,
           ...n,
+          uniqueId: uniqueId(v),
           percentageIncreaseInLifetimeEarnings:
             s.percentageIncreaseInLifetimeEarnings,
         };

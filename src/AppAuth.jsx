@@ -24,7 +24,11 @@ const AuthenticatorWithGuestMode = (props) => {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
         <Authenticator {...props} />
-        {!props.loggedIn && <Button onClick={() => setUseGuest(true)}>Continue with Sample</Button>}
+        {!props.loggedIn && (
+          <Button onClick={() => setUseGuest(true)}>
+            Continue with Sample
+          </Button>
+        )}
       </Box>
     );
   }
@@ -37,7 +41,11 @@ const AppWrappedAuth = () => {
   const innerWrap = (props) => {
     setLoggedIn(!!props.user);
     setUserName(props.user.attributes.email);
-    return <ProgramProvider><App {...props} /></ProgramProvider>;
+    return (
+      <>
+        <App {...props} />
+      </>
+    );
   };
 
   const DynamicWrapper = (props) =>
@@ -48,30 +56,35 @@ const AppWrappedAuth = () => {
     );
 
   return (
-    <DynamicWrapper
-      style={{
-        display: "flex",
-        marginTop: 30,
-        justifyContent: "space-around",
-        alignItems: "center",
-        flexWrap: 'wrap'
-      }}
-    >
-      {loggedIn ? null : (
-        <Box marginBottom="50px">
-          <Typography variant="h3" color="primary">
-            GraduationROI
-          </Typography>
-          <Typography color="primary" variant="h6">
-            Be well informed of your future
-          </Typography>
-        </Box>
-      )}
+    <ProgramProvider>
+      <DynamicWrapper
+        style={{
+          display: "flex",
+          marginTop: 30,
+          justifyContent: "space-around",
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        {loggedIn ? null : (
+          <Box marginBottom="50px">
+            <Typography variant="h3" color="primary">
+              GraduationROI
+            </Typography>
+            <Typography color="primary" variant="h6">
+              Be well informed of your future
+            </Typography>
+          </Box>
+        )}
 
-      <AuthenticatorWithGuestMode signUpAttributes={["email"]} loggedIn={loggedIn}>
-        {innerWrap}
-      </AuthenticatorWithGuestMode>
-    </DynamicWrapper>
+        <AuthenticatorWithGuestMode
+          signUpAttributes={["email"]}
+          loggedIn={loggedIn}
+        >
+          {innerWrap}
+        </AuthenticatorWithGuestMode>
+      </DynamicWrapper>
+    </ProgramProvider>
   );
 };
 

@@ -10,8 +10,10 @@ type UserInfo @model @auth(rules: [{allow: private, operations: [create]}, {allo
   searchHistory: AWSJSON
 }
 
-type ROI @model @auth(rules: [{allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: private, operations: [read]}, {allow: public, operations: [read], provider: iam}]) {
+type ROI @model 
+@auth(rules: [{allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: private, operations: [read]}, {allow: public, operations: [read], provider: iam}]) {
   id: ID!
+  uniqueId: String!
   institutionName: String
   programName: String
   unitId: Int

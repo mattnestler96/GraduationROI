@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import Search from "@mui/icons-material/SearchOutlined";
 import React, { ChangeEvent, useContext } from "react";
-import { isInSampleUserMode } from "../../utils/userInfo";
 import programTypes from "./programTypes";
 import programs from "./programs";
 import MultiSelect from "../multiSelect";
@@ -66,7 +65,6 @@ const QueryButton = () => {
       <Hidden smDown>
         <Button
           variant="contained"
-          disabled={isInSampleUserMode()}
           onClick={handleOpenDialog}
           style={{ margin: "0px 5px" }}
           color="primary"
@@ -77,7 +75,6 @@ const QueryButton = () => {
       </Hidden>
       <Hidden smUp>
         <IconButton
-          disabled={isInSampleUserMode()}
           onClick={handleOpenDialog}
           color="primary"
         >

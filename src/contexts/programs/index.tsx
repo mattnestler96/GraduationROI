@@ -1,9 +1,7 @@
 import React, { createContext, useEffect, useMemo } from "react";
-import { sampleData } from "../../data/sample";
 import { ROI } from "../../models";
-import { uniqueId, convertData } from "../../utils/dataHelpers";
 import randomColors from "../../utils/randomColors";
-import { isInSampleUserMode } from "../../utils/userInfo";
+import { getUserName  } from "../../utils/userInfo";
 import { fetchPrograms } from "./utils";
 
 const QUERY_FILTER_KEY = "graduationROI.filterQuery";
@@ -54,16 +52,14 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
     setSelectedPrograms(changedValues);
   };
 
+  const userName = getUserName();
   useEffect(() => {
-    if (!isInSampleUserMode()) {
+    if (userName) {
+
       handleFetchPrograms(queryFilter);
-    } else {
-      setPrograms(
-        sampleData.map(convertData).map((v) => ({ ...v, id: uniqueId(v) }))
-      );
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userName]);
 
   return (
     <Programs.Provider

@@ -4,7 +4,7 @@ import { ROI } from "../models";
 export const ITEM_LIMIT = 1000;
 
 export const uniqueId = (v: Partial<ROI>): string =>
-  `${v.state}_${v.programCategory}_${v.institutionName}_${v.programName}`;
+  `${v.state}_${v.programCategory}_${v.programName}_${v.institutionName}`;
 
 type OriginalColumnKeys = keyof typeof originalColumnToType;
 

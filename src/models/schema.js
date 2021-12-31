@@ -140,6 +140,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "uniqueId": {
+                    "name": "uniqueId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "institutionName": {
                     "name": "institutionName",
                     "isArray": false,
@@ -679,5 +686,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "5e970f4fcd9877e62c96e5da5e01fd5f"
+    "version": "fcd17d88c557a5601b4d32e7dc4af71a"
 };
