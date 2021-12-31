@@ -1,4 +1,4 @@
-type UserInfo @model @auth(rules: [{allow: private}, {allow: owner}]) {
+type UserInfo @model @auth(rules: [{allow: private, operations: [create]}, {allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: owner, operations: [create, read, update]}]) {
   id: ID!
   email: String
   dayPreferences: AWSJSON
@@ -10,13 +10,12 @@ type UserInfo @model @auth(rules: [{allow: private}, {allow: owner}]) {
   searchHistory: AWSJSON
 }
 
-type ROI @model @auth(rules: [{allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: private, operations: [read]}]) {
+type ROI @model @auth(rules: [{allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: private, operations: [read]}, {allow: public, operations: [read], provider: iam}]) {
   id: ID!
   institutionName: String
   programName: String
   unitId: Int
   stateFIPSCode: Int
-  state: String
   programCIPCode: Int
   programCategory: String
   control: String
@@ -80,5 +79,6 @@ type ROI @model @auth(rules: [{allow: groups, groups: ["Admins"], operations: [r
   estimatedCounterfactualEarnings62: Int
   resultsAvailableForAllSpecifications: Int
   fourYearEducationRelatedSpending: Int
+  state: String
 }
  

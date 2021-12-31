@@ -97,23 +97,33 @@ export const schema = {
                             {
                                 "allow": "private",
                                 "operations": [
+                                    "create"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "Admins"
+                                ],
+                                "operations": [
+                                    "read",
                                     "create",
                                     "update",
-                                    "delete",
-                                    "read"
+                                    "delete"
                                 ]
                             },
                             {
                                 "provider": "userPools",
                                 "ownerField": "owner",
                                 "allow": "owner",
-                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
+                                    "read",
+                                    "update"
+                                ],
+                                "identityClaim": "cognito:username"
                             }
                         ]
                     }
@@ -155,13 +165,6 @@ export const schema = {
                     "name": "stateFIPSCode",
                     "isArray": false,
                     "type": "Int",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "state": {
-                    "name": "state",
-                    "isArray": false,
-                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -606,6 +609,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "state": {
+                    "name": "state",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -653,6 +663,13 @@ export const schema = {
                                 "operations": [
                                     "read"
                                 ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "read"
+                                ],
+                                "provider": "iam"
                             }
                         ]
                     }
