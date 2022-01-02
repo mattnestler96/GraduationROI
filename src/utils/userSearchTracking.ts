@@ -1,5 +1,5 @@
-import { Analytics } from "aws-amplify";
-import { ROI } from "../models";
+import { Analytics, DataStore } from "aws-amplify";
+import { ROI, UserInfo } from "../models";
 import { uniqueId } from "./dataHelpers";
 import { getUserName } from "./userInfo";
 
@@ -8,11 +8,21 @@ export const setUpAnalytics = async (isAdmin: boolean): Promise<void> => {
     enable: !isAdmin,
   });
   if (!isAdmin) {
+    const response = await DataStore.query(UserInfo, (c) =>
+      c.email("eq" as never, getUserName() as never)
+    );
+    const user = response[0];
     Analytics.updateEndpoint({
       address: getUserName(),
-      demographics: {
-        timezone: (new Date()).getTimezoneOffset(),
-      }
+      userId: getUserName(),
+      userAttributes: {
+        email: [getUserName()],
+        timezone: [new Date().getTimezoneOffset()],
+        user_type: [user?.userType],
+        time_preferences: Object.keys(user?.timePreferences ?? {}),
+        day_preferences: Object.keys(user?.dayPreferences ?? {}),
+        modality_preferences: Object.keys(user?.modalityPreferences ?? {}),
+      },
     });
   }
 };
