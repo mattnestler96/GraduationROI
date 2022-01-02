@@ -4,109 +4,45 @@ import {
   TextField,
   Box,
   Button,
-  Hidden,
-  Typography,
-  SwipeableDrawer,
   Menu,
   MenuItem,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import UpArrow from "@mui/icons-material/KeyboardArrowUpRounded";
 import React, { ChangeEvent, useContext } from "react";
 import SideList from ".";
 import { DRAWER_WIDTH } from "../../App";
 import { uniqueId } from "../../utils/dataHelpers";
 import { useDeferred } from "../../utils/useDeferred";
-import { styled } from "@mui/material/styles";
-import { grey } from "@mui/material/colors";
-import { Global } from "@emotion/react";
 import { Programs } from "../../contexts/programs";
 import { ROI } from "../../models";
 
-const PullerBox = styled(Box)(() => ({
-  width: 30,
-  color: grey[900],
-  position: "absolute",
-  top: 8,
-  left: "calc(50% - 15px)",
-}));
-const Puller = () => (
-  <PullerBox>
-    <UpArrow color="inherit" />
-  </PullerBox>
-);
-
-const ResponsiveDrawer = ({ children }: { children: JSX.Element }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+const ResponsiveDrawer = ({ children, open }: { children: JSX.Element, open: boolean }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <>
-      <Hidden smDown>
-        <Drawer
-          anchor="left"
-          open={true}
-          variant="permanent"
-          sx={{
+      <Drawer
+        anchor="left"
+        open={matches ? open : true}
+        variant="persistent"
+        sx={{
+          width: DRAWER_WIDTH,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
             width: DRAWER_WIDTH,
-            flexShrink: 0,
-            [`& .MuiDrawer-paper`]: {
-              width: DRAWER_WIDTH,
-              boxSizing: "border-box",
-            },
-          }}
-        >
-          <Toolbar />
-          {children}
-        </Drawer>
-      </Hidden>
-      <Hidden smUp>
-        <Global
-          styles={{
-            ".MuiDrawer-root > .MuiPaper-root": {
-              height: `calc(70% - 56px)`,
-              overflow: "visible",
-            },
-          }}
-        />
-        <SwipeableDrawer
-          sx={{ height: "50%" }}
-          anchor="bottom"
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
-          onOpen={() => setIsOpen(true)}
-          swipeAreaWidth={56}
-          disableSwipeToOpen={false}
-          ModalProps={{
-            keepMounted: true,
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: "#FFF",
-              position: "absolute",
-              top: -56,
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-              visibility: "visible",
-              right: 0,
-              left: 0,
-            }}
-          >
-            <Puller />
-            <Box height="56px" paddingTop="20px" textAlign="center">
-              <Typography variant="caption" color="GrayText">
-                Select Programs
-              </Typography>
-            </Box>
-          </Box>
-          <Box width="100%" overflow="scroll">
-            {children}
-          </Box>
-        </SwipeableDrawer>
-      </Hidden>
+            boxSizing: "border-box",
+          },
+        }}
+      >
+        <Toolbar />
+        {children}
+      </Drawer>
     </>
   );
 };
 
-const SidelistDrawer = () => {
+const SidelistDrawer = ({ open }: {open: boolean}) => {
   const { programs, handleSelectedProgramChange, selectedColorMap } =
     useContext(Programs);
   const [filterString, setFilterString] = React.useState("");
@@ -155,7 +91,7 @@ const SidelistDrawer = () => {
   };
 
   return (
-    <ResponsiveDrawer>
+    <ResponsiveDrawer open={open}>
       <>
         <TextField
           style={{ margin: "10px", width: "calc(100% - 20px)" }}

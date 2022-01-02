@@ -13,6 +13,8 @@ import {
   Stepper,
   Typography,
   Paper,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import Search from "@mui/icons-material/SearchOutlined";
 import States from "@mui/icons-material/Map";
@@ -44,6 +46,9 @@ const QueryButton = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [currentFilter, setCurrentFilter] =
     React.useState<IFilter>(queryFilter);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -98,6 +103,7 @@ const QueryButton = () => {
         open={open}
         onClose={handleCloseDialog}
         fullWidth={true}
+        fullScreen={matches}
         maxWidth="md"
       >
         <DialogTitle>Start Search</DialogTitle>

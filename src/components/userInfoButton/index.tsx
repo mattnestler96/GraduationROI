@@ -14,6 +14,8 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { DataStore } from "aws-amplify";
 import React, { ChangeEvent } from "react";
@@ -44,6 +46,9 @@ const UserInfoButton = (props: IUserInfoButton) => {
   const [currentUserInfo, setCurrentUserInfo] =
     React.useState<WorkingUserInfo>();
   const [originalUserInfo, setOriginalUserInfo] = React.useState<UserInfo>();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+
   const dayPref = React.useMemo(
     () => convertAWSJSON(currentUserInfo?.dayPreferences) as any,
     [currentUserInfo?.dayPreferences]
@@ -141,8 +146,8 @@ const UserInfoButton = (props: IUserInfoButton) => {
   return (
     <>
       <MenuItem
-        data-amplify-analytics-on='click'
-        data-amplify-analytics-name='user_info_click'
+        data-amplify-analytics-on="click"
+        data-amplify-analytics-name="user_info_click"
         onClick={handleOpenDialog}
         disabled={isInSampleUserMode()}
       >
@@ -153,9 +158,12 @@ const UserInfoButton = (props: IUserInfoButton) => {
         onClose={handleCloseDialog}
         fullWidth={true}
         maxWidth="md"
+        fullScreen={matches}
       >
         <DialogTitle>A little about yourself</DialogTitle>
-        <DialogContent style={{ display: "flex", flexDirection: "column" }}>
+        <DialogContent
+          style={{ display: "flex", flexDirection: "column", paddingTop: 10 }}
+        >
           <TextField
             defaultValue={currentUserInfo?.email || props.username}
             label="Email"

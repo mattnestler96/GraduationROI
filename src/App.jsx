@@ -14,6 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import User from "@mui/icons-material/Person";
+import MenuClosed from "@mui/icons-material/Menu";
+import MenuOpen from "@mui/icons-material/MenuOpen";
 import VisualizationTab from "./components/tabs/visualizations";
 import SummaryTab from "./components/tabs/summary";
 import LearnMoreButton from "./components/learnmore";
@@ -83,6 +85,7 @@ const App = (props) => {
     user?.signInUserSession?.idToken?.payload?.["cognito:groups"] || [];
   const isAdmin = groups.includes("Admins");
   const [tabValue, setTabValue] = React.useState(0);
+  const [drawerOpen, setDrawerOpen] = React.useState(true);
 
   const handleTabChange = (e, v) => {
     if (v === 1) {
@@ -98,7 +101,7 @@ const App = (props) => {
 
   return (
     <>
-      {tabValue < 2 && <SidelistDrawer />}
+      {tabValue < 2 && <SidelistDrawer open={drawerOpen} />}
       <AppBar
         color="transparent"
         position="fixed"
@@ -107,7 +110,14 @@ const App = (props) => {
         <Toolbar
           style={{ backgroundColor: "#fff", justifyContent: "space-between" }}
         >
-          <Box>
+          <Box display="flex" alignItems="center">
+            <Hidden smUp>
+              {tabValue < 2 && (
+                <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
+                  {drawerOpen ? <MenuOpen /> : <MenuClosed />}
+                </IconButton>
+              )}
+            </Hidden>
             <QueryButton />
           </Box>
           <Box>
