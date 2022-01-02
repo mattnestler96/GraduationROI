@@ -89,6 +89,8 @@ const QueryButton = () => {
     <>
       <Hidden smDown>
         <Button
+          data-amplify-analytics-on="click"
+          data-amplify-analytics-name="query_click"
           variant="contained"
           onClick={handleOpenDialog}
           style={{ margin: "0px 5px" }}
@@ -111,7 +113,10 @@ const QueryButton = () => {
       >
         <DialogTitle>Start Search</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
-          <Typography>Welcome to GraduationROI! Start by telling us what programs you are interested in.</Typography>
+          <Typography>
+            Welcome to GraduationROI! Start by telling us what programs you are
+            interested in.
+          </Typography>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
               <StepLabel
@@ -194,7 +199,7 @@ const QueryButton = () => {
             <Step>
               <StepLabel
                 onClick={handleJumpAhead(2)}
-                StepIconComponent={StepIcon(<Program/>)}
+                StepIconComponent={StepIcon(<Program />)}
               >
                 {`Program Name ${
                   currentFilter.programs?.length
@@ -225,7 +230,7 @@ const QueryButton = () => {
             <Step>
               <StepLabel
                 onClick={handleJumpAhead(3)}
-                StepIconComponent={StepIcon(<Institutions/>)}
+                StepIconComponent={StepIcon(<Institutions />)}
               >
                 {`Institution ${
                   currentFilter.institutions?.length

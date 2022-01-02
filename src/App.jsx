@@ -1,5 +1,6 @@
 import "@aws-amplify/ui-react/styles.css";
 import React, { useContext } from "react";
+import { Analytics } from "aws-amplify";
 import QueryButton from "./components/queryButton";
 import UserInfoButton from "./components/userInfoButton";
 import {
@@ -83,6 +84,12 @@ const App = (props) => {
     }
     setTabValue(v);
   };
+
+  React.useEffect(() => {
+    Analytics.autoTrack("event", {
+      enable: true,
+    });
+  }, []);
 
   return (
     <>

@@ -141,6 +141,8 @@ const UserInfoButton = (props: IUserInfoButton) => {
   return (
     <>
       <MenuItem
+        data-amplify-analytics-on='click'
+        data-amplify-analytics-name='user_info_click'
         onClick={handleOpenDialog}
         disabled={isInSampleUserMode()}
       >

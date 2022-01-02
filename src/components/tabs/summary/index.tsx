@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { Analytics } from "aws-amplify";
 import { useState, useContext } from "react";
 import { Programs } from "../../../contexts/programs";
 import { ROI } from "../../../models";
@@ -48,6 +49,12 @@ const SummaryTab = () => {
       newType = v.find((t) => t !== analysisType) ?? analysisType;
     }
     localStorage.setItem(ANALYSIS_KEY, newType);
+    Analytics.record({
+      name: 'change_analysis_type',
+      attributes: {
+        analysis_type: newType,
+      }
+    })
     setAnalysisType(newType);
   };
   const uniquePrograms: Record<string, ROI[]> = Object.fromEntries(

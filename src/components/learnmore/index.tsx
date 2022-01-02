@@ -1,5 +1,5 @@
 import { Hidden, Button, IconButton } from "@mui/material";
-import Help from '@mui/icons-material/Help';
+import Help from "@mui/icons-material/Help";
 
 const LearnMoreButton = () => {
   const handleClick = () => {
@@ -12,6 +12,8 @@ const LearnMoreButton = () => {
     <>
       <Hidden smDown>
         <Button
+          data-amplify-analytics-on="click"
+          data-amplify-analytics-name="learn_more_click"
           style={{ marginRight: 10 }}
           variant="outlined"
           onClick={handleClick}
@@ -20,10 +22,8 @@ const LearnMoreButton = () => {
         </Button>
       </Hidden>
       <Hidden smUp>
-        <IconButton
-          onClick={handleClick}
-        >
-          <Help/>
+        <IconButton onClick={handleClick}>
+          <Help />
         </IconButton>
       </Hidden>
     </>

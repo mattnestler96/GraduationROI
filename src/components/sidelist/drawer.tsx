@@ -164,6 +164,8 @@ const SidelistDrawer = () => {
         />
         <Box>
           <Button
+            data-amplify-analytics-on="click"
+            data-amplify-analytics-name="sort_programs_click"
             id="basic-button"
             aria-controls="basic-menu"
             aria-haspopup="true"
@@ -198,7 +200,13 @@ const SidelistDrawer = () => {
               Graduation Rate
             </MenuItem>
           </Menu>
-          <Button onClick={() => handleSelectedProgramChange([])}>Clear</Button>
+          <Button
+            data-amplify-analytics-on="click"
+            data-amplify-analytics-name="clear_programs_click"
+            onClick={() => handleSelectedProgramChange([])}
+          >
+            Clear
+          </Button>
         </Box>
         <SideList filteredPrograms={filteredList} />
       </>
