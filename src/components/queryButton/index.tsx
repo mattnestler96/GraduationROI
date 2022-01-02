@@ -11,15 +11,13 @@ import {
   StepIconProps,
   StepLabel,
   Stepper,
-  TextField,
   Typography,
 } from "@mui/material";
 import Search from "@mui/icons-material/SearchOutlined";
 import States from "@mui/icons-material/Map";
-import Institutions from "@mui/icons-material/LocationCity";
 import Program from "@mui/icons-material/HistoryEdu";
 import ProgramCategory from "@mui/icons-material/School";
-import React, { ChangeEvent, useContext } from "react";
+import React, { useContext } from "react";
 import programTypes from "./programTypes";
 import programs from "./programs";
 import MultiSelect from "../multiSelect";
@@ -51,16 +49,6 @@ const QueryButton = () => {
   const handleCloseDialog = () => {
     setOpen(false);
   };
-  const handleDataEntry =
-    (field: keyof IFilter) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      handleArrayDataEntry(field)(
-        e.target.value
-          .split(",")
-          .map((v) => v.trim())
-          .filter((v) => v !== "")
-      );
-    };
 
   const handleArrayDataEntry = (field: keyof IFilter) => (value: string[]) => {
     const newFilter = { ...currentFilter };
@@ -123,7 +111,7 @@ const QueryButton = () => {
                 onClick={() => setActiveStep(0)}
                 StepIconComponent={StepIcon(<States />)}
               >
-                {`States ${
+                {`States (required)${
                   currentFilter.states?.length
                     ? ` (${currentFilter.states?.length})`
                     : ""
@@ -214,35 +202,6 @@ const QueryButton = () => {
                   options={programs}
                   label="Programs"
                   onClear={() => handleArrayDataEntry("programs")([])}
-                />
-                <div>
-                  <Button onClick={handleBack}>Back</Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
-                    Next
-                  </Button>
-                </div>
-              </StepContent>
-            </Step>
-            <Step>
-              <StepLabel
-                onClick={handleJumpAhead(3)}
-                StepIconComponent={StepIcon(<Institutions />)}
-              >
-                {`Institution ${
-                  currentFilter.institutions?.length
-                    ? ` (${currentFilter.institutions?.length})`
-                    : ""
-                }`}
-              </StepLabel>
-              <StepContent>
-                <TextField
-                  defaultValue={currentFilter.institutions}
-                  label="Comma-separated institutions (case sensitive)"
-                  onChange={handleDataEntry("institutions")}
                 />
                 <div>
                   <Button onClick={handleBack}>Back</Button>
