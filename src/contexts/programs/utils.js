@@ -38,14 +38,7 @@ const fetchByGraphQL = async (s, pc, filter, nT, accumulatedData) => {
       limit: ITEM_LIMIT,
       filter: {
         and: [
-          // buildGraphQLFilter("eq", "state", s),
-          // buildGraphQLFilter("eq", "programCategory", pc),
           buildGraphQLFilter("eq", "programName", filter.programs),
-          buildGraphQLFilter(
-            "contains",
-            "institutionName",
-            filter.institutions
-          ),
         ].filter((v) => !!v),
       },
     },
@@ -86,9 +79,7 @@ const fetchByDataStore = async (filter) => {
       c
         .or(chainCall("eq", "state", filter.states))
         .or(chainCall("eq", "programCategory", filter.programCategory))
-        .or(chainCall("eq", "programName", filter.programs))
-        .or(chainCall("contains", "institutionName", filter.institutions)),
-    { limit: ITEM_LIMIT }
+        .or(chainCall("eq", "programName", filter.programs)),
   );
 };
 

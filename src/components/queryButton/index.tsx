@@ -12,6 +12,7 @@ import {
   StepLabel,
   Stepper,
   Typography,
+  Paper,
 } from "@mui/material";
 import Search from "@mui/icons-material/SearchOutlined";
 import States from "@mui/icons-material/Map";
@@ -26,7 +27,6 @@ import { Programs } from "../../contexts/programs";
 interface IFilter {
   states?: string[];
   programs?: string[];
-  institutions?: string[];
   programCategory?: string[];
 }
 
@@ -101,10 +101,15 @@ const QueryButton = () => {
       >
         <DialogTitle>Start Search</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
-          <Typography>
-            Welcome to GraduationROI! Start by telling us what programs you are
-            interested in.
-          </Typography>
+          <Paper style={{ padding: 10, margin: 10 }}>
+            <Typography>
+              Welcome to GraduationROI! We'll help you get a glimpse of life
+              after graduating with a degree.
+            </Typography>
+            <Typography>
+              Start by telling us what programs you are interested in.
+            </Typography>
+          </Paper>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
               <StepLabel

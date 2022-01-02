@@ -91,7 +91,7 @@ const SummaryCell = ({
             <Typography> {`$${Math.floor(stats.averageROI)}`}</Typography>
           </Box>
           <Box margin="0px 10px 10px 10px">
-            <Typography color="gray">Student Population:</Typography>
+            <Typography color="gray">Students:</Typography>
             <Typography>
               {Math.floor(stats.averageStudentPopulation)}
             </Typography>
@@ -106,7 +106,7 @@ const SummaryCell = ({
       </Box>
       <Box display="flex" flexDirection="row" alignItems="center">
         <Box textAlign="center">
-          <Typography variant="caption">{`Best ROI ($${stats.maxROI.lifetimeReturnOnInvestmentROI})`}</Typography>
+          <Typography variant="caption">{`Highest ROI ($${stats.maxROI.lifetimeReturnOnInvestmentROI})`}</Typography>
           <ListItemWithBorder
             program={stats.maxROI}
             onClick={onClick}
@@ -114,7 +114,7 @@ const SummaryCell = ({
           />
         </Box>
         <Box textAlign="center">
-          <Typography variant="caption">{`Highest Student Population (${stats.maxStudentPopulation.collegeScorecardCohortCount})`}</Typography>
+          <Typography variant="caption">{`Largest Student Population (${stats.maxStudentPopulation.collegeScorecardCohortCount})`}</Typography>
           <ListItemWithBorder
             program={stats.maxStudentPopulation}
             onClick={onClick}

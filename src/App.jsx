@@ -34,12 +34,18 @@ const MainWrapper = ({ children, showSidebar }) => {
           maxWidth={`calc(100vw - ${showSidebar ? DRAWER_WIDTH : 0}px - 40px)`}
           width="100%"
           padding="20px"
+          paddingTop="0px"
         >
           {children}
         </Box>
       </Hidden>
       <Hidden smUp>
-        <Box maxWidth="calc(100vw - 40px)" width="100%" padding="20px">
+        <Box
+          maxWidth="calc(100vw - 40px)"
+          width="100%"
+          padding="20px"
+          paddingTop="0px"
+        >
           {children}
         </Box>
       </Hidden>
@@ -114,7 +120,7 @@ const App = (props) => {
       <Box display="flex" width="100vw">
         <MainWrapper showSidebar={tabValue < 2}>
           <Toolbar />
-          <Tabs value={tabValue} onChange={handleTabChange}>
+          <Tabs value={tabValue} onChange={handleTabChange} centered>
             <Tab
               label={
                 <Typography
