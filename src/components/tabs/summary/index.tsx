@@ -9,7 +9,7 @@ import SummaryCell from "../../summaryCell";
 const ANALYSIS_KEY = "graduationROI.analysisKey";
 const analysisTypeOptions: Record<string, keyof ROI> = {
   "Program Name": "programName",
-  "Program Type": "programCategory",
+  "Area of Focus": "programCategory",
   State: "state",
   "Institution Type": "control",
   "Institution Name": "institutionName",
@@ -60,7 +60,7 @@ const SummaryTab = () => {
     <>
       <Box display="flex" alignItems="center" flexWrap="wrap">
         <Typography variant="h5">
-          Showing summary of programs broken up by:
+          Break out by:
         </Typography>
         <MultiSelect
           value={[analysisType]}

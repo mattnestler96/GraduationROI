@@ -1,7 +1,7 @@
 import { ROI } from "../../models";
 import { DataStore, API } from "aws-amplify";
 import { uniqueId, ITEM_LIMIT } from "../../utils/dataHelpers";
-import { listROIS } from "../../graphql/queries";
+import { stateByUniqueId } from "../../graphql/queries";
 import { isInSampleUserMode } from "../../utils/userInfo";
 
 const chainCall = (test, param, values) => (c) => {
@@ -17,27 +17,29 @@ const chainCall = (test, param, values) => (c) => {
 };
 
 const buildGraphQLFilter = (test, param, values) => {
-  if (values.length) {
+  if (values?.length) {
     return { or: values.map((v) => ({ [param]: { [test]: v } })) };
   }
   return undefined;
 };
 
-const fetchByGraphQL = async (filter, nT, accumulatedData) => {
+const fetchByGraphQL = async (s, pc, filter, nT, accumulatedData) => {
   if (accumulatedData && accumulatedData.length > ITEM_LIMIT) {
     return accumulatedData;
   }
   const response = await API.graphql({
-    query: listROIS,
-    operationName: "listROIS",
+    query: stateByUniqueId,
+    operation: "stateByUniqueId",
     authMode: "AWS_IAM",
     variables: {
+      state: s,
+      uniqueId: { beginsWith: `${s}_${pc}` },
       nextToken: nT,
       limit: ITEM_LIMIT,
       filter: {
         and: [
-          buildGraphQLFilter("eq", "state", filter.states),
-          buildGraphQLFilter("eq", "programCategory", filter.programCategory),
+          // buildGraphQLFilter("eq", "state", s),
+          // buildGraphQLFilter("eq", "programCategory", pc),
           buildGraphQLFilter("eq", "programName", filter.programs),
           buildGraphQLFilter(
             "contains",
@@ -48,18 +50,37 @@ const fetchByGraphQL = async (filter, nT, accumulatedData) => {
       },
     },
   });
-  const { items, nextToken } = response.data.listROIS;
+  const { items, nextToken } = response.data.stateByUniqueId;
   if (nextToken) {
-    return fetchByGraphQL(filter, nextToken, [
+    return fetchByGraphQL(s, pc, filter, nextToken, [
       ...(accumulatedData ?? []),
       ...items,
     ]);
   }
-  return [...accumulatedData, ...items];
+  return [...(accumulatedData ?? []), ...items];
+};
+
+const breakDownByStateAndProgramCategory = async (filter) => {
+  let { states, programCategory } = filter;
+  if (states && programCategory) {
+    programCategory = programCategory.length ? programCategory : [""];
+    const responses = await Promise.all(
+      states.map(async (s) => {
+        const stateResponses = await Promise.all(
+          programCategory.map((pc) => {
+            return fetchByGraphQL(s, pc, filter);
+          })
+        );
+        return stateResponses.flat();
+      })
+    );
+    return responses.flat();
+  }
+  return [];
 };
 
 const fetchByDataStore = async (filter) => {
-  const response = await DataStore.query(
+  return DataStore.query(
     ROI,
     (c) =>
       c
@@ -69,29 +90,26 @@ const fetchByDataStore = async (filter) => {
         .or(chainCall("contains", "institutionName", filter.institutions)),
     { limit: ITEM_LIMIT }
   );
+};
+
+export const fetchPrograms = async (filter) => {
+  const response = await (isInSampleUserMode()
+    ? breakDownByStateAndProgramCategory(filter)
+    : fetchByDataStore(filter));
   const dedupe = {};
   response.forEach(async (v) => {
-    if (!v.uniqueId) {
-      console.log("update uniqueId");
+    if (!isInSampleUserMode() && !v.uniqueId) {
       DataStore.save(
         ROI.copyOf(v, (item) => {
           item.uniqueId = uniqueId(v);
         })
       );
     }
-    if (dedupe[uniqueId(v)]) {
+    if (!isInSampleUserMode() && dedupe[uniqueId(v)]) {
       console.log(`delete ${uniqueId(v)}`, v.id);
       await DataStore.delete(ROI, v.id);
     }
     dedupe[uniqueId(v)] = v;
   });
   return Object.values(dedupe);
-};
-
-export const fetchPrograms = async (filter) => {
-  if (isInSampleUserMode()) {
-    return fetchByGraphQL(filter);
-  } else {
-    return fetchByDataStore(filter);
-  }
 };

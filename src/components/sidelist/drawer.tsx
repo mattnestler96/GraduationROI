@@ -132,6 +132,9 @@ const SidelistDrawer = () => {
             if (typeof vA === "number" && typeof vB === "number") {
               return vB - vA;
             }
+            if (!!vA && !!vB) {
+              return vA < vB ? -1 : 1;
+            }
           }
           return 0;
         }),
@@ -179,6 +182,10 @@ const SidelistDrawer = () => {
             }}
           >
             <MenuItem onClick={handleSortPick("selected")}>Selected</MenuItem>
+            <MenuItem onClick={handleSortPick("programName")}>Program</MenuItem>
+            <MenuItem onClick={handleSortPick("institutionName")}>
+              Institution
+            </MenuItem>
             <MenuItem onClick={handleSortPick("lifetimeReturnOnInvestmentROI")}>
               ROI
             </MenuItem>

@@ -109,8 +109,9 @@ const QueryButton = () => {
         fullWidth={true}
         maxWidth="md"
       >
-        <DialogTitle>Filter Programs</DialogTitle>
+        <DialogTitle>Start Search</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
+          <Typography>Welcome to GraduationROI! Start by telling us what programs you are interested in.</Typography>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
               <StepLabel
@@ -164,7 +165,7 @@ const QueryButton = () => {
                 onClick={handleJumpAhead(1)}
                 StepIconComponent={StepIcon(<ProgramCategory />)}
               >
-                {`Program Category ${
+                {`Area of Focus ${
                   currentFilter.programCategory?.length
                     ? ` (${currentFilter.programCategory?.length})`
                     : ""
@@ -175,7 +176,7 @@ const QueryButton = () => {
                   onChange={handleArrayDataEntry("programCategory")}
                   value={currentFilter.programCategory || []}
                   options={programTypes}
-                  label="Program Type"
+                  label="Area of Focus"
                   onClear={() => handleArrayDataEntry("programCategory")([])}
                 />
                 <div>

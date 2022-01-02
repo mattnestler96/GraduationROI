@@ -110,18 +110,18 @@ const App = (props) => {
           <Tabs value={tabValue} onChange={handleTabChange}>
             <Tab
               label={
-                <Typography fontSize="small" color="inherit">
-                  {"Summary"}
-                </Typography>
-              }
-            />
-            <Tab
-              label={
                 <Typography
                   fontSize="small"
                   color={hasChanges ? "secondary" : "inherit"}
                 >
                   {"Analysis"}
+                </Typography>
+              }
+            />
+            <Tab
+              label={
+                <Typography fontSize="small" color="inherit">
+                  {"Break Out"}
                 </Typography>
               }
             />
@@ -144,8 +144,8 @@ const App = (props) => {
               />
             ) : null}
           </Tabs>
-          {tabValue === 0 ? <SummaryTab /> : null}
-          {tabValue === 1 ? <VisualizationTab /> : null}
+          {tabValue === 0 ? <VisualizationTab /> : null}
+          {tabValue === 1 ? <SummaryTab /> : null}
           {isAdmin && tabValue === 2 ? <UserAnalysisTab /> : null}
           {isAdmin && tabValue === 3 ? <Uploader /> : null}
         </MainWrapper>
