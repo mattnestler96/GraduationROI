@@ -62,8 +62,8 @@ const fetchByGraphQL = async (s, pc, filter, nT, accumulatedData) => {
 
 const breakDownByStateAndProgramCategory = async (filter) => {
   let { states, programCategory } = filter;
-  if (states && programCategory) {
-    programCategory = programCategory.length ? programCategory : [""];
+  if (states) {
+    programCategory = programCategory?.length ? programCategory : [""];
     const responses = await Promise.all(
       states.map(async (s) => {
         const stateResponses = await Promise.all(
