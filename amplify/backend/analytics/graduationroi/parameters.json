@@ -1,0 +1,21 @@
+{
+    "appName": "graduationroi",
+    "roleName": "pinpointLambdaRoleaa1c7c0e",
+    "cloudformationPolicyName": "cloudformationPolicyaa1c7c0e",
+    "cloudWatchPolicyName": "cloudWatchPolicyaa1c7c0e",
+    "pinpointPolicyName": "pinpointPolicyaa1c7c0e",
+    "authPolicyName": "pinpoint_amplify_aa1c7c0e",
+    "unauthPolicyName": "pinpoint_amplify_aa1c7c0e",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

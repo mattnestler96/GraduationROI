@@ -34,7 +34,9 @@ const awsmobile = {
     },
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
-    ]
+    ],
+    "aws_mobile_analytics_app_id": "655b5366436942849f4b6d2ae3e4e95f",
+    "aws_mobile_analytics_app_region": "us-east-1"
 };
 
 

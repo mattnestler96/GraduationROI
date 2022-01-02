@@ -59,5 +59,11 @@
         ]
       }
     }
+  },
+  "analytics": {
+    "graduationroi": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }
