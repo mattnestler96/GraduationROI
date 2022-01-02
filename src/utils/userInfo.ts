@@ -6,8 +6,22 @@ export const setUserName = (v: string): void => {
   userName = v;
 };
 
+const UNIQUE_USER_IDENTIFIER_KEY = "graduationROI.uniqueUserIdentifier";
+const getUniqueUserIdentifier = (): string => {
+  const existingUniqueUserIdentifier = localStorage.getItem(UNIQUE_USER_IDENTIFIER_KEY);
+  if (existingUniqueUserIdentifier) {
+    return existingUniqueUserIdentifier;
+  }
+  const uid = Math.floor(Math.random() * 1000000000).toString();
+  localStorage.setItem(UNIQUE_USER_IDENTIFIER_KEY, uid)
+  return uid;
+}
+
 export const getUserName = (): string => {
-  return userName;
+  if (!isInSampleUserMode()) {
+    return userName;
+  }
+  return getUniqueUserIdentifier();
 };
 
 export const isInSampleUserMode = (): boolean => {

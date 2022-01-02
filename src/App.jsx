@@ -1,6 +1,5 @@
 import "@aws-amplify/ui-react/styles.css";
 import React, { useContext } from "react";
-import { Analytics } from "aws-amplify";
 import QueryButton from "./components/queryButton";
 import UserInfoButton from "./components/userInfoButton";
 import {
@@ -23,6 +22,8 @@ import LogoutButton from "./components/logout";
 import SidelistDrawer from "./components/sidelist/drawer";
 import Uploader from "./components/uploader";
 import { Programs } from "./contexts/programs";
+import { setUpAnalytics } from "./utils/userSearchTracking";
+import { getUserName } from "./utils/userInfo";
 
 const MainWrapper = ({ children, showSidebar }) => {
   return (
@@ -85,11 +86,10 @@ const App = (props) => {
     setTabValue(v);
   };
 
+  const userName = getUserName();
   React.useEffect(() => {
-    Analytics.autoTrack("event", {
-      enable: true,
-    });
-  }, []);
+    setUpAnalytics(isAdmin);
+  }, [userName, isAdmin]);
 
   return (
     <>
