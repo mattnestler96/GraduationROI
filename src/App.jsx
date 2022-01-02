@@ -16,7 +16,6 @@ import {
 import User from "@mui/icons-material/Person";
 import VisualizationTab from "./components/tabs/visualizations";
 import SummaryTab from "./components/tabs/summary";
-import UserAnalysisTab from "./components/tabs/useranalysis";
 import LearnMoreButton from "./components/learnmore";
 import LogoutButton from "./components/logout";
 import SidelistDrawer from "./components/sidelist/drawer";
@@ -142,15 +141,6 @@ const App = (props) => {
               <Tab
                 label={
                   <Typography fontSize="small" color="inherit">
-                    {"User Analysis"}
-                  </Typography>
-                }
-              />
-            ) : null}
-            {isAdmin ? (
-              <Tab
-                label={
-                  <Typography fontSize="small" color="inherit">
                     {"Uploader"}
                   </Typography>
                 }
@@ -159,8 +149,7 @@ const App = (props) => {
           </Tabs>
           {tabValue === 0 ? <VisualizationTab /> : null}
           {tabValue === 1 ? <SummaryTab /> : null}
-          {isAdmin && tabValue === 2 ? <UserAnalysisTab /> : null}
-          {isAdmin && tabValue === 3 ? <Uploader /> : null}
+          {isAdmin && tabValue === 2 ? <Uploader /> : null}
         </MainWrapper>
       </Box>
     </>

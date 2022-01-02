@@ -45,7 +45,9 @@ const Uploader = () => {
 
   const handleConverToJSON = async () => {
     setLoading(true);
-    const i = await csv().fromString(csvString.replace(/\t/g, ','));
+    const i = await csv().fromString(
+      csvString
+    );
     setItems(
       i.map((v) => {
         const s = convertData(v);
@@ -53,7 +55,6 @@ const Uploader = () => {
         return {
           ...s,
           ...n,
-          uniqueId: uniqueId(v),
           percentageIncreaseInLifetimeEarnings:
             s.percentageIncreaseInLifetimeEarnings,
         };
@@ -66,7 +67,9 @@ const Uploader = () => {
     setLoading(true);
     for (let i = 0; i < items.length; i++) {
       try {
-        await DataStore.save(new ROI(items[i]));
+        await DataStore.save(
+          new ROI({ ...items[i], uniqueId: uniqueId(items[i]) })
+        );
         loaded[i] = "true";
         setLoaded(loaded);
       } catch (e) {
@@ -97,7 +100,9 @@ const Uploader = () => {
           >
             Convert To JSON
           </Button>
-          <Button onClick={startUpload}>Start Upload</Button>
+          <Button
+            onClick={startUpload}
+          >{`Start Upload (${items?.length})`}</Button>
         </>
       )}
       <Box maxWidth="90vw" overflow="scroll">

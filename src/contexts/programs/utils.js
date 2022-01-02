@@ -37,9 +37,9 @@ const fetchByGraphQL = async (s, pc, filter, nT, accumulatedData) => {
       nextToken: nT,
       limit: ITEM_LIMIT,
       filter: {
-        and: [
-          buildGraphQLFilter("eq", "programName", filter.programs),
-        ].filter((v) => !!v),
+        and: [buildGraphQLFilter("eq", "programName", filter.programs)].filter(
+          (v) => !!v
+        ),
       },
     },
   });
@@ -73,13 +73,11 @@ const breakDownByStateAndProgramCategory = async (filter) => {
 };
 
 const fetchByDataStore = async (filter) => {
-  return DataStore.query(
-    ROI,
-    (c) =>
-      c
-        .or(chainCall("eq", "state", filter.states))
-        .or(chainCall("eq", "programCategory", filter.programCategory))
-        .or(chainCall("eq", "programName", filter.programs)),
+  return DataStore.query(ROI, (c) =>
+    c
+      .or(chainCall("eq", "state", filter.states))
+      .or(chainCall("eq", "programCategory", filter.programCategory))
+      .or(chainCall("eq", "programName", filter.programs))
   );
 };
 
@@ -89,7 +87,10 @@ export const fetchPrograms = async (filter) => {
     : fetchByDataStore(filter));
   const dedupe = {};
   response.forEach(async (v) => {
-    if (!isInSampleUserMode() && !v.uniqueId) {
+    if (
+      !isInSampleUserMode() &&
+      (!v.uniqueId || v.uniqueId.includes("undefined_undefined"))
+    ) {
       DataStore.save(
         ROI.copyOf(v, (item) => {
           item.uniqueId = uniqueId(v);

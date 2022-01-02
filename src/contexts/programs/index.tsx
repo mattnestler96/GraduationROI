@@ -10,7 +10,7 @@ const initialState = {
   selectedPrograms: [] as ROI[],
   selectedColorMap: {} as Record<string, string>,
   queryFilter: JSON.parse(localStorage.getItem(QUERY_FILTER_KEY) || "{}") || {
-    states: ["CALIFORNIA"],
+    states: [],
     programs: [],
     institutions: [],
   },

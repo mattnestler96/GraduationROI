@@ -23,6 +23,7 @@ import programTypes from "./programTypes";
 import programs from "./programs";
 import MultiSelect from "../multiSelect";
 import { Programs } from "../../contexts/programs";
+import { isInSampleUserMode } from "../../utils/userInfo";
 
 interface IFilter {
   states?: string[];
@@ -102,13 +103,19 @@ const QueryButton = () => {
         <DialogTitle>Start Search</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
           <Paper style={{ padding: 10, margin: 10 }}>
+            <Typography>Welcome to GraduationROI!</Typography>
             <Typography>
-              Welcome to GraduationROI! We'll help you get a glimpse of life
-              after graduating with a degree.
+              We'll help you get a glimpse of life after graduating with a
+              degree.
             </Typography>
             <Typography>
               Start by telling us what programs you are interested in.
             </Typography>
+            {isInSampleUserMode() && (
+              <Typography color="textSecondary" variant="caption">
+                (Results size limited. Sign in to view all results.)
+              </Typography>
+            )}
           </Paper>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
@@ -139,6 +146,7 @@ const QueryButton = () => {
                     "MISSOURI",
                     "NEBRASKA",
                     "NEVADA",
+                    "TEXAS",
                   ]}
                   label="States"
                   onClear={() => handleArrayDataEntry("states")([])}
