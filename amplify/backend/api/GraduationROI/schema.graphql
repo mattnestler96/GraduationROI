@@ -14,7 +14,7 @@ type ROI @model
 @auth(rules: [{allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: private, operations: [read]}, {allow: public, operations: [read], provider: iam}]) {
   id: ID!
   uniqueId: String
-  state: String @index(name: "stateByUniqueId", sortKeyFields: ["uniqueId"])
+  state: String! @index(name: "stateByUniqueId", queryField: "stateByUniqueId", sortKeyFields: ["uniqueId"])
   institutionName: String 
   programName: String
   unitId: Int

@@ -31,7 +31,7 @@ export declare class UserInfo {
 export declare class ROI {
   readonly id: string;
   readonly uniqueId?: string;
-  readonly state?: string;
+  readonly state: string;
   readonly institutionName?: string;
   readonly programName?: string;
   readonly unitId?: number;

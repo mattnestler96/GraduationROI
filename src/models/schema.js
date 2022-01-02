@@ -151,7 +151,7 @@ export const schema = {
                     "name": "state",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "institutionName": {
@@ -696,5 +696,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "fcd17d88c557a5601b4d32e7dc4af71a"
+    "version": "dbba4329a502596a477af4cfb88441ea"
 };

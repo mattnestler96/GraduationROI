@@ -352,3 +352,102 @@ export const syncROIS = /* GraphQL */ `
     }
   }
 `;
+export const stateByUniqueId = /* GraphQL */ `
+  query StateByUniqueId(
+    $state: String
+    $uniqueId: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelROIFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    stateByUniqueId(
+      state: $state
+      uniqueId: $uniqueId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        uniqueId
+        state
+        institutionName
+        programName
+        unitId
+        stateFIPSCode
+        programCIPCode
+        programCategory
+        control
+        carnegieClassification2015
+        admissionsRate
+        credentialLevel
+        credentialLevelDescription
+        collegeScorecardCohortCount
+        annualNetTuitionCost
+        fourYearNetTuitionCost
+        annualEducationRelatedSpending
+        shareOfStudentWhoGraduateIn4Years
+        shareOfStudentWhoGraduateIn5Years
+        shareOfStudentWhoGraduateIn6Years
+        shareOfStudentWhoTransferOutIn6Years
+        shareOfStudentWhoRemainIn6Years
+        shareOfStudentWhoNoLongerEnrolledIn6Years
+        absoluteIncreaseInLifetimeEarnings
+        percentageIncreaseInLifetimeEarnings
+        lifetimeReturnOnInvestmentROI
+        ageAtWhichROITurnsPositive
+        rankOfProgramByROI
+        ROIIfStudentTakes5YearsToGraduate
+        ROIIfStudentTakes6YearsToGraduate
+        ROIIfStudentDropsBeforeGraduating
+        ROIWeightedByInstitutionsCompletionOutcomes
+        ROIBasedOnInstitutionsEducationRelatedSpending
+        ROIBasedOnInstitutionsEducationRelatedSpending5years
+        ROIBasedOnInstitutionsEducationRelatedSpending6Years
+        ROIBasedOnInstitutionsEducationRelatedSpendingDrops
+        ROIBasedOnInstitutionsEducationRelatedSpendingCompletionOutcomes
+        estimatedEarnings23
+        estimatedEarnings26
+        estimatedEarnings29
+        estimatedEarnings32
+        estimatedEarnings35
+        estimatedEarnings38
+        estimatedEarnings41
+        estimatedEarnings44
+        estimatedEarnings47
+        estimatedEarnings50
+        estimatedEarnings53
+        estimatedEarnings56
+        estimatedEarnings59
+        estimatedEarnings62
+        estimatedCounterfactualEarnings19
+        estimatedCounterfactualEarnings21
+        estimatedCounterfactualEarnings23
+        estimatedCounterfactualEarnings26
+        estimatedCounterfactualEarnings29
+        estimatedCounterfactualEarnings32
+        estimatedCounterfactualEarnings35
+        estimatedCounterfactualEarnings38
+        estimatedCounterfactualEarnings41
+        estimatedCounterfactualEarnings44
+        estimatedCounterfactualEarnings47
+        estimatedCounterfactualEarnings50
+        estimatedCounterfactualEarnings53
+        estimatedCounterfactualEarnings56
+        estimatedCounterfactualEarnings59
+        estimatedCounterfactualEarnings62
+        resultsAvailableForAllSpecifications
+        fourYearEducationRelatedSpending
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
