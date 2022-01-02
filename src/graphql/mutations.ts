@@ -82,6 +82,7 @@ export const createROI = /* GraphQL */ `
     createROI(input: $input, condition: $condition) {
       id
       uniqueId
+      state
       institutionName
       programName
       unitId
@@ -149,7 +150,6 @@ export const createROI = /* GraphQL */ `
       estimatedCounterfactualEarnings62
       resultsAvailableForAllSpecifications
       fourYearEducationRelatedSpending
-      state
       createdAt
       updatedAt
       _version
@@ -166,6 +166,7 @@ export const updateROI = /* GraphQL */ `
     updateROI(input: $input, condition: $condition) {
       id
       uniqueId
+      state
       institutionName
       programName
       unitId
@@ -233,7 +234,6 @@ export const updateROI = /* GraphQL */ `
       estimatedCounterfactualEarnings62
       resultsAvailableForAllSpecifications
       fourYearEducationRelatedSpending
-      state
       createdAt
       updatedAt
       _version
@@ -250,6 +250,7 @@ export const deleteROI = /* GraphQL */ `
     deleteROI(input: $input, condition: $condition) {
       id
       uniqueId
+      state
       institutionName
       programName
       unitId
@@ -317,7 +318,6 @@ export const deleteROI = /* GraphQL */ `
       estimatedCounterfactualEarnings62
       resultsAvailableForAllSpecifications
       fourYearEducationRelatedSpending
-      state
       createdAt
       updatedAt
       _version

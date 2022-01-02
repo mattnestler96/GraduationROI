@@ -31,6 +31,7 @@ export declare class UserInfo {
 export declare class ROI {
   readonly id: string;
   readonly uniqueId?: string;
+  readonly state?: string;
   readonly institutionName?: string;
   readonly programName?: string;
   readonly unitId?: number;
@@ -98,7 +99,6 @@ export declare class ROI {
   readonly estimatedCounterfactualEarnings62?: number;
   readonly resultsAvailableForAllSpecifications?: number;
   readonly fourYearEducationRelatedSpending?: number;
-  readonly state?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<ROI, ROIMetaData>);

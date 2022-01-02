@@ -92,6 +92,7 @@ export const getROI = /* GraphQL */ `
     getROI(id: $id) {
       id
       uniqueId
+      state
       institutionName
       programName
       unitId
@@ -159,7 +160,6 @@ export const getROI = /* GraphQL */ `
       estimatedCounterfactualEarnings62
       resultsAvailableForAllSpecifications
       fourYearEducationRelatedSpending
-      state
       createdAt
       updatedAt
       _version
@@ -178,6 +178,7 @@ export const listROIS = /* GraphQL */ `
       items {
         id
         uniqueId
+        state
         institutionName
         programName
         unitId
@@ -245,7 +246,6 @@ export const listROIS = /* GraphQL */ `
         estimatedCounterfactualEarnings62
         resultsAvailableForAllSpecifications
         fourYearEducationRelatedSpending
-        state
         createdAt
         updatedAt
         _version
@@ -273,6 +273,7 @@ export const syncROIS = /* GraphQL */ `
       items {
         id
         uniqueId
+        state
         institutionName
         programName
         unitId
@@ -340,7 +341,6 @@ export const syncROIS = /* GraphQL */ `
         estimatedCounterfactualEarnings62
         resultsAvailableForAllSpecifications
         fourYearEducationRelatedSpending
-        state
         createdAt
         updatedAt
         _version

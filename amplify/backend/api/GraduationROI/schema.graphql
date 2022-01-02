@@ -14,7 +14,8 @@ type ROI @model
 @auth(rules: [{allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: private, operations: [read]}, {allow: public, operations: [read], provider: iam}]) {
   id: ID!
   uniqueId: String
-  institutionName: String
+  state: String @index(name: "stateByUniqueId", sortKeyFields: ["uniqueId"])
+  institutionName: String 
   programName: String
   unitId: Int
   stateFIPSCode: Int
@@ -81,6 +82,5 @@ type ROI @model
   estimatedCounterfactualEarnings62: Int
   resultsAvailableForAllSpecifications: Int
   fourYearEducationRelatedSpending: Int
-  state: String
 }
  

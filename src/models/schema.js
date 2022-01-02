@@ -147,6 +147,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "state": {
+                    "name": "state",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "institutionName": {
                     "name": "institutionName",
                     "isArray": false,
@@ -616,13 +623,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "state": {
-                    "name": "state",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -646,6 +646,16 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "stateByUniqueId",
+                        "fields": [
+                            "state",
+                            "uniqueId"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
