@@ -1,8 +1,21 @@
 import { ROI } from "../../models";
 import { DataStore, API } from "aws-amplify";
+import programToType from "../../components/queryButton/programToType";
 import { uniqueId, ITEM_LIMIT } from "../../utils/dataHelpers";
 import { stateByUniqueId } from "../../graphql/queries";
 import { isInSampleUserMode } from "../../utils/userInfo";
+
+const previousCalledCache = {};
+const cacheWrapper = async (fn, s, pc, programs) => {
+  const cacheKey = `${s}_${pc}_${JSON.stringify(programs)}`;
+  let value = previousCalledCache[cacheKey];
+  if (!value) {
+    const response = await fn(s, pc, programs);
+    previousCalledCache[cacheKey] = response;
+    value = response;
+  }
+  return value;
+};
 
 const chainCall = (test, param, values) => (c) => {
   if (!values || values.length === 0) {
@@ -23,7 +36,7 @@ const buildGraphQLFilter = (test, param, values) => {
   return undefined;
 };
 
-const fetchByGraphQL = async (s, pc, filter, nT, accumulatedData) => {
+const fetchByGraphQL = async (s, pc, programs, nT, accumulatedData) => {
   if (accumulatedData && accumulatedData.length > ITEM_LIMIT) {
     return accumulatedData;
   }
@@ -37,7 +50,7 @@ const fetchByGraphQL = async (s, pc, filter, nT, accumulatedData) => {
       nextToken: nT,
       limit: ITEM_LIMIT,
       filter: {
-        and: [buildGraphQLFilter("eq", "programName", filter.programs)].filter(
+        and: [buildGraphQLFilter("eq", "programName", programs)].filter(
           (v) => !!v
         ),
       },
@@ -45,7 +58,7 @@ const fetchByGraphQL = async (s, pc, filter, nT, accumulatedData) => {
   });
   const { items, nextToken } = response.data.stateByUniqueId;
   if (nextToken) {
-    return fetchByGraphQL(s, pc, filter, nextToken, [
+    return fetchByGraphQL(s, pc, programs, nextToken, [
       ...(accumulatedData ?? []),
       ...items,
     ]);
@@ -53,15 +66,34 @@ const fetchByGraphQL = async (s, pc, filter, nT, accumulatedData) => {
   return [...(accumulatedData ?? []), ...items];
 };
 
+const determineProgramCategories = (programCategories, programs) => {
+  let programCategoryFromPrograms = [""];
+  if (programs && programs.length) {
+    programCategoryFromPrograms = Object.keys(
+      Object.fromEntries(programs?.map((p) => [programToType[p], ""]))
+    );
+  }
+  programCategories = programCategories?.length
+    ? Object.keys(
+        Object.fromEntries(
+          [...programCategories, ...programCategoryFromPrograms].map((v) => [
+            v,
+            "",
+          ])
+        )
+      )
+    : programCategoryFromPrograms;
+  return programCategories;
+};
+
 const breakDownByStateAndProgramCategory = async (filter) => {
-  let { states, programCategory } = filter;
+  let { states, programCategory, programs } = filter;
   if (states) {
-    programCategory = programCategory?.length ? programCategory : [""];
     const responses = await Promise.all(
       states.map(async (s) => {
         const stateResponses = await Promise.all(
-          programCategory.map((pc) => {
-            return fetchByGraphQL(s, pc, filter);
+          determineProgramCategories(programCategory, programs).map((pc) => {
+            return cacheWrapper(fetchByGraphQL, s, pc, programs);
           })
         );
         return stateResponses.flat();
