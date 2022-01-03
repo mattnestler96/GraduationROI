@@ -31,7 +31,7 @@ const ROIGraph = () => {
       })),
   };
   const dataCost = {
-    labels: ["Four Year Cost of Attendance"],
+    labels: ["Four Year Cost"],
     datasets: [...selectedPrograms]
     .sort(
       (a, b) =>
