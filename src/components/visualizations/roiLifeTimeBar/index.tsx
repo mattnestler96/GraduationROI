@@ -1,31 +1,45 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
   Tooltip,
-  Legend,
 } from "chart.js";
 import Title from "../../tableHeader";
 import { Bar } from "react-chartjs-2";
 import { Box } from "@mui/material";
 import { Programs } from "../../../contexts/programs";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
-
-const labels = ["Lifetime ROI", "Four Year Cost of Attendance"];
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 const ROIGraph = () => {
   const { selectedPrograms, selectedColorMap } = useContext(Programs);
-  const data = {
-    labels,
-    datasets: selectedPrograms.map((v, k) => ({
+  const dataROI = {
+    labels: ["Lifetime ROI"],
+    datasets: [...selectedPrograms]
+      .sort(
+        (a, b) =>
+          (a.lifetimeReturnOnInvestmentROI ?? 0) -
+          (b.lifetimeReturnOnInvestmentROI ?? 0)
+      )
+      .map((v) => ({
+        label: v.programName,
+        data: [v.lifetimeReturnOnInvestmentROI],
+        backgroundColor: selectedColorMap[v.id],
+        roi: v,
+      })),
+  };
+  const dataCost = {
+    labels: ["Four Year Cost of Attendance"],
+    datasets: [...selectedPrograms]
+    .sort(
+      (a, b) =>
+        (a.fourYearEducationRelatedSpending ?? 0) -
+        (b.fourYearEducationRelatedSpending ?? 0)
+    ).map((v) => ({
       label: v.programName,
-      data: [
-        v.lifetimeReturnOnInvestmentROI,
-        v.fourYearEducationRelatedSpending,
-      ],
+      data: [v.fourYearEducationRelatedSpending],
       backgroundColor: selectedColorMap[v.id],
       roi: v,
     })),
@@ -33,27 +47,54 @@ const ROIGraph = () => {
   return (
     <Box height="400px" paddingBottom="30px">
       <Title title="Lifetime Return on Investment" />
-      <Bar
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: "top" as const,
-            },
-            tooltip: {
-              enabled: true,
-              callbacks: {
-                afterLabel: ({ dataset }) => {
-                  const { roi } = dataset as any;
-                  return `${roi.institutionName}`;
+      <Box display="flex">
+        <Box width="50%" height="350px">
+          <Bar
+            options={{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                tooltip: {
+                  enabled: true,
+                  callbacks: {
+                    afterLabel: ({ dataset }) => {
+                      const { roi } = dataset as any;
+                      return `${roi.institutionName}`;
+                    },
+                  },
                 },
               },
-            },
-          },
-        }}
-        data={data}
-      />
+            }}
+            data={dataROI}
+          />
+        </Box>
+        <Box width="50%" height="350px">
+          <Bar
+            options={{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                tooltip: {
+                  enabled: true,
+                  callbacks: {
+                    afterLabel: ({ dataset }) => {
+                      const { roi } = dataset as any;
+                      return `${roi.institutionName}`;
+                    },
+                  },
+                },
+              },
+            }}
+            data={dataCost}
+          />
+        </Box>
+      </Box>
     </Box>
   );
 };

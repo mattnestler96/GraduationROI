@@ -10,12 +10,12 @@ import { Programs } from "../../../contexts/programs";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const labels = [
-  "Percent of students who graduate in 4 years",
-  "Percent of students who graduate in 5 years",
-  "Percent of students who graduate in 6 years",
-  "Percent of students who transfer out within 6 years",
-  "Percent of students still enrolled after 6 years",
-  "Percent of students who are no longer enrolled",
+  "% graduating in 4 years",
+  "% graduating in  in 5 years",
+  "% graduating in  in 6 years",
+  "% transferring out within 6 years",
+  "% enrolled after 6 years",
+  "% no longer enrolled",
 ];
 
 export const options = {
@@ -44,7 +44,6 @@ const ROIGraph = () => {
         Color(selectedColorMap[v.id]).lighten(0.4).string(),
         Color(selectedColorMap[v.id]).lighten(0.5).string(),
       ],
-      borderColor: ["#000", "#000", "#000", "#000", "#000", "#000"],
       roi: v,
     })),
   };
@@ -56,6 +55,9 @@ const ROIGraph = () => {
         style={{ maxHeight: "100%" }}
         options={{
           plugins: {
+            legend: {
+              position: 'right',
+            },
             tooltip: {
               enabled: true,
               callbacks: {

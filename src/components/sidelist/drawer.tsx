@@ -17,9 +17,15 @@ import { useDeferred } from "../../utils/useDeferred";
 import { Programs } from "../../contexts/programs";
 import { ROI } from "../../models";
 
-const ResponsiveDrawer = ({ children, open }: { children: JSX.Element, open: boolean }) => {
+const ResponsiveDrawer = ({
+  children,
+  open,
+}: {
+  children: JSX.Element;
+  open: boolean;
+}) => {
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+  const matches = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
       <Drawer
@@ -42,13 +48,13 @@ const ResponsiveDrawer = ({ children, open }: { children: JSX.Element, open: boo
   );
 };
 
-const SidelistDrawer = ({ open }: {open: boolean}) => {
+const SidelistDrawer = ({ open }: { open: boolean }) => {
   const { programs, handleSelectedProgramChange, selectedColorMap } =
     useContext(Programs);
   const [filterString, setFilterString] = React.useState("");
   const [sortType, setSortType] = React.useState<
     "selected" | keyof ROI | undefined
-  >();
+  >("lifetimeReturnOnInvestmentROI");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const sortOpen = !!anchorEl;
   const delayedFilterString = useDeferred(filterString, 300);

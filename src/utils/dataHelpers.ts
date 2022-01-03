@@ -8,3 +8,7 @@ export const uniqueId = (v: Partial<ROI>): string =>
 export const convertAWSJSON = (x: any): unknown => {
   return !x || typeof x !== "object" ? JSON.parse(x || "{}") : x;
 };
+
+export const numberWithCommas = (x?: number): string => {
+  return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "";
+};

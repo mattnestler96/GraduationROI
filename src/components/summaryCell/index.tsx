@@ -11,6 +11,7 @@ import { useContext, useMemo } from "react";
 import { ROI } from "../../models";
 import ListItemWithBorder from "../programListItem/listItemWithBorder";
 import { Programs } from "../../contexts/programs";
+import { numberWithCommas } from "../../utils/dataHelpers";
 
 const TableWrapper = (props: DefaultComponentProps<PaperTypeMap>) => (
   <Paper
@@ -88,7 +89,9 @@ const SummaryCell = ({
         <Box display="flex">
           <Box margin="0px 10px 10px 10px">
             <Typography color="gray">Lifetime ROI:</Typography>
-            <Typography> {`$${Math.floor(stats.averageROI)}`}</Typography>
+            <Typography>
+              {`$${numberWithCommas(Math.floor(stats.averageROI))}`}
+            </Typography>
           </Box>
           <Box margin="0px 10px 10px 10px">
             <Typography color="gray">Students:</Typography>
@@ -106,7 +109,9 @@ const SummaryCell = ({
       </Box>
       <Box display="flex" flexDirection="row" alignItems="center">
         <Box textAlign="center">
-          <Typography variant="caption">{`Highest ROI ($${stats.maxROI.lifetimeReturnOnInvestmentROI})`}</Typography>
+          <Typography variant="caption">{`Highest ROI ($${numberWithCommas(
+            stats.maxROI.lifetimeReturnOnInvestmentROI
+          )})`}</Typography>
           <ListItemWithBorder
             program={stats.maxROI}
             onClick={onClick}
