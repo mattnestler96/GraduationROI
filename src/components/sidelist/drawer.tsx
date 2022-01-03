@@ -84,7 +84,7 @@ const SidelistDrawer = ({
         .sort((a, b) => {
           const multi = sortDirection === "ASC" ? -1 : 1;
           if (sortType === "selected") {
-            return !!selectedColorMap[a.id] ? -1 * multi : 1 * multi;
+            return !!selectedColorMap[a.id] ? 1 * multi : -1 * multi;
           }
           if (sortType) {
             const vA = a[sortType];
