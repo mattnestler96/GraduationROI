@@ -101,7 +101,7 @@ const App = (props) => {
 
   return (
     <>
-      {tabValue < 2 && <SidelistDrawer open={drawerOpen} />}
+      {tabValue < 2 && <SidelistDrawer open={drawerOpen} setOpen={setDrawerOpen} />}
       <AppBar
         color="transparent"
         position="fixed"
