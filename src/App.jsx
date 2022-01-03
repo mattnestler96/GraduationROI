@@ -1,5 +1,5 @@
 import "@aws-amplify/ui-react/styles.css";
-import React, { useContext } from "react";
+import React from "react";
 import QueryButton from "./components/queryButton";
 import UserInfoButton from "./components/userInfoButton";
 import {
@@ -22,7 +22,6 @@ import LearnMoreButton from "./components/learnmore";
 import LogoutButton from "./components/logout";
 import SidelistDrawer from "./components/sidelist/drawer";
 import Uploader from "./components/uploader";
-import { Programs } from "./contexts/programs";
 import { setUpAnalytics } from "./utils/userSearchTracking";
 import { getUserName } from "./utils/userInfo";
 
@@ -79,7 +78,6 @@ const UserMenu = ({ signOut, username }) => {
 export const DRAWER_WIDTH = 350;
 
 const App = (props) => {
-  const { hasChanges, handleResetChanges } = useContext(Programs);
   const { signOut, user } = props;
   const groups =
     user?.signInUserSession?.idToken?.payload?.["cognito:groups"] || [];
@@ -88,9 +86,6 @@ const App = (props) => {
   const [drawerOpen, setDrawerOpen] = React.useState(true);
 
   const handleTabChange = (e, v) => {
-    if (v === 1) {
-      handleResetChanges();
-    }
     setTabValue(v);
   };
 
@@ -134,7 +129,7 @@ const App = (props) => {
               label={
                 <Typography
                   fontSize="small"
-                  color={hasChanges ? "secondary" : "inherit"}
+                  color={"inherit"}
                 >
                   {"Analysis"}
                 </Typography>

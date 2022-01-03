@@ -22,10 +22,17 @@ import Program from "@mui/icons-material/HistoryEdu";
 import ProgramCategory from "@mui/icons-material/School";
 import React, { useContext } from "react";
 import programTypes from "./programTypes";
-import programs from "./programs";
+import programs from "./programToType";
 import MultiSelect from "../multiSelect";
 import { Programs } from "../../contexts/programs";
 import { isInSampleUserMode } from "../../utils/userInfo";
+
+const getPrograms = (filter?: string[]): string[] => {
+  if (!filter || !filter.length) {
+    return Object.keys(programs).sort();
+  }
+  return filter.map((s) => programTypes[s]).flat().sort();
+};
 
 interface IFilter {
   states?: string[];
@@ -47,7 +54,7 @@ const QueryButton = () => {
   const [currentFilter, setCurrentFilter] =
     React.useState<IFilter>(queryFilter);
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+  const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleOpenDialog = () => {
     setOpen(true);
@@ -187,7 +194,7 @@ const QueryButton = () => {
                 <MultiSelect
                   onChange={handleArrayDataEntry("programCategory")}
                   value={currentFilter.programCategory || []}
-                  options={programTypes}
+                  options={Object.keys(programTypes).sort()}
                   label="Area of Focus"
                   onClear={() => handleArrayDataEntry("programCategory")([])}
                 />
@@ -218,7 +225,7 @@ const QueryButton = () => {
                 <MultiSelect
                   onChange={handleArrayDataEntry("programs")}
                   value={currentFilter.programs || []}
-                  options={programs}
+                  options={getPrograms(currentFilter.programCategory)}
                   label="Programs"
                   onClear={() => handleArrayDataEntry("programs")([])}
                 />
