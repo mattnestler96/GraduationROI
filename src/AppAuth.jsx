@@ -1,51 +1,21 @@
-import { Authenticator } from "@aws-amplify/ui-react";
-import Amplify from "aws-amplify";
+import Amplify, { Auth } from "aws-amplify";
 import configFile from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import React from "react";
-import { Button, Box, Typography } from "@mui/material";
-import { setUserName, SAMPLE_USER, isInSampleUserMode } from "./utils/userInfo";
+import { Box, Typography } from "@mui/material";
+import { setUserName } from "./utils/userInfo";
 import App from "./App";
-import {ProgramProvider} from './contexts/programs'
-
-const AuthenticatorWithGuestMode = (props) => {
-  const [useGuest, setUseGuest] = React.useState(isInSampleUserMode());
-
-  if (useGuest) {
-    return (
-      <>
-        {props.children({
-          user: { attributes: { email: SAMPLE_USER } },
-          signOut: () => setUseGuest(false),
-        })}
-      </>
-    );
-  } else {
-    return (
-      <Box display="flex" alignItems="center" flexDirection="column">
-        <Authenticator {...props} />
-        {!props.loggedIn && (
-          <Button onClick={() => setUseGuest(true)}>
-            Continue with Sample
-          </Button>
-        )}
-      </Box>
-    );
-  }
-};
+import { ProgramProvider } from "./contexts/programs";
+import CustomAuth from "./components/auth";
 
 const AppWrappedAuth = () => {
   Amplify.configure(configFile);
   const [loggedIn, setLoggedIn] = React.useState(false);
 
-  const innerWrap = (props) => {
-    setLoggedIn(!!props.user);
-    setUserName(props.user.attributes.email);
-    return (
-      <>
-        <App {...props} />
-      </>
-    );
+  const handleSignOut = async () => {
+    await Auth.signOut();
+    setUserName(undefined);
+    setLoggedIn(false);
   };
 
   const DynamicWrapper = (props) =>
@@ -66,23 +36,21 @@ const AppWrappedAuth = () => {
           flexWrap: "wrap",
         }}
       >
-        {loggedIn ? null : (
-          <Box marginBottom="50px">
-            <Typography variant="h3" color="primary">
-              GraduationROI
-            </Typography>
-            <Typography color="primary" variant="h6">
-              Be well informed of your future
-            </Typography>
-          </Box>
+        {loggedIn ? (
+          <App signOut={handleSignOut} />
+        ) : (
+          <>
+            <Box marginBottom="50px">
+              <Typography variant="h3" color="primary">
+                GraduationROI
+              </Typography>
+              <Typography color="primary" variant="h6">
+                Be well informed of your future
+              </Typography>
+            </Box>
+            <CustomAuth updatedAuth={() => setLoggedIn(true)} />
+          </>
         )}
-
-        <AuthenticatorWithGuestMode
-          signUpAttributes={["email"]}
-          loggedIn={loggedIn}
-        >
-          {innerWrap}
-        </AuthenticatorWithGuestMode>
       </DynamicWrapper>
     </ProgramProvider>
   );

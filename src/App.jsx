@@ -117,7 +117,7 @@ const App = (props) => {
           </Box>
           <Box>
             <LearnMoreButton />
-            <UserMenu signOut={signOut} username={user.attributes.email} />
+            <UserMenu signOut={signOut} username={getUserName()} />
           </Box>
         </Toolbar>
       </AppBar>
