@@ -1,22 +1,31 @@
-import { Box, Typography, TextFieldProps, ButtonProps } from "@mui/material";
-import DullTextField from '@mui/material/TextField';
-import DullButton from '@mui/material/Button';
+import {
+  Box,
+  Typography,
+  TextFieldProps,
+  ButtonProps,
+  DialogTitle,
+  Dialog,
+  DialogContent,
+} from "@mui/material";
+import DullTextField from "@mui/material/TextField";
+import DullButton from "@mui/material/Button";
 import { Auth } from "aws-amplify";
 import React, { ChangeEvent } from "react";
 import { SAMPLE_USER, setUserName } from "../../utils/userInfo";
 
 const TextField = (props: TextFieldProps) => {
-    return <DullTextField style={{ ...props.style, margin: 5}} {...props} />
-}
+  return <DullTextField style={{ ...props.style, margin: 5 }} {...props} />;
+};
 const Button = (props: ButtonProps) => {
-    return <DullButton style={{ ...props.style, margin: 5}} {...props} />
-}
+  return <DullButton style={{ ...props.style, margin: 5 }} {...props} />;
+};
 
 interface IAuth {
   updatedAuth: (user: any) => void;
 }
 
 const Authenticator = (props: IAuth): JSX.Element => {
+  const [dialogOpen, setDialogOpen] = React.useState(true);
   const [user, setUser] = React.useState<any>({});
   const [error, setError] = React.useState<any>();
   const [needConfirmation, setNeedConfirmation] = React.useState(false);
@@ -25,6 +34,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
       const response = await Auth.currentAuthenticatedUser();
       setUser(response);
       props.updatedAuth(response);
+      setDialogOpen(false);
     } catch (e) {
       console.log(e);
     }
@@ -32,6 +42,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
 
   React.useEffect(() => {
     isPreviouslyLoggedIn();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleUserNameChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -54,6 +65,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
       const { attributes } = await Auth.signIn(user.username, user.password);
       setUserName(attributes.email);
       props.updatedAuth?.(user);
+      setDialogOpen(false);
     } catch (e: any) {
       console.warn(e.message);
       setNeedConfirmation(e.message === "User is not confirmed.");
@@ -75,6 +87,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
     try {
       await Auth.confirmSignUp(user.username, user.code);
       props.updatedAuth?.(user);
+      setDialogOpen(false);
     } catch (e) {
       console.warn(e);
       setError(e);
@@ -90,52 +103,66 @@ const Authenticator = (props: IAuth): JSX.Element => {
     }
   };
   const handleSample = () => {
-      setError(undefined);
-      setUserName(SAMPLE_USER);
-      props.updatedAuth?.(user);
-  }
+    setError(undefined);
+    setDialogOpen(false);
+    setUserName(SAMPLE_USER);
+    props.updatedAuth?.(user);
+  };
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
-      {needConfirmation ? (
-        <>
-          <TextField label="code" onChange={handleConfirmChange} />
-          {error && <Typography color="error">{error.message}</Typography>}
-          <Box display="flex" flexDirection="row">
-            <Button color="secondary" onClick={handleResendConfirm}>
-              Resend Code
-            </Button>
-            <Button color="primary" variant="contained" onClick={handleConfirm}>
-              Confirm
-            </Button>
-          </Box>
-        </>
-      ) : (
-        <>
-          <TextField
-            label="Email"
-            type="email"
-            onChange={handleUserNameChange}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            onChange={handlePasswordChange}
-          />
-          {error && <Typography color="error">{error.message}</Typography>}
-          <Box display="flex" flexDirection="row">
-            <Button color="secondary" onClick={handleSignUp}>
-              Sign Up
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleSignIn}>
-              Sign In
-            </Button>
-          </Box>
-            <Button color="primary" onClick={handleSample}>
-              Continue to Sample
-            </Button>
-        </>
-      )}
-    </Box>
+    <Dialog open={dialogOpen} onClose={handleSample}>
+      <DialogTitle>Login or Sign Up</DialogTitle>
+      <DialogContent>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          {needConfirmation ? (
+            <>
+              <TextField label="code" onChange={handleConfirmChange} />
+              {error && <Typography color="error">{error.message}</Typography>}
+              <Box display="flex" flexDirection="row">
+                <Button color="secondary" onClick={handleResendConfirm}>
+                  Resend Code
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleConfirm}
+                >
+                  Confirm
+                </Button>
+              </Box>
+            </>
+          ) : (
+            <>
+              <TextField
+                label="Email"
+                type="email"
+                onChange={handleUserNameChange}
+              />
+              <TextField
+                label="Password"
+                type="password"
+                onChange={handlePasswordChange}
+              />
+              {error && <Typography color="error">{error.message}</Typography>}
+              <Box display="flex" flexDirection="row">
+                <Button color="secondary" onClick={handleSignUp}>
+                  Sign Up
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSignIn}
+                >
+                  Sign In
+                </Button>
+              </Box>
+              <Button color="primary" onClick={handleSample}>
+                Continue to Sample
+              </Button>
+            </>
+          )}
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 };
 
