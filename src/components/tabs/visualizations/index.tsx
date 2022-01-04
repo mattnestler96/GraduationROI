@@ -2,6 +2,7 @@ import { Paper, PaperTypeMap } from "@mui/material";
 import SelectedProgramsHeader from "../../selectedProgramsHeader";
 import ROIOverTimeGraph from "../../visualizations/roiOverTimeLine";
 import ROILifeTimeBar from "../../visualizations/roiLifeTimeBar";
+import CostBar from "../../visualizations/costBar";
 import GraduationRatePie from "../../visualizations/graduationRate";
 import ROICostSizeBubble from "../../visualizations/roiCostSizeBubble";
 import { DefaultComponentProps } from "@mui/material/OverridableComponent";
@@ -18,13 +19,16 @@ const VisualizationTab = () => {
         <ROILifeTimeBar />
       </TableWrapper>
       <TableWrapper>
+        <CostBar />
+      </TableWrapper>
+      <TableWrapper>
         <ROIOverTimeGraph />
       </TableWrapper>
       <TableWrapper>
-        <GraduationRatePie />
+        <ROICostSizeBubble />
       </TableWrapper>
       <TableWrapper>
-        <ROICostSizeBubble />
+        <GraduationRatePie />
       </TableWrapper>
     </>
   );

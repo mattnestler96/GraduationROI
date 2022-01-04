@@ -15,27 +15,24 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 const ROIGraph = () => {
   const { selectedPrograms, selectedColorMap } = useContext(Programs);
-  const dataROI = {
-    labels: ["Lifetime ROI"],
+  const dataCost = {
+    labels: ["Four Year Cost"],
     datasets: [...selectedPrograms]
       .sort(
         (a, b) =>
-          (a.lifetimeReturnOnInvestmentROI ?? 0) -
-          (b.lifetimeReturnOnInvestmentROI ?? 0)
+          (a.fourYearEducationRelatedSpending ?? 0) -
+          (b.fourYearEducationRelatedSpending ?? 0)
       )
       .map((v) => ({
         label: v.programName,
-        data: [v.lifetimeReturnOnInvestmentROI],
+        data: [v.fourYearEducationRelatedSpending],
         backgroundColor: selectedColorMap[v.id],
         roi: v,
       })),
   };
   return (
     <Box height="400px" paddingBottom="30px">
-      <Title
-        title="Is it worth it?"
-        subtitle="Lifetime return on investment calculated using increased earning potential vs cost of the program."
-      />
+      <Title title="Is it affordable?" subtitle="Cost is a major factor on students deciding if college is possible at the moment."  />
       <Bar
         options={{
           responsive: true,
@@ -55,7 +52,7 @@ const ROIGraph = () => {
             },
           },
         }}
-        data={dataROI}
+        data={dataCost}
       />
     </Box>
   );

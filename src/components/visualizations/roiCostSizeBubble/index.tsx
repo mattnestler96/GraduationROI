@@ -25,8 +25,10 @@ const normalizeSize = (r: number, max: number, min: number): number => {
 };
 
 const ROIGraph = () => {
-  const {selectedPrograms, selectedColorMap} = useContext(Programs)
-  const cohort = selectedPrograms.map((v) => v.collegeScorecardCohortCount || 1);
+  const { selectedPrograms, selectedColorMap } = useContext(Programs);
+  const cohort = selectedPrograms.map(
+    (v) => v.collegeScorecardCohortCount || 1
+  );
   const maxCohort = Math.max(...cohort) + 1;
   const minCohort = Math.min(...cohort);
   const data = {
@@ -52,7 +54,8 @@ const ROIGraph = () => {
   return (
     <Box height="400px" paddingBottom="30px">
       <Title
-        title="Students Completing Degrees"
+        title="Who else is achieving it?"
+        subtitle="The larger the bubbles, the more students are represented in the program. A program with more students shows that the results are reproducible."
         info="The vertical axis shows the lifetime ROI. The horizontal axis shows the total cost of attendance. The bubble size gives a comparison of the size of the cohort. When picking a degree, it is important to balance these three. Low cost and High return only means so much if only a select few successfully make it through the program."
       />
       <Bubble
@@ -61,6 +64,7 @@ const ROIGraph = () => {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
+            legend: { display: false },
             tooltip: {
               enabled: true,
               callbacks: {

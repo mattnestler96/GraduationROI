@@ -49,14 +49,17 @@ const ROIGraph = () => {
   };
   return (
     <Box height="400px" paddingBottom="30px">
-      <Title title="Graduation Rates" />
+      <Title
+        title="Can it be finished on-time?"
+        subtitle="When a program can be completed in 4 years you're more likely to find college to be worth your time."
+      />
       <Pie
         data={data}
         style={{ maxHeight: "100%" }}
         options={{
           plugins: {
             legend: {
-              position: 'right',
+              position: "right",
             },
             tooltip: {
               enabled: true,

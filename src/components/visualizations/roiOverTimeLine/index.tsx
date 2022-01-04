@@ -115,8 +115,9 @@ const ROIGraph = () => {
   return (
     <Box height="400px" paddingBottom="30px">
       <Title
-        title="Expected Income by Age"
-        info="Projected income of a graduate. Counterfactual: The amount that the same student would have earned over the course of her life had she not gone to college."
+        title="What is possible with it?"
+        subtitle="Projecting income based on an average career for a program modified by the advantage a school gives."
+        info="Counterfactual: The amount that the same student would have earned over the course of her life had she not gone to college."
       />
       <Line
         options={{

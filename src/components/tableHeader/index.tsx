@@ -13,6 +13,7 @@ import React from "react";
 interface ITitle {
   info?: string;
   title: string;
+  subtitle?: string;
 }
 
 const Title = (props: ITitle) => {
@@ -32,8 +33,14 @@ const Title = (props: ITitle) => {
         display="flex"
         alignItems="center"
         justifyContent="space-between"
+        marginBottom="10px"
       >
-        <Typography>{props.title}</Typography>
+        <Box>
+          <Typography>{props.title}</Typography>
+          <Typography variant="caption" color="textSecondary">
+            {props.subtitle}
+          </Typography>
+        </Box>
         {props.info && (
           <IconButton onClick={handleOpenInfoDialog}>
             <Info />
