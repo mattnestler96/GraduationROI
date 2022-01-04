@@ -44,7 +44,18 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
   ) => {
     setQueryFilter(filter);
     localStorage.setItem(QUERY_FILTER_KEY, JSON.stringify(filter));
-    fetchPrograms(filter).then(setPrograms);
+    const progs = await fetchPrograms(filter);
+    if (!selectedPrograms.length) {
+      setSelectedPrograms(
+        progs
+          .sort(
+            (a, b) =>
+              b.lifetimeReturnOnInvestmentROI - a.lifetimeReturnOnInvestmentROI
+          )
+          .slice(0, 2)
+      );
+    }
+    setPrograms(progs);
   };
 
   const handleSelectedProgramChange = (changedValues: ROI[]) => {
