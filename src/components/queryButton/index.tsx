@@ -31,7 +31,10 @@ const getPrograms = (filter?: string[]): string[] => {
   if (!filter || !filter.length) {
     return Object.keys(programs).sort();
   }
-  return filter.map((s) => programTypes[s]).flat().sort();
+  return filter
+    .map((s) => programTypes[s])
+    .flat()
+    .sort();
 };
 
 interface IFilter {
@@ -116,13 +119,14 @@ const QueryButton = () => {
         <DialogTitle>Start Search</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column" }}>
           <Paper style={{ padding: 10, margin: 10 }}>
-            <Typography>Welcome to GraduationROI!</Typography>
-            <Typography>
-              We'll help you get a glimpse of life after graduating with a
-              degree.
+            <Typography variant="h6" color="primary">
+              Welcome to GraduationROI!
             </Typography>
             <Typography>
-              Start by telling us what programs you are interested in.
+              We'll help you get a glimpse of your life after graduation.
+            </Typography>
+            <Typography>
+              Tell us a little about what programs you are interested in.
             </Typography>
             {isInSampleUserMode() && (
               <Typography color="textSecondary" variant="caption">
