@@ -113,33 +113,36 @@ const ROIGraph = () => {
   };
 
   return (
-    <Box height="400px" paddingBottom="30px">
+    <Box>
       <Title
         title="What is possible with it?"
         subtitle="Projecting income based on an average career for a program modified by the advantage a school gives."
         info="Counterfactual: The amount that the same student would have earned over the course of her life had she not gone to college."
       />
-      <Line
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: "top" as const,
-            },
-            tooltip: {
-              enabled: true,
-              callbacks: {
-                afterLabel: ({ dataset }) => {
-                  const { roi } = dataset as any;
-                  return `${roi.institutionName}`;
+      <Box height="400px" paddingBottom="30px">
+        <Line
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "top" as const,
+                display: false,
+              },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  afterLabel: ({ dataset }) => {
+                    const { roi } = dataset as any;
+                    return `${roi.institutionName}`;
+                  },
                 },
               },
             },
-          },
-        }}
-        data={data}
-      />
+          }}
+          data={data}
+        />
+      </Box>
     </Box>
   );
 };

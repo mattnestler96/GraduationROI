@@ -29,7 +29,6 @@ const Title = (props: ITitle) => {
     <>
       <Box
         width="100%"
-        height="40px"
         display="flex"
         alignItems="center"
         justifyContent="space-between"

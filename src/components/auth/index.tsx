@@ -3,6 +3,7 @@ import {
   Typography,
   TextFieldProps,
   ButtonProps,
+  CircularProgress,
   DialogTitle,
   Dialog,
   DialogContent,
@@ -28,6 +29,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
   const [dialogOpen, setDialogOpen] = React.useState(true);
   const [user, setUser] = React.useState<any>({});
   const [error, setError] = React.useState<any>();
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [needConfirmation, setNeedConfirmation] = React.useState(false);
   const isPreviouslyLoggedIn = async () => {
     try {
@@ -42,7 +44,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
 
   React.useEffect(() => {
     isPreviouslyLoggedIn();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleUserNameChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -61,6 +63,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
   };
   const handleSignIn = async () => {
     setError(undefined);
+    setLoading(true);
     try {
       const { attributes } = await Auth.signIn(user.username, user.password);
       setUserName(attributes.email);
@@ -71,6 +74,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
       setNeedConfirmation(e.message === "User is not confirmed.");
       setError(e);
     }
+    setLoading(false);
   };
   const handleSignUp = async () => {
     setError(undefined);
@@ -110,7 +114,10 @@ const Authenticator = (props: IAuth): JSX.Element => {
   };
   return (
     <Dialog open={dialogOpen} onClose={handleSample}>
-      <DialogTitle>Login or Sign Up</DialogTitle>
+      <DialogTitle>
+        Login or Sign Up
+        {loading && <CircularProgress />}
+      </DialogTitle>
       <DialogContent>
         <Box display="flex" flexDirection="column" alignItems="center">
           {needConfirmation ? (

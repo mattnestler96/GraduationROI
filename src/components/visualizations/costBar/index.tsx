@@ -31,29 +31,34 @@ const ROIGraph = () => {
       })),
   };
   return (
-    <Box height="400px" paddingBottom="30px">
-      <Title title="Is it affordable?" subtitle="Cost is a major factor on students deciding if college is possible at the moment."  />
-      <Bar
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              enabled: true,
-              callbacks: {
-                afterLabel: ({ dataset }) => {
-                  const { roi } = dataset as any;
-                  return `${roi.institutionName}`;
+    <Box>
+      <Title
+        title="Is it affordable?"
+        subtitle="Cost is a major factor on students deciding if college is possible at the moment."
+      />
+      <Box height="400px" paddingBottom="30px">
+        <Bar
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  afterLabel: ({ dataset }) => {
+                    const { roi } = dataset as any;
+                    return `${roi.institutionName}`;
+                  },
                 },
               },
             },
-          },
-        }}
-        data={dataCost}
-      />
+          }}
+          data={dataCost}
+        />
+      </Box>
     </Box>
   );
 };

@@ -48,34 +48,36 @@ const ROIGraph = () => {
     })),
   };
   return (
-    <Box height="400px" paddingBottom="30px">
+    <Box>
       <Title
         title="Can it be finished on-time?"
         subtitle="When a program can be completed in 4 years you're more likely to find college to be worth your time."
       />
-      <Pie
-        data={data}
-        style={{ maxHeight: "100%" }}
-        options={{
-          plugins: {
-            legend: {
-              position: "right",
-            },
-            tooltip: {
-              enabled: true,
-              callbacks: {
-                label: ({ dataset, dataIndex }) => {
-                  return `${dataset.label}: ${dataset.data[dataIndex]}%`;
-                },
-                afterLabel: ({ dataset }) => {
-                  const { roi } = dataset as any;
-                  return `${roi.institutionName}`;
+      <Box height="400px" paddingBottom="30px">
+        <Pie
+          data={data}
+          style={{ maxHeight: "100%" }}
+          options={{
+            plugins: {
+              legend: {
+                position: "right",
+              },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  label: ({ dataset, dataIndex }) => {
+                    return `${dataset.label}: ${dataset.data[dataIndex]}%`;
+                  },
+                  afterLabel: ({ dataset }) => {
+                    const { roi } = dataset as any;
+                    return `${roi.institutionName}`;
+                  },
                 },
               },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </Box>
     </Box>
   );
 };

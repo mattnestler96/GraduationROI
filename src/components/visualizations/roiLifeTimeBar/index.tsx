@@ -31,32 +31,34 @@ const ROIGraph = () => {
       })),
   };
   return (
-    <Box height="400px" paddingBottom="30px">
+    <Box>
       <Title
         title="Is it worth it?"
         subtitle="Lifetime return on investment calculated using increased earning potential vs cost of the program."
       />
-      <Bar
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              enabled: true,
-              callbacks: {
-                afterLabel: ({ dataset }) => {
-                  const { roi } = dataset as any;
-                  return `${roi.institutionName}`;
+      <Box height="400px" paddingBottom="30px">
+        <Bar
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  afterLabel: ({ dataset }) => {
+                    const { roi } = dataset as any;
+                    return `${roi.institutionName}`;
+                  },
                 },
               },
             },
-          },
-        }}
-        data={dataROI}
-      />
+          }}
+          data={dataROI}
+        />
+      </Box>
     </Box>
   );
 };
