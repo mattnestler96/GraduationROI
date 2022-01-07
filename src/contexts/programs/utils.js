@@ -20,7 +20,6 @@ const cacheWrapper = async (fn, s, pc, programs) => {
     previousCalledCache[cacheKey] = response;
     value = response;
   }
-  console.log(Object.keys(previousCalledCache));
   return value;
 };
 
@@ -48,7 +47,6 @@ const fetchByGraphQL = async (s, pc, programs, nT, accumulatedData) => {
   if (accumulatedData && accumulatedData.length > limit) {
     return accumulatedData;
   }
-  console.log(s, pc);
   const response = await API.graphql({
     query: stateByUniqueId,
     operation: "stateByUniqueId",
@@ -97,7 +95,6 @@ const determineProgramCategories = (programCategories, programs) => {
 
 const breakDownByStateAndProgramCategory = async (filter) => {
   let { states, programCategory, programs } = filter;
-  console.log(states, programCategory);
   if (states) {
     const responses = await Promise.all(
       states.map(async (s) => {
