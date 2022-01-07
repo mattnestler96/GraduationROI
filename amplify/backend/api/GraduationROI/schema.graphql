@@ -11,7 +11,7 @@ type UserInfo @model @auth(rules: [{allow: private, operations: [create]}, {allo
 }
 
 type ROI @model 
-@auth(rules: [{allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: private, operations: [read]}, {allow: public, operations: [read], provider: iam}]) {
+@auth(rules: [{allow: groups, groups: ["Admins"], operations: [read, create, update, delete]}, {allow: private, operations: [read], provider: iam}, {allow: public, operations: [read], provider: iam}]) {
   id: ID!
   uniqueId: String
   state: String! @index(name: "stateByUniqueId", queryField: "stateByUniqueId", sortKeyFields: ["uniqueId"])

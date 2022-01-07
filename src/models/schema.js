@@ -679,7 +679,8 @@ export const schema = {
                                 "allow": "private",
                                 "operations": [
                                     "read"
-                                ]
+                                ],
+                                "provider": "iam"
                             },
                             {
                                 "allow": "public",

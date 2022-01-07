@@ -1,7 +1,13 @@
 import React, { useContext } from "react";
 import Typography from "@mui/material/Typography";
 import { ROI } from "../../models";
-import { Box, Button, List, ListItemButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  List,
+  ListItemButton,
+  CircularProgress,
+} from "@mui/material";
 import Search from "@mui/icons-material/SearchOutlined";
 import ProgramListItem from "../programListItem";
 import { handleAddViewHistory } from "../../utils/userSearchTracking";
@@ -37,8 +43,12 @@ interface ISideList {
 }
 
 const SideList = (props: ISideList) => {
-  const { selectedPrograms, selectedColorMap, handleSelectedProgramChange } =
-    useContext(Programs);
+  const {
+    selectedPrograms,
+    selectedColorMap,
+    handleSelectedProgramChange,
+    programsLoading,
+  } = useContext(Programs);
   const [limit, setLimit] = React.useState(10);
 
   const handleLoadMore = () => {
@@ -64,8 +74,11 @@ const SideList = (props: ISideList) => {
 
   return (
     <>
+      {programsLoading ? <CircularProgress style={{ margin: "auto" }} /> : null}
       <List>
-        {props.filteredPrograms.length === 0 ? <EmptyState /> : null}
+        {!programsLoading && props.filteredPrograms.length === 0 ? (
+          <EmptyState />
+        ) : null}
         {props.filteredPrograms.slice(0, limit).map((v) => {
           return (
             <ListItemButton key={v.id} onClick={handleItemClick(v)}>

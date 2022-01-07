@@ -78,6 +78,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
   };
   const handleSignUp = async () => {
     setError(undefined);
+    setLoading(true);
     try {
       const response = await Auth.signUp(user);
       setNeedConfirmation(response.userConfirmed);
@@ -85,8 +86,10 @@ const Authenticator = (props: IAuth): JSX.Element => {
       console.warn(e);
       setError(e);
     }
+    setLoading(false);
   };
   const handleConfirm = async () => {
+    setLoading(true);
     setError(undefined);
     try {
       await Auth.confirmSignUp(user.username, user.code);
@@ -96,6 +99,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
       console.warn(e);
       setError(e);
     }
+    setLoading(false);
   };
   const handleResendConfirm = async () => {
     setError(undefined);

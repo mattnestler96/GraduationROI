@@ -16,12 +16,14 @@ const initialState = {
   },
   handleFetchPrograms: async (f: any) => console.log("initialState", f),
   handleSelectedProgramChange: (f: any) => console.log("initialState", f),
+  programsLoading: false,
 };
 
 export const Programs = createContext(initialState);
 
 export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
   const [programs, setPrograms] = React.useState<ROI[]>(initialState.programs);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [selectedPrograms, setSelectedPrograms] = React.useState<ROI[]>(
     initialState.selectedPrograms
   );
@@ -42,6 +44,7 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
   const handleFetchPrograms = async (
     filter: typeof initialState.queryFilter
   ) => {
+    setLoading(true);
     setQueryFilter(filter);
     localStorage.setItem(QUERY_FILTER_KEY, JSON.stringify(filter));
     const progs = await fetchPrograms(filter);
@@ -56,6 +59,7 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
       );
     }
     setPrograms(progs);
+    setLoading(false);
   };
 
   const handleSelectedProgramChange = (changedValues: ROI[]) => {
@@ -79,6 +83,7 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
         queryFilter,
         handleFetchPrograms,
         handleSelectedProgramChange,
+        programsLoading: loading,
       }}
     >
       {children}

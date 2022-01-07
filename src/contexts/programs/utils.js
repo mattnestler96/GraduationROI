@@ -1,7 +1,13 @@
-import { ROI } from "../../models";
-import { DataStore, API } from "aws-amplify";
+// import { ROI } from "../../models";
+import {
+  // DataStore,
+  API,
+} from "aws-amplify";
 import programToType from "../../components/queryButton/programToType";
-import { uniqueId, ITEM_LIMIT } from "../../utils/dataHelpers";
+import {
+  // uniqueId,
+  ITEM_LIMIT,
+} from "../../utils/dataHelpers";
 import { stateByUniqueId } from "../../graphql/queries";
 import { isInSampleUserMode } from "../../utils/userInfo";
 
@@ -14,20 +20,21 @@ const cacheWrapper = async (fn, s, pc, programs) => {
     previousCalledCache[cacheKey] = response;
     value = response;
   }
+  console.log(Object.keys(previousCalledCache));
   return value;
 };
 
-const chainCall = (test, param, values) => (c) => {
-  if (!values || values.length === 0) {
-    return;
-  }
-  const newValues = [...values];
-  const currValue = newValues.pop();
-  if (values.length > 1) {
-    return chainCall(test, param, newValues)(c[param](test, currValue));
-  }
-  return c[param](test, currValue);
-};
+// const chainCall = (test, param, values) => (c) => {
+//   if (!values || values.length === 0) {
+//     return;
+//   }
+//   const newValues = [...values];
+//   const currValue = newValues.pop();
+//   if (values.length > 1) {
+//     return chainCall(test, param, newValues)(c[param](test, currValue));
+//   }
+//   return c[param](test, currValue);
+// };
 
 const buildGraphQLFilter = (test, param, values) => {
   if (values?.length) {
@@ -36,19 +43,21 @@ const buildGraphQLFilter = (test, param, values) => {
   return undefined;
 };
 
+const limit = isInSampleUserMode() ? ITEM_LIMIT : 3000;
 const fetchByGraphQL = async (s, pc, programs, nT, accumulatedData) => {
-  if (accumulatedData && accumulatedData.length > ITEM_LIMIT) {
+  if (accumulatedData && accumulatedData.length > limit) {
     return accumulatedData;
   }
+  console.log(s, pc);
   const response = await API.graphql({
     query: stateByUniqueId,
     operation: "stateByUniqueId",
     authMode: "AWS_IAM",
     variables: {
+      limit,
       state: s,
       uniqueId: { beginsWith: `${s}_${pc}` },
       nextToken: nT,
-      limit: ITEM_LIMIT,
       filter: {
         and: [buildGraphQLFilter("eq", "programName", programs)].filter(
           (v) => !!v
@@ -67,7 +76,7 @@ const fetchByGraphQL = async (s, pc, programs, nT, accumulatedData) => {
 };
 
 const determineProgramCategories = (programCategories, programs) => {
-  let programCategoryFromPrograms = [""];
+  let programCategoryFromPrograms = [];
   if (programs && programs.length) {
     programCategoryFromPrograms = Object.keys(
       Object.fromEntries(programs?.map((p) => [programToType[p], ""]))
@@ -88,6 +97,7 @@ const determineProgramCategories = (programCategories, programs) => {
 
 const breakDownByStateAndProgramCategory = async (filter) => {
   let { states, programCategory, programs } = filter;
+  console.log(states, programCategory);
   if (states) {
     const responses = await Promise.all(
       states.map(async (s) => {
@@ -104,36 +114,40 @@ const breakDownByStateAndProgramCategory = async (filter) => {
   return [];
 };
 
-const fetchByDataStore = async (filter) => {
-  return DataStore.query(ROI, (c) =>
-    c
-      .or(chainCall("eq", "state", filter.states))
-      .or(chainCall("eq", "programCategory", filter.programCategory))
-      .or(chainCall("eq", "programName", filter.programs))
-  );
-};
+// const fetchByDataStore = async (filter) => {
+//   return DataStore.query(ROI, (c) =>
+//     c
+//       .or(chainCall("eq", "state", filter.states))
+//       .or(chainCall("eq", "programCategory", filter.programCategory))
+//       .or(chainCall("eq", "programName", filter.programs))
+//   );
+// };
+
+// const cleanItems = (response) => {
+//   const dedupe = {};
+//   response.forEach(async (v) => {
+//     if (
+//       !isInSampleUserMode() &&
+//       (!v.uniqueId || v.uniqueId.includes("undefined_undefined"))
+//     ) {
+//       DataStore.save(
+//         ROI.copyOf(v, (item) => {
+//           item.uniqueId = uniqueId(v);
+//         })
+//       );
+//     }
+//     if (!isInSampleUserMode() && dedupe[uniqueId(v)]) {
+//       console.log(`delete ${uniqueId(v)}`, v.id);
+//       await DataStore.delete(ROI, v.id);
+//     }
+//     dedupe[uniqueId(v)] = v;
+//   });
+//   return Object.values(dedupe);
+// };
 
 export const fetchPrograms = async (filter) => {
-  const response = await (isInSampleUserMode()
-    ? breakDownByStateAndProgramCategory(filter)
-    : fetchByDataStore(filter));
-  const dedupe = {};
-  response.forEach(async (v) => {
-    if (
-      !isInSampleUserMode() &&
-      (!v.uniqueId || v.uniqueId.includes("undefined_undefined"))
-    ) {
-      DataStore.save(
-        ROI.copyOf(v, (item) => {
-          item.uniqueId = uniqueId(v);
-        })
-      );
-    }
-    if (!isInSampleUserMode() && dedupe[uniqueId(v)]) {
-      console.log(`delete ${uniqueId(v)}`, v.id);
-      await DataStore.delete(ROI, v.id);
-    }
-    dedupe[uniqueId(v)] = v;
-  });
-  return Object.values(dedupe);
+  const response = await breakDownByStateAndProgramCategory(filter);
+
+  // return cleanItems(response);
+  return response;
 };
