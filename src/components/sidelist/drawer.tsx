@@ -9,12 +9,10 @@ import {
   IconButton,
   useMediaQuery,
   useTheme,
-  Hidden,
   ListItemText,
   ListItemIcon,
   InputAdornment,
 } from "@mui/material";
-import CloseDrawer from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import React, { ChangeEvent, useContext } from "react";
 import SideList from ".";
 import { DRAWER_WIDTH } from "../../App";
@@ -169,11 +167,6 @@ const SidelistDrawer = ({
               ),
             }}
           />
-          <Hidden smUp>
-            <IconButton onClick={() => setOpen(false)}>
-              <CloseDrawer />
-            </IconButton>
-          </Hidden>
         </Box>
         <Box width="100%" display="flex" justifyContent="space-between">
           <Button
