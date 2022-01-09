@@ -12,6 +12,8 @@ const stateMap: Record<string, string> = {
   IOWA: "IA",
   ALABAMA: "AL",
   TEXAS: "TX",
+  GEORGIA: "GA",
+  LOUISIANA: "LA",
 };
 
 const stateMapper = (state?: string): string => {
