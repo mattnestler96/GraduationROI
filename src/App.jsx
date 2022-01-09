@@ -1,4 +1,3 @@
-import "@aws-amplify/ui-react/styles.css";
 import React from "react";
 import {
   Hidden,
