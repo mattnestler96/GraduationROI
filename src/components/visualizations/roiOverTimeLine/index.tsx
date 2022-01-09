@@ -13,6 +13,7 @@ import { ROI } from "../../../models";
 import Title from "../../tableHeader";
 import { Box } from "@mui/material";
 import { Programs } from "../../../contexts/programs";
+import { numberWithCommas } from "../../../utils/dataHelpers";
 
 ChartJS.register(
   CategoryScale,
@@ -124,6 +125,17 @@ const ROIGraph = () => {
           options={{
             responsive: true,
             maintainAspectRatio: false,
+            scales: {
+              y: {
+                ticks: {
+                  callback: (v) => {
+                    return `$${numberWithCommas(
+                      typeof v === 'string' ? parseInt(v, 10) : v
+                    )}`;
+                  },
+                },
+              },
+            },
             plugins: {
               legend: {
                 position: "top" as const,

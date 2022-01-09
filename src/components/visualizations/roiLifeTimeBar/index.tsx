@@ -10,6 +10,7 @@ import Title from "../../tableHeader";
 import { Bar } from "react-chartjs-2";
 import { Box } from "@mui/material";
 import { Programs } from "../../../contexts/programs";
+import { numberWithCommas } from "../../../utils/dataHelpers";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -41,6 +42,17 @@ const ROIGraph = () => {
           options={{
             responsive: true,
             maintainAspectRatio: false,
+            scales: {
+              y: {
+                ticks: {
+                  callback: (v) => {
+                    return `$${numberWithCommas(
+                      typeof v === 'string' ? parseInt(v, 10) : v
+                    )}`;
+                  },
+                },
+              },
+            },
             plugins: {
               legend: {
                 display: false,

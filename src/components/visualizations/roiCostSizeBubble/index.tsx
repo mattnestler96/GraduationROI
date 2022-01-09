@@ -10,6 +10,7 @@ import Title from "../../tableHeader";
 import { Bubble } from "react-chartjs-2";
 import { Box } from "@mui/material";
 import { Programs } from "../../../contexts/programs";
+import { numberWithCommas } from "../../../utils/dataHelpers";
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
@@ -85,11 +86,25 @@ const ROIGraph = () => {
                   display: true,
                   text: "Lifetime Return",
                 },
+                ticks: {
+                  callback: (v) => {
+                    return `$${numberWithCommas(
+                      typeof v === "string" ? parseInt(v, 10) : v
+                    )}`;
+                  },
+                },
               },
               x: {
                 title: {
                   display: true,
                   text: "Cost of Attendance",
+                },
+                ticks: {
+                  callback: (v) => {
+                    return `$${numberWithCommas(
+                      typeof v === "string" ? parseInt(v, 10) : v
+                    )}`;
+                  },
                 },
               },
             },
