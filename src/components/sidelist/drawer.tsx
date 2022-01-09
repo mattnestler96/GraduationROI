@@ -12,6 +12,7 @@ import {
   Hidden,
   ListItemText,
   ListItemIcon,
+  InputAdornment,
 } from "@mui/material";
 import CloseDrawer from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import React, { ChangeEvent, useContext } from "react";
@@ -22,6 +23,7 @@ import { useDeferred } from "../../utils/useDeferred";
 import { Programs } from "../../contexts/programs";
 import { ROI } from "../../models";
 import Filter from "@mui/icons-material/FilterList";
+import Clear from "@mui/icons-material/Cancel";
 
 const ResponsiveDrawer = ({
   children,
@@ -118,6 +120,9 @@ const SidelistDrawer = ({
   ) => {
     setFilterString(e.target.value);
   };
+  const handleClearFilter = () => {
+    setFilterString("");
+  };
 
   const SortMenuItem = ({
     label,
@@ -152,7 +157,17 @@ const SidelistDrawer = ({
           <TextField
             style={{ margin: "10px", width: "calc(100% - 20px)" }}
             onChange={handleSearch}
+            value={filterString}
             label="Enter a program or institution..."
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton size="small" onClick={handleClearFilter}>
+                    <Clear fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Hidden smUp>
             <IconButton onClick={() => setOpen(false)}>
@@ -160,7 +175,7 @@ const SidelistDrawer = ({
             </IconButton>
           </Hidden>
         </Box>
-        <Box>
+        <Box width="100%" display="flex" justifyContent="space-between">
           <Button
             data-amplify-analytics-on="click"
             data-amplify-analytics-name="sort_programs_click"
@@ -193,17 +208,14 @@ const SidelistDrawer = ({
               label="Graduation Rate"
               sortKey="shareOfStudentWhoGraduateIn4Years"
             />
-            <SortMenuItem
-              label="Acceptance Rate"
-              sortKey="admissionsRate"
-            />
+            <SortMenuItem label="Acceptance Rate" sortKey="admissionsRate" />
           </Menu>
           <Button
             data-amplify-analytics-on="click"
             data-amplify-analytics-name="clear_programs_click"
             onClick={() => handleSelectedProgramChange([])}
           >
-            Clear
+            Deselect
           </Button>
         </Box>
         <SideList filteredPrograms={filteredList} />
