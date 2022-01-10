@@ -157,6 +157,7 @@ const QueryButton = () => {
                     "ARIZONA",
                     "ARKANSAS",
                     "CALIFORNIA",
+                    "FLORIDA",
                     "GEORGIA",
                     "IOWA",
                     "KANSAS",

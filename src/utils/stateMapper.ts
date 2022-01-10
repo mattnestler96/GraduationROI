@@ -16,6 +16,7 @@ const stateMap: Record<string, string> = {
   LOUISIANA: "LA",
   "NEW JERSEY": "NJ",
   PENNSYLVANIA: "PA",
+  FLORIDA: "FL",
 };
 
 const stateMapper = (state?: string): string => {
