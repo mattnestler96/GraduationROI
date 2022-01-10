@@ -12,7 +12,7 @@ import SummaryTab from "./components/tabs/summary";
 import Uploader from "./components/uploader";
 import DynamicToolBar from './components/dynamicToolBar';
 import { setUpAnalytics } from "./utils/userSearchTracking";
-import { getUserName } from "./utils/userInfo";
+import { getUserName, isAdminMode } from "./utils/userInfo";
 
 const MainWrapper = ({ children, showSidebar }) => {
   return (
@@ -46,9 +46,6 @@ export const DRAWER_WIDTH = 350;
 
 const App = (props) => {
   const { signOut, user } = props;
-  const groups =
-    user?.signInUserSession?.idToken?.payload?.["cognito:groups"] || [];
-  const isAdmin = groups.includes("Admins");
   const [tabValue, setTabValue] = React.useState(0);
 
   const handleTabChange = (e, v) => {
@@ -57,8 +54,8 @@ const App = (props) => {
 
   const userName = getUserName();
   React.useEffect(() => {
-    setUpAnalytics(isAdmin);
-  }, [userName, isAdmin]);
+    setUpAnalytics();
+  }, [userName, user]);
 
   return (
     <>
@@ -84,7 +81,7 @@ const App = (props) => {
                 </Typography>
               }
             />
-            {isAdmin ? (
+            {isAdminMode() ? (
               <Tab
                 label={
                   <Typography fontSize="small" color="inherit">
@@ -96,7 +93,7 @@ const App = (props) => {
           </Tabs>
           {tabValue === 0 ? <VisualizationTab /> : null}
           {tabValue === 1 ? <SummaryTab /> : null}
-          {isAdmin && tabValue === 2 ? <Uploader /> : null}
+          {isAdminMode() && tabValue === 2 ? <Uploader /> : null}
         </MainWrapper>
       </Box>
     </>

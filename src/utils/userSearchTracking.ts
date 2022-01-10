@@ -1,13 +1,13 @@
 import { Analytics, DataStore } from "aws-amplify";
 import { ROI, UserInfo } from "../models";
 import { uniqueId } from "./dataHelpers";
-import { getUserName } from "./userInfo";
+import { getUserName, isAdminMode } from "./userInfo";
 
-export const setUpAnalytics = async (isAdmin: boolean): Promise<void> => {
+export const setUpAnalytics = async (): Promise<void> => {
   Analytics.autoTrack("event", {
-    enable: !isAdmin,
+    enable: !isAdminMode(),
   });
-  if (!isAdmin) {
+  if (!isAdminMode()) {
     const response = await DataStore.query(UserInfo, (c) =>
       c.email("eq" as never, getUserName() as never)
     );

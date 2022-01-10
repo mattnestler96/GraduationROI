@@ -12,7 +12,7 @@ import DullTextField from "@mui/material/TextField";
 import DullButton from "@mui/material/Button";
 import { Auth } from "aws-amplify";
 import React, { ChangeEvent } from "react";
-import { SAMPLE_USER, setUserName } from "../../utils/userInfo";
+import { SAMPLE_USER, setAppUser, setUserName } from "../../utils/userInfo";
 
 const TextField = (props: TextFieldProps) => {
   return <DullTextField style={{ ...props.style, margin: 5 }} {...props} />;
@@ -34,6 +34,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
   const isPreviouslyLoggedIn = async () => {
     try {
       const response = await Auth.currentAuthenticatedUser();
+      setAppUser(response);
       setUser(response);
       props.updatedAuth(response);
       setDialogOpen(false);
@@ -65,8 +66,8 @@ const Authenticator = (props: IAuth): JSX.Element => {
     setError(undefined);
     setLoading(true);
     try {
-      const { attributes } = await Auth.signIn(user.username, user.password);
-      setUserName(attributes.email);
+      const response = await Auth.signIn(user.username, user.password);
+      setAppUser(response);
       props.updatedAuth?.(user);
       setDialogOpen(false);
     } catch (e: any) {

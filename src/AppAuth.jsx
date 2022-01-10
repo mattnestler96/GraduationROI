@@ -1,7 +1,7 @@
 import Amplify, { Auth } from "aws-amplify";
 import configFile from "./aws-exports";
 import React from "react";
-import { setUserName } from "./utils/userInfo";
+import { getUserName, setUserName } from "./utils/userInfo";
 import App from "./App";
 import { ProgramProvider } from "./contexts/programs";
 import CustomAuth from "./components/auth";
@@ -16,10 +16,14 @@ const AppWrappedAuth = () => {
     setLoggedIn(false);
   };
 
+  const updatedAuth = () => {
+    setLoggedIn(true);
+  };
+
   return (
     <ProgramProvider>
-      <App signOut={handleSignOut} />
-      {!loggedIn && <CustomAuth updatedAuth={() => setLoggedIn(true)} />}
+      <App signOut={handleSignOut} user={getUserName()}  />
+      {!loggedIn && <CustomAuth updatedAuth={updatedAuth} />}
     </ProgramProvider>
   );
 };
