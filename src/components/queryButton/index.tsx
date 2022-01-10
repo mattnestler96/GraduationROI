@@ -164,7 +164,9 @@ const QueryButton = () => {
                     "MARYLAND",
                     "MISSOURI",
                     "NEBRASKA",
+                    "NEW JERSEY",
                     "NEVADA",
+                    "PENNSYLVANIA",
                     "TEXAS",
                   ]}
                   label="States"
