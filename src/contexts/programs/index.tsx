@@ -59,6 +59,7 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
     if (states || programs || programCategory) {
       setQueryFilter({ states, programs, programCategory });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFetchPrograms = async (

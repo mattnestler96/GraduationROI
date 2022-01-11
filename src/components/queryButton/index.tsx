@@ -105,7 +105,12 @@ const QueryButton = () => {
         </Button>
       </Hidden>
       <Hidden smUp>
-        <IconButton onClick={handleOpenDialog} color="primary">
+        <IconButton
+          onClick={handleOpenDialog}
+          color="primary"
+          data-amplify-analytics-on="click"
+          data-amplify-analytics-name="query_click"
+        >
           <Search />
         </IconButton>
       </Hidden>
