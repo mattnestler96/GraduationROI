@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useMemo } from "react";
 import { ROI } from "../../models";
 import randomColors from "../../utils/randomColors";
+import useQuery from "../../utils/useQuery";
 import { getUserName } from "../../utils/userInfo";
 import { fetchPrograms } from "./utils";
 
@@ -12,7 +13,7 @@ const initialState = {
   queryFilter: JSON.parse(localStorage.getItem(QUERY_FILTER_KEY) || "{}") || {
     states: [],
     programs: [],
-    institutions: [],
+    programCategory: [],
   },
   handleFetchPrograms: async (f: any) => console.log("initialState", f),
   handleSelectedProgramChange: (f: any) => console.log("initialState", f),
@@ -41,6 +42,25 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
     initialState.queryFilter
   );
 
+  const query = useQuery();
+  React.useEffect(() => {
+    const states = query
+      .get("states")
+      ?.split(",")
+      ?.filter((v) => v);
+    const programs = query
+      .get("programs")
+      ?.split(",")
+      ?.filter((v) => v);
+    const programCategory = query
+      .get("programCategory")
+      ?.split(",")
+      ?.filter((v) => v);
+    if (states || programs || programCategory) {
+      setQueryFilter({ states, programs, programCategory });
+    }
+  }, []);
+
   const handleFetchPrograms = async (
     filter: typeof initialState.queryFilter
   ) => {
@@ -48,7 +68,12 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
     setQueryFilter(filter);
     localStorage.setItem(QUERY_FILTER_KEY, JSON.stringify(filter));
     const progs = await fetchPrograms(filter);
-    if (!selectedPrograms.length) {
+    const querySelectedPrograms = query.get("selected")?.split(",");
+    if (querySelectedPrograms?.length) {
+      setSelectedPrograms(
+        progs.filter((v) => querySelectedPrograms.includes(v.id))
+      );
+    } else if (!selectedPrograms.length) {
       setSelectedPrograms(
         progs
           .sort(

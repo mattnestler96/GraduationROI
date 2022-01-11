@@ -168,7 +168,7 @@ const Authenticator = (props: IAuth): JSX.Element => {
                 </Button>
               </Box>
               <Button color="primary" onClick={handleSample}>
-                Continue to Sample
+                Continue as Guest
               </Button>
             </>
           )}

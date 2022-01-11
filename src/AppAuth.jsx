@@ -4,7 +4,9 @@ import React from "react";
 import { getUserName, setUserName } from "./utils/userInfo";
 import App from "./App";
 import { ProgramProvider } from "./contexts/programs";
-import CustomAuth from "./components/auth";
+import CustomAuth from "./components/auth";import {
+  BrowserRouter as Router,
+} from "react-router-dom";
 
 const AppWrappedAuth = () => {
   Amplify.configure(configFile);
@@ -21,10 +23,12 @@ const AppWrappedAuth = () => {
   };
 
   return (
-    <ProgramProvider>
-      <App signOut={handleSignOut} user={getUserName()}  />
-      {!loggedIn && <CustomAuth updatedAuth={updatedAuth} />}
-    </ProgramProvider>
+    <Router>
+      <ProgramProvider>
+        <App signOut={handleSignOut} user={getUserName()} />
+        {!loggedIn && <CustomAuth updatedAuth={updatedAuth} />}
+      </ProgramProvider>
+    </Router>
   );
 };
 

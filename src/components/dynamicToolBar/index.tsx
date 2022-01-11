@@ -1,7 +1,7 @@
-import "@aws-amplify/ui-react/styles.css";
 import React from "react";
 import QueryButton from "../queryButton";
 import UserInfoButton from "../userInfoButton";
+import ShareButton from "../share";
 import {
   Hidden,
   AppBar,
@@ -93,6 +93,7 @@ const App = (props: { tabValue: any; signOut: () => void }) => {
             </Box>
             {!drawerOpen && (
               <Box>
+                <ShareButton />
                 <LearnMoreButton />
                 <UserMenu signOut={signOut} username={getUserName()} />
               </Box>
@@ -105,6 +106,7 @@ const App = (props: { tabValue: any; signOut: () => void }) => {
           >
             <Box display="flex" alignItems="center">
               <QueryButton />
+              <ShareButton />
             </Box>
             <Box>
               <LearnMoreButton />

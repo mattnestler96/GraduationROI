@@ -89,7 +89,9 @@ const determineProgramCategories = (programCategories, programs) => {
           ])
         )
       )
-    : programCategoryFromPrograms;
+    : programCategoryFromPrograms.length
+    ? programCategoryFromPrograms
+    : [""];
   return programCategories;
 };
 
