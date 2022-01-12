@@ -17,6 +17,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
 import { DataStore } from "aws-amplify";
 import React, { ChangeEvent } from "react";
 import { UserInfo } from "../../models";
@@ -41,8 +42,10 @@ interface IUserInfoButton {
   username: string;
 }
 
+const userUrl = "/userinfo";
 const UserInfoButton = (props: IUserInfoButton) => {
-  const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [currentUserInfo, setCurrentUserInfo] =
     React.useState<WorkingUserInfo>();
   const [originalUserInfo, setOriginalUserInfo] = React.useState<UserInfo>();
@@ -63,10 +66,10 @@ const UserInfoButton = (props: IUserInfoButton) => {
   );
   const handleOpenDialog = () => {
     fetchUser();
-    setOpen(true);
+    navigate(userUrl);
   };
   const handleCloseDialog = () => {
-    setOpen(false);
+    navigate('/');
   };
 
   const handleDOWChange =
@@ -154,7 +157,7 @@ const UserInfoButton = (props: IUserInfoButton) => {
         User Info
       </MenuItem>
       <Dialog
-        open={open}
+        open={location.pathname.includes(userUrl)}
         onClose={handleCloseDialog}
         fullWidth={true}
         maxWidth="md"

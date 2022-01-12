@@ -20,6 +20,7 @@ import Search from "@mui/icons-material/SearchOutlined";
 import States from "@mui/icons-material/Map";
 import Program from "@mui/icons-material/HistoryEdu";
 import ProgramCategory from "@mui/icons-material/School";
+import { useLocation, useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import programTypes from "./programTypes";
 import programs from "./programToType";
@@ -50,9 +51,11 @@ const StepIcon =
     return completed ? React.cloneElement(Icon, { color: "primary" }) : Icon;
   };
 
+const queryUrl = "/query";
 const QueryButton = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { queryFilter, handleFetchPrograms } = useContext(Programs);
-  const [open, setOpen] = React.useState(true);
   const [activeStep, setActiveStep] = React.useState(0);
   const [currentFilter, setCurrentFilter] =
     React.useState<IFilter>(queryFilter);
@@ -60,10 +63,10 @@ const QueryButton = () => {
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleOpenDialog = () => {
-    setOpen(true);
+    navigate(queryUrl);
   };
   const handleCloseDialog = () => {
-    setOpen(false);
+    navigate("/");
   };
 
   const handleArrayDataEntry = (field: keyof IFilter) => (value: string[]) => {
@@ -115,7 +118,7 @@ const QueryButton = () => {
         </IconButton>
       </Hidden>
       <Dialog
-        open={open}
+        open={location.pathname.includes(queryUrl)}
         onClose={handleCloseDialog}
         fullWidth={true}
         fullScreen={matches}

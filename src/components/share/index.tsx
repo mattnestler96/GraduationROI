@@ -8,6 +8,7 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
 import Send from "@mui/icons-material/Send";
 import Copy from "@mui/icons-material/ContentCopy";
 import React from "react";
@@ -20,8 +21,10 @@ const openEmail = (link: string, email: string) => {
     `mailto:${email}?subject=${subject}&body=${emailBody}` as unknown as Location;
 };
 
+const shareUrl = "/share";
 const QueryButton = () => {
-  const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = React.useState("");
   const [valid, setValid] = React.useState(false);
   const { queryFilter, selectedPrograms } = React.useContext(Programs);
@@ -33,10 +36,10 @@ const QueryButton = () => {
   const programCategoryQueryParam = programCategory?.join();
 
   const handleOpenDialog = () => {
-    setOpen(true);
+    navigate(shareUrl);
   };
   const handleCloseDialog = () => {
-    setOpen(false);
+    navigate('/');
   };
   const handleEmailChange = (v: string): void => {
     setValid(
@@ -92,7 +95,7 @@ const QueryButton = () => {
         </IconButton>
       </Hidden>
       <Dialog
-        open={open}
+        open={location.pathname.includes(shareUrl)}
         onClose={handleCloseDialog}
         fullWidth={true}
         maxWidth="md"

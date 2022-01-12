@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { ROI } from "../../models";
 import randomColors from "../../utils/randomColors";
 import useQuery from "../../utils/useQuery";
@@ -23,6 +24,7 @@ const initialState = {
 export const Programs = createContext(initialState);
 
 export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
+  const navigate = useNavigate();
   const [programs, setPrograms] = React.useState<ROI[]>(initialState.programs);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [selectedPrograms, setSelectedPrograms] = React.useState<ROI[]>(
@@ -58,6 +60,9 @@ export const ProgramProvider = ({ children }: { children: JSX.Element }) => {
       ?.filter((v) => v);
     if (states || programs || programCategory) {
       setQueryFilter({ states, programs, programCategory });
+    }
+    if (!states?.length && !queryFilter.states?.length) {
+      navigate("/query");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
