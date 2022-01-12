@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import Send from "@mui/icons-material/Send";
+import Copy from "@mui/icons-material/ContentCopy";
 import React from "react";
 import { Programs } from "../../contexts/programs";
 
@@ -49,8 +50,8 @@ const QueryButton = () => {
   };
 
   const getLink = (email?: boolean) => {
-    const and = email ? '%26' : '&';
-    console.log(new URLSearchParams(queryFilter))
+    const and = email ? "%26" : "&";
+    console.log(new URLSearchParams(queryFilter));
     return `https://www.graduationROI.com?states=${
       statesQueryParam ?? ""
     }${and}programs=${programsQueryParam ?? ""}${and}programCategory=${
@@ -107,6 +108,7 @@ const QueryButton = () => {
             onClick={handleCopyLink}
             data-amplify-analytics-on="click"
             data-amplify-analytics-name="share_copy"
+            startIcon={<Copy />}
           >
             Copy Link
           </Button>
